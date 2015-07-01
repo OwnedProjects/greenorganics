@@ -30,4 +30,50 @@ $action=$_GET['action'];
 		}
 		echo json_encode($obj);
 	}
+	
+	if($action=='allproductdetails'){
+		$selProds="SELECT * FROM `inward_product_master`";
+		$resProds=mysql_query($selProds);
+		$count = mysql_num_rows($resProds);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resProds )) {
+				$tmpRes[$cnt]->prod_id=$row['prod_id'];
+				$tmpRes[$cnt]->prod_name=$row['prod_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->Products=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='saveEdittedProductDetails'){
+		$data = json_decode(file_get_contents("php://input"));
+		$updtUser="UPDATE `inward_product_master` SET `prod_name`='".$data->prodnm."' WHERE `prod_id`=".$data->prodid;
+		$resupdtUser=mysql_query($updtUser);
+		if($resupdtUser){
+			$obj->status=true;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+
+	if($action=='deleteproduct'){
+		$data = json_decode(file_get_contents("php://input"));
+		$delProd="DELETE FROM `inward_product_master` WHERE `prod_id`=".$data->prodid;
+		$resdelProd=mysql_query($delProd);
+		if($resdelProd){
+			$obj->status=true;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
 ?>

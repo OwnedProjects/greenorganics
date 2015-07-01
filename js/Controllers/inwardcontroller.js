@@ -58,3 +58,105 @@ greenorganics.controller("addinwardcontroller", function($scope, $http, $route){
 		});
 	};
 });
+
+greenorganics.controller("InwardProductListController", function($scope, $http, $route){
+	$scope.initfunction = function(){
+		$(".loadData").show();
+		$(".noData").hide();
+		$(".fullData").hide();
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=allproductdetails',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$scope.ProductData=result.data.Products;
+				$(".loadData").hide();
+				$(".noData").hide();
+				$(".fullData").show();				
+			}
+			else{
+				$(".loadData").hide();
+				$(".noData").show();
+				$(".fullData").hide();
+			}			
+		});
+	};
+	$scope.initfunction();
+	
+	$scope.setProductDetails = function(prod_id, prod_name){
+		$scope.prodid=prod_id;
+		$scope.prodname=prod_name;
+	};
+	
+	$scope.saveEdittedProductDetails = function(){
+		var prodObj = {
+			"prodid":$scope.prodid,
+			"prodnm":$scope.prodname
+		};
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=saveEdittedProductDetails',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:prodObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.modal-body').append("<span class='text-success'><strong>Product Updated Successfully.</strong></span>");
+				setTimeout(function(){
+					$('.modal-body span').remove();
+					$route.reload();
+				},2500);
+			}
+			else{
+				$('.modal-body').append("<span class='text-danger'><strong>Error!!! Please contact system Administrator.</strong></span>");
+				setTimeout(function(){
+					$('.modal-body span').remove();					
+				},2500);
+			}			
+		});
+	};
+	
+	$scope.deleteproduct = function(){
+		var prodObj = {
+			"prodid":$scope.prodid
+		};
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=deleteproduct',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:prodObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.modal-footer').append("<br/><span class='text-success'><strong>Product Deleted Successfully.</strong></span>");
+				setTimeout(function(){
+					$('.modal-footer span').remove();
+					$('.modal').modal('hide');
+					$route.reload();
+				},1500);
+			}
+			else{
+				$('.modal-footer').append("<br/><span class='text-danger'><strong>Error!!! Please contact system Administrator.</strong></span>");
+				setTimeout(function(){
+					$('.modal-footer span').remove();
+					$('.modal').modal('hide');
+				},3500);
+			}
+		});
+	};
+	
+	$scope.reload = function(){
+		$route.reload();
+	};
+});

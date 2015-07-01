@@ -1,23 +1,37 @@
-<div class="col-md-11 col-sm-12" ng-controller="ProductListController">
+<div class="col-md-11 col-sm-12" ng-controller="InwardProductListController">
 
 <h3 class="text-warning">Product Details <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
 
-<label>Search Dealer: </label> <input type="text" ng-model="searchProduct" class="searchProduct"/><br/><br/>
+<div class="col-md-6 col-sm-12 col-xs-12">
+
+<div class="col-md-8 col-sm-12 col-xs-12">
+	<div class="input-group date">
+		<input type="text" ng-model="searchProduct" class="form-control" placeholder="Search Product"/>	
+		<span class="input-group-addon">
+			<span class="fa fa-lg fa-search-plus"></span>
+		</span>	
+	</div>
+</div>
+<br/>
+<br/>
 <table class="table table-bordered">
 	<thead>
 	  <tr>
 		<th>Product Id</th>
 		<th>Product Name</th>
-		<th></th>
+		<th>Edit / Delete</th>
 	  </tr>
 	</thead>
-	<tbody ng-init="tmpCnt=0;">
+	<tbody>
 	  <tr ng-repeat="data in ProductData | filter:searchProduct" class="fullData">		
-		<td>{{data.Product_id}}</td>
-		<td>{{data.Product_name}}</td>
+		<td>{{data.prod_id}}</td>
+		<td>{{data.prod_name}}</td>
 		<td>
-			<button type="button" class="btn btn-sm btn-success" ng-click="editProductDetails(data.Product_id);" data-toggle="modal" data-target="#myModal">Edit</button> 
-			<button type="button" class="btn btn-sm btn-danger" ng-click="SetPIdPname(data.Product_id, data.Product_name);" data-toggle="modal" data-target="#NonActiveModal">Delete</button>
+			<button type="button" class="btn btn-sm btn-success" ng-click="setProductDetails(data.prod_id, data.prod_name);" data-toggle="modal" data-target="#myModal">
+				<i class="fa fa-eraser"></i> Edit
+			</button> 
+			<button type="button" class="btn btn-sm btn-danger" ng-click="setProductDetails(data.prod_id, data.prod_name);" data-toggle="modal" data-target="#NonActiveModal">
+				<i class="fa fa-trash"></i> Delete</button>
 		</td>
 	  </tr>
 	  <tr class="noData">
@@ -28,7 +42,7 @@
 	  </tr>
 	</tbody>
 </table>
-
+</div>
 
 <!-- Large modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -37,20 +51,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit Dealers Details</h4>
+        <h4 class="modal-title" id="myModalLabel">Edit Product Details</h4>
       </div>
-      <div class="modal-body">
-        
+      <div class="modal-body">        
 				<input type="hidden" class="form-control" ng-model="prodid" /><br/>
 				<input type="text" class="form-control" ng-model="prodname" placeholder="Product Name" autofocus required/><br/>
-				
-				
       </div>
       <div class="modal-footer">		
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary saveDetails">Save Details</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Close</button>
+        <button type="submit" class="btn btn-primary saveDetails"><i class="fa fa-floppy-o"></i> Save Details</button>
       </div>
-    </div>
+	</div>
 	</form>
   </div>
 </div>
@@ -61,10 +72,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Are you sure to Delete - <span class="text-info">{{tmpPname}} </span>?</h4>
+        <h4 class="modal-title" id="myModalLabel">Are you sure to Delete - <span class="text-info">{{prodname}} </span>?</h4>
       </div>
       <div class="modal-footer">		
-        <button type="button" class="btn btn-primary" ng-click="deleteproduct(tmpPid);" data-dismiss="modal">Confirm</button>
+        <button type="button" class="btn btn-primary" ng-click="deleteproduct(prodid);"><i class="fa fa-thumbs-up"></i> Confirm</button>
       </div>
     </div>
 	</form>
