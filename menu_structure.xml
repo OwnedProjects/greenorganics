@@ -7,4 +7,22 @@
 		<hasSubmenus>NO</hasSubmenus>
 		<submenu_module></submenu_module>
 	</menu>
+	<menu>
+		<name>INWARD PRODUCTS</name>
+		<icon></icon>
+		<link>#</link>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>Add Product</name>
+				<icon>fa-plus-circle</icon>
+				<link>#/add_inward_product</link>
+			</submenu>
+			<submenu>
+				<name>Products List</name>
+				<icon>fa-tasks</icon>
+				<link>#/inward_product_list</link>
+			</submenu>
+		</submenu_module>
+	</menu>
 </menu_structure>

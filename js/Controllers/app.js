@@ -13,7 +13,13 @@ greenorganics.config(['$routeProvider','$resourceProvider',
   function($routeProvider,$resourceProvider) {
     $routeProvider.
       when('/dashboard', {
-        templateUrl: 'views/dashboard.html'
+        templateUrl: 'views/homepage.html'
+      }).
+      when('/add_inward_product', {
+        templateUrl: 'views/add_inward_product.html'
+      }).
+      when('/inward_product_list', {
+        templateUrl: 'views/inward_product_list.html'
       }).
       otherwise({
         redirectTo: '/dashboard'
