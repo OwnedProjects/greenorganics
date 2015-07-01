@@ -35,7 +35,7 @@ greenorganics.directive('myCurrentTime', ['$interval', 'dateFilter',
 
 		// used to update the UI
 		function updateTime() {
-			element.text(dateFilter(new Date(), 'dd/MM/yyyy, HH:mm:ss'));
+			element.text(dateFilter(new Date(), 'dd/MM/yyyy, hh:mm:ss a'));
 		}
 
 		// watch the expression, and update the UI on change.
