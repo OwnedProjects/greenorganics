@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="stockmgmt">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+		<title>Stock Management</title>
+    <!-- Bootstrap core CSS -->    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    
+	
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">	    <link href="css/style.css" rel="stylesheet">	
+    <script src="js/Libs/jquery-1.11.1.min.js"></script>
+	<script src="js/Libs/bootstrap.min.js"></script>
+	<script src="js/Libs/angular.min.js"></script>
+	<script src="js/Libs/angular-resource.min.js"></script>
+	<script src="js/Libs/angular-route.min.js"></script>	
+	<script src="js/Libs/moment.js"></script>	
+	<script src="js/Libs/bootstrap-datetimepicker.min.js"></script>	
+	<script src="js/Controllers/xmlparser.js"></script>
+	<script src="js/Controllers/app.js"></script>
+	<script src="js/Controllers/menuSlider.js"></script>
+	<script src="js/Controllers/clientcontroller.js"></script>
+	<script src="js/Controllers/dealercontroller.js"></script>
+	<script src="js/Controllers/productcontroller.js"></script>
+	<script src="js/Controllers/employeecontroller.js"></script>
+	<script src="js/Controllers/attendancecontroller.js"></script>
+	<script src="js/Controllers/salarycontroller.js"></script>
+  </head>
+<body><nav class="navbar navbar-inverse navbar-static-top">  	<div class="navbar-header">	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">		<span class="sr-only">Toggle navigation</span>		<span class="icon-bar"></span>		<span class="icon-bar"></span>		<span class="icon-bar"></span>	  </button>	  <a class="navbar-brand" href="#" style="color:#ddd">Stock Management</a>	</div>	<div id="navbar" class="navbar-collapse collapse">	  <ul class="nav navbar-nav navbar-right navbarMenus">
+		<li><a href="#/dashboard" class="mobileMenuclick"><i class="fa fa-tachometer text-primary"></i> DASHBOARD</a></li>		<li class="dropdown">		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">CLIENTS <span class="caret"></span></a>		  <ul class="dropdown-menu" role="menu">			<li><a href="#/add_client" class="mobileMenuclick"><i class="fa fa-user-plus text-primary"></i> Add Client</a></li>			<li><a href="#/client_list" class="mobileMenuclick"><i class="fa fa-users text-primary"></i> Clients List</a></li>			
+			<li><a href="#/nonactive_clients" class="mobileMenuclick"><i class="fa fa-user-times text-primary"></i> In Active Clients</a></li>		  </ul>		</li>		<li class="dropdown">		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DEALERS <span class="caret"></span></a>		  <ul class="dropdown-menu" role="menu">			<li><a href="#/add_client" class="mobileMenuclick"><i class="fa fa-user-plus text-primary"></i> Add Dealer</a></li>			<li><a href="#/client_list" class="mobileMenuclick"><i class="fa fa-users text-primary"></i> Dealers List</a></li>			
+			<li><a href="#/nonactive_dealers" class="mobileMenuclick"><i class="fa fa-user-times text-primary"></i> In Active Dealers</a></li>		  </ul>		</li>		<li class="dropdown">		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">PRODUCTS <span class="caret"></span></a>		  <ul class="dropdown-menu" role="menu">			<li><a href="#/add_product" class="mobileMenuclick"><i class="fa fa-plus-circle text-primary"></i> Add Product</a></li>
+			<li><a href="#/product_list" class="mobileMenuclick"><i class="fa fa-binoculars text-primary"></i> View Product</a></li>		  </ul>		</li>		<li class="dropdown">		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EMPLOYEES <span class="caret"></span></a>		  <ul class="dropdown-menu" role="menu">			<li><a href="#/add_employee" class="mobileMenuclick"><i class="fa fa-user-plus text-primary"></i>  Add Employee</a></li>
+			<li><a href="#/employee_list" class="mobileMenuclick"><i class="fa fa-users text-primary"></i> Master List</a></li>
+			<li><a href="#/inactive_employees" class="mobileMenuclick"><i class="fa fa-user-times text-primary"></i> Inactive Employees</a></li>		  </ul>		</li>		<li class="dropdown">		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ATTENDANCE <span class="caret"></span></a>		  <ul class="dropdown-menu" role="menu">			<li><a href="#/log_attendance" class="mobileMenuclick"><i class="fa fa-sign-in text-primary"></i> Log Attendance</a></li>
+			<li><a href="#/prev_attendance" class="mobileMenuclick"><i class="fa fa-file-text-o text-primary"></i> Attendance Reports</a></li>
+			<li><a href="#/correct_attendance" class="mobileMenuclick"><i class="fa fa-eraser text-primary"></i> Corrections</a></li>		  </ul>		</li>		<li class="dropdown">		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SALARY <span class="caret"></span></a>		  <ul class="dropdown-menu" role="menu">
+			<li><a href="#/process_salary" class="mobileMenuclick"><i class="fa fa-inr text-primary"></i> Process Salary</a></li>
+			<li><a href="#/past_salaries" class="mobileMenuclick"><i class="fa fa-money text-primary"></i> Past Salaries</a></li>		  </ul>		</li>	  </ul>	</div><!--/.nav-collapse --></nav>	
+	<div class="col-md-2 menuWrapper"><br/>		<!-- <ul class="list-group menuWrapperParser">
+			<li class="list-group-item"><a href="#/dashboard" class="singleMenu"><i class="fa fa-tachometer text-primary"></i> DASHBOARD</a></li>            <li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu">CLIENTS</span>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#/add_client"><i class="fa fa-user-plus text-primary"></i> Add Client</a></li>
+					<li class="list-group-item"><a href="#/client_list"><i class="fa fa-users text-primary"></i> Clients List</a></li>
+					<li class="list-group-item"><a href="#/nonactive_clients"><i class="fa fa-user-times text-primary"></i> In Active Clients</a></li>
+				</ul>
+			</li>            <li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu">DEALERS</span>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#/add_dealer"><i class="fa fa-user-plus text-primary"></i> Add Dealer</a></li>
+					<li class="list-group-item"><a href="#/dealer_list"><i class="fa fa-users text-primary"></i> Dealers List</a></li>
+					<li class="list-group-item"><a href="#/nonactive_dealers"><i class="fa fa-user-times text-primary"></i> In Active Dealers</a></li>				
+				</ul>
+			</li>            <li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu">PRODUCTS</span>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#/add_product"><i class="fa fa-plus-circle text-primary"></i> Add Product</a></li>
+					<li class="list-group-item"><a href="#/product_list"><i class="fa fa-binoculars text-primary"></i> View Product</a></li>					
+				</ul>
+			</li>            <li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu">EMPLOYEES</span>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#/add_employee"><i class="fa fa-user-plus text-primary"></i> Add Employee</a></li>
+					<li class="list-group-item"><a href="#/employee_list"><i class="fa fa-users text-primary"></i> Master List</a></li>					
+					<li class="list-group-item"><a href="#/inactive_employees"><i class="fa fa-user-times text-primary"></i> Inactive Employees</a></li>					
+				</ul>
+			</li>            <li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu">ATTENDANCE</span>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#/log_attendance"><i class="fa fa-sign-in text-primary"></i> Log Attendance</a></li>
+					<li class="list-group-item"><a href="#/prev_attendance"><i class="fa fa-file-text-o text-primary"></i> Attendance Reports</a></li>					
+					<li class="list-group-item"><a href="#/correct_attendance"><i class="fa fa-eraser text-primary"></i> Corrections</a></li>					
+				</ul>
+			</li>            <li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu">SALARY</span>
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#/process_salary"><i class="fa fa-inr text-primary"></i> Process Salary</a></li>
+					<li class="list-group-item"><a href="#/past_salaries"><i class="fa fa-money text-primary"></i> Past Salaries</a></li>
+				</ul>
+			</li>		</ul>  -->  
+		<ul class="list-group menuWrapperParser">
+		</ul>			</div>  <div class="col-md-10 col-sm-12 col-xs-12" ng-view></div>  
+</body>
+</html>

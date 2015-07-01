@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu_structure>
+	<menu>
+		<name>DASHBOARD</name>
+		<icon>fa-dashcube</icon>
+		<link>#/dashboard</link>
+		<hasSubmenus>NO</hasSubmenus>
+		<submenu_module></submenu_module>
+	</menu>
+</menu_structure>

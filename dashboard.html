@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="greenorganics">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+		<title>Green Top Organics</title>
+    <!-- Bootstrap core CSS -->    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+	<!-- Font Awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">	
+	<!-- Custom CSS -->    <link href="css/style.css" rel="stylesheet">	
+	<!-- Libraries and Controller JS -->
+    <script src="js/Libs/jquery-1.11.1.min.js"></script>
+	<script src="js/Libs/bootstrap.min.js"></script>
+	<script src="js/Libs/angular.min.js"></script>
+	<script src="js/Libs/angular-resource.min.js"></script>
+	<script src="js/Libs/angular-route.min.js"></script>	
+	<script src="js/Libs/moment.js"></script>	
+	<script src="js/Libs/bootstrap-datetimepicker.min.js"></script>	
+	<script src="js/Controllers/xmlparser.js"></script>
+	<script src="js/Controllers/app.js"></script>
+	<script src="js/Controllers/menuSlider.js"></script>
+  </head>
+<body ng-controller="mastercontroller"><nav class="navbar navbar-inverse navbar-static-top">  	<div class="navbar-header">	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">		<span class="sr-only">Toggle navigation</span>		<span class="icon-bar"></span>		<span class="icon-bar"></span>		<span class="icon-bar"></span>	  </button>	  <a class="navbar-brand" href="#" style="color:#ddd">Green Top Organics</a>	</div>	<div id="navbar" class="navbar-collapse collapse">
+		<!-- Mobile Menus -->		<ul class="nav navbar-nav navbar-right navbarMenus">
+			<li class="menuSpinner"><a>Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-primary"></i></a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+            <li class="active"><a><strong><span my-current-time="format"></span></strong></a></li>
+            <li><a style="cursor:pointer;" ng-click="logout()"><i class="fa fa-power-off"></i> Logout</a></li>
+		</ul>	</div></nav>	
+	<div class="col-md-3 menuWrapper"><br/>
+		<!-- Side Menus -->
+		<ul class="list-group menuWrapperParser">
+			<li class="list-group-item menuSpinner">Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-primary"></i></li>
+		</ul>			</div>  <div class="col-md-9 col-sm-12 col-xs-12" ng-view></div>  
+</body>
+</html>
