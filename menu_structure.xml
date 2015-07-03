@@ -23,6 +23,11 @@
 				<icon>fa-tasks</icon>
 				<link>#/inward_product_list</link>
 			</submenu>
+			<submenu>
+				<name>Purchase</name>
+				<icon>fa-cart-plus</icon>
+				<link>#/purchase_inward_product</link>
+			</submenu>
 		</submenu_module>
 	</menu>
 </menu_structure>

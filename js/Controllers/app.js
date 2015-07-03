@@ -21,6 +21,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/inward_product_list', {
         templateUrl: 'views/inward_product_list.html'
       }).
+      when('/purchase_inward_product', {
+        templateUrl: 'views/purchase_inward_product.html'
+      }).
       otherwise({
         redirectTo: '/dashboard'
       });
@@ -35,7 +38,7 @@ greenorganics.directive('myCurrentTime', ['$interval', 'dateFilter',
 
 		// used to update the UI
 		function updateTime() {
-			element.text(dateFilter(new Date(), 'dd/MM/yyyy, hh:mm:ss a'));
+			element.text(dateFilter(new Date(), 'dd-MM-yyyy, hh:mm:ss a'));
 		}
 
 		// watch the expression, and update the UI on change.

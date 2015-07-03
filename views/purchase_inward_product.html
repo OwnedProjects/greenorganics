@@ -1,0 +1,219 @@
+<div class="col-md-11 col-sm-12" ng-controller="PurchaseProductListController">
+
+<h3 class="text-warning">Purchase Inward Product<span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+
+<div class="col-md-8 col-sm-12 col-xs-12">
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">
+		<label class="text-info">Enter Purchase Date: </label> 
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div class="input-group date">
+			<input type="text" placeholder="Purchase Date" class="form-control" id="purchaseDt">
+			<span class="input-group-addon">
+				<span class="fa fa-calendar"></span>
+			</span>
+		</div>
+	<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">
+		<label class="text-info">Enter Lorry Number: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="hidden" ng-model="lorryid" />
+		<input type="text" ng-model="lorrynumber" placeholder="Lorry Number" class="form-control" readonly />		
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">		
+		<button class="btn btn-sm btn-info" ng-click="searchLorryNumber()" data-toggle="modal" data-target="#lorrydetails">...</button><br/><br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Weight (in kgs): </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="weight" placeholder="Weight (in kgs)" class="form-control" />
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Bill / Invoice No.: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="billno" placeholder="Bill / Invoice No." class="form-control" />
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Supplier: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="hidden" ng-model="supplierid"/>
+		<input type="text" ng-model="suppliernm" placeholder="Supplier" class="form-control" readonly />		
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">	
+		<button class="btn btn-sm btn-info" ng-click="searchSupplier()" data-toggle="modal" data-target="#supplierdetails">...</button><br/><br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Product: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="hidden" ng-model="prodid"/>
+		<input type="text" ng-model="prodnm" placeholder="Product" class="form-control" readonly />		
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<button class="btn btn-sm btn-warning"><i class="fa fa-plus"> ADD</i></button><br/><br/>
+	</div>
+</div>
+
+<table class="table table-bordered">
+	<thead>
+	  <tr>
+		<th>Purchase Date</th>
+		<th>Weight</th>
+		<th>Bill / Invoice No.</th>
+		<th>Supplier</th>
+		<th>Remove</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="data in purchaseData" class="fullData">		
+		<td>{{data.prod_id}}</td>
+		<td>{{data.prod_name}}</td>
+		<td>{{data.prod_name}}</td>
+		<td>{{data.prod_name}}</td>
+		<td>{{data.prod_name}}</td>
+		<td>
+			<button type="button" class="btn btn-sm btn-danger" ng-click="setProductDetails(data.prod_id, data.prod_name);" data-toggle="modal" data-target="#NonActiveModal">
+				<i class="fa fa-trash"></i> Delete</button>
+		</td>
+	  </tr>
+	</tbody>
+</table>
+<button class="btn btn-sm btn-success" ng-disabled="!purchaseData"><i class="fa fa-save"> SAVE</i></button>
+</div>
+
+<!-- Lorry Details modal -->
+<div class="modal fade" id="lorrydetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Lorry List</h4>
+      </div>
+      <div class="modal-body">
+		<div class="col-md-4 col-sm-4 col-xs-12">			
+			<div class="input-group date">
+				<input type="text" placeholder="Lorry Number" ng-model="searchLorry" class="form-control">
+				<span class="input-group-addon">
+					<span class="fa fa-search-plus"></span>
+				</span>
+			</div>
+		<br/>
+		</div>
+        <table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Lorry id</th>
+				<th>Lorry Number</th>
+				<th>select</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in lorryData | filter:searchLorry" class="fullData">		
+				<td>{{data.lorry_id}}</td>
+				<td>{{data.lorry_no}}</td>
+				<td>
+					<button type="button" class="btn btn-sm btn-primary" ng-click="selectLorry(data.lorry_id, data.lorry_no);"><i class="fa fa-thumbs-up"></i> Select</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+<!-- Supplier Details modal -->
+<div class="modal fade" id="supplierdetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Supplier List</h4>
+      </div>
+      <div class="modal-body">
+		<div class="col-md-4 col-sm-4 col-xs-12">			
+			<div class="input-group date">
+				<input type="text" placeholder="Supplier Details" ng-model="searchsupplier" class="form-control">
+				<span class="input-group-addon">
+					<span class="fa fa-search-plus"></span>
+				</span>
+			</div>
+		<br/>
+		</div>
+        <table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Supplier Name</th>
+				<th>Supplier City</th>
+				<th>Product Name</th>
+				<th>select</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in supplierData | filter:searchsupplier" class="fullData">		
+				<td>{{data.supplier_nm}}</td>
+				<td>{{data.supplier_city}}</td>
+				<td>{{data.prod_name}}</td>
+				<td>
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setSupplier(data.supplier_id, data.supplier_nm,data.prod_id, data.prod_name);"><i class="fa fa-thumbs-up"></i> Select</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+$(function() {  
+    $('#purchaseDt').datetimepicker({
+		format: 'M/D/YYYY',
+		maxDate:new Date()
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>

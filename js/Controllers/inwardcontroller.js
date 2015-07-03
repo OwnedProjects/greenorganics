@@ -160,3 +160,74 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 		$route.reload();
 	};
 });
+
+
+greenorganics.controller("PurchaseProductListController", function($scope, $http, $route){
+	$scope.searchLorryNumber = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$http({
+			method: 'POST',
+			url: 'php/lorrymaster.php?action=AllLorries',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.lorryData=result.data.lorries;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}
+		});
+	};
+	
+	$scope.searchSupplier = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$http({
+			method: 'POST',
+			url: 'php/suppliermaster.php?action=AllSuppliers',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.supplierData=result.data.Suppliers;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}
+		});
+	};
+	
+	$scope.selectLorry = function(lorry_id, lorry_no){
+		$scope.lorryid=lorry_id;
+		$scope.lorrynumber=lorry_no;
+		$('#lorrydetails').modal('hide');
+	};
+	
+	$scope.setSupplier = function(supplier_id, supplier_nm,prod_id, prod_name){
+		$scope.supplierid=supplier_id;
+		$scope.suppliernm=supplier_nm;
+		$scope.prodid=prod_id;
+		$scope.prodnm=prod_name;
+		$('#supplierdetails').modal('hide');
+	};
+});
