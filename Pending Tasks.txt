@@ -1,0 +1,3 @@
+Purchase under - Inward Products
+Working Style:  1. Add button which will add the products to the grid and a Save button which will push all the products to server.
+				2. Grid must have a remove /  trash icon for removing the element from grid (indexOf() will not work on object. use loop)
