@@ -34,26 +34,6 @@
 
 <div class="row">
 	<div class="col-md-3 col-sm-4 col-xs-12">	
-		<label class="text-info">Weight (in kgs): </label>
-	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
-		<input type="text" ng-model="weight" placeholder="Weight (in kgs)" class="form-control" />
-		<br/>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-3 col-sm-4 col-xs-12">	
-		<label class="text-info">Bill / Invoice No.: </label>
-	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
-		<input type="text" ng-model="billno" placeholder="Bill / Invoice No." class="form-control" />
-		<br/>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-3 col-sm-4 col-xs-12">	
 		<label class="text-info">Supplier: </label>
 	</div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
@@ -71,41 +51,102 @@
 	</div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
 		<input type="hidden" ng-model="prodid"/>
-		<input type="text" ng-model="prodnm" placeholder="Product" class="form-control" readonly />		
+		<input type="text" ng-model="prodnm" placeholder="Product" class="form-control" readonly />
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Bill / Invoice No.: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="billno" placeholder="Bill / Invoice No." class="form-control" />
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Weight (in M.T): </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="weight" placeholder="Weight (in M.T)" class="form-control" />
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Rate: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="rate" placeholder="Rate (in INR)" class="form-control" />
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">
+		<label class="text-info">Discount: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="discount" placeholder="Discount" class="form-control" />
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">
+		<label class="text-info">Final Amount: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="finalAmt" placeholder="Final Amount" class="form-control" readonly />
+		<br/>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-4 col-sm-4 col-xs-12">
-		<button class="btn btn-sm btn-warning"><i class="fa fa-plus"> ADD</i></button><br/><br/>
+		<button class="btn btn-sm btn-warning" ng-click="addtogrid()"><i class="fa fa-plus"> ADD</i></button>
+		<button class="btn btn-sm btn-success" ng-click="addtodb()" ng-disabled="!purchaseData.length"><i class="fa fa-save"> SAVE</i></button>
+		<br/><br/>
 	</div>
 </div>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-responsive">
 	<thead>
 	  <tr>
 		<th>Purchase Date</th>
+		<th>Lorry No.</th>
+		<th>Supplier</th>
 		<th>Weight</th>
 		<th>Bill / Invoice No.</th>
-		<th>Supplier</th>
+		<th>Product</th>
+		<th>Rate</th>
+		<th>Discount</th>
+		<th>Final Amount</th>
 		<th>Remove</th>
 	  </tr>
 	</thead>
 	<tbody>
 	  <tr ng-repeat="data in purchaseData" class="fullData">		
-		<td>{{data.prod_id}}</td>
-		<td>{{data.prod_name}}</td>
-		<td>{{data.prod_name}}</td>
-		<td>{{data.prod_name}}</td>
-		<td>{{data.prod_name}}</td>
+		<td>{{data.purchaseDt}}</td>
+		<td>{{data.lorryno}}</td>
+		<td>{{data.supplier_nm}}</td>
+		<td>{{data.weight}}</td>
+		<td>{{data.billno}}</td>
+		<td>{{data.product}}</td>
+		<td>{{data.rate}}</td>
+		<td>{{data.discount}}</td>
+		<td>{{data.finalAmt}}</td>
 		<td>
-			<button type="button" class="btn btn-sm btn-danger" ng-click="setProductDetails(data.prod_id, data.prod_name);" data-toggle="modal" data-target="#NonActiveModal">
-				<i class="fa fa-trash"></i> Delete</button>
+			<button type="button" class="btn btn-sm btn-danger" ng-click="removeProductDetails(data.purchaseDt, data.lorryno, data.billno)" data-toggle="modal" data-target="#NonActiveModal">
+				<i class="fa fa-trash"></i> Remove</button>
 		</td>
 	  </tr>
 	</tbody>
 </table>
-<button class="btn btn-sm btn-success" ng-disabled="!purchaseData"><i class="fa fa-save"> SAVE</i></button>
 </div>
 
 <!-- Lorry Details modal -->
@@ -211,7 +252,7 @@
 <script type="text/javascript">
 $(function() {  
     $('#purchaseDt').datetimepicker({
-		format: 'M/D/YYYY',
+		format: 'D/M/YYYY',
 		maxDate:new Date()
 	});
 });

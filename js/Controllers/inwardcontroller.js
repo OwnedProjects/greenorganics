@@ -163,6 +163,7 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 
 
 greenorganics.controller("PurchaseProductListController", function($scope, $http, $route){
+	$scope.purchaseData = new Array();
 	$scope.searchLorryNumber = function(){
 		$('.fullData').hide();
 		$('.noData').hide();
@@ -229,5 +230,91 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$scope.prodid=prod_id;
 		$scope.prodnm=prod_name;
 		$('#supplierdetails').modal('hide');
+	};
+	
+	$scope.$watch("(rate*(weight*1000))-discount", function (result) {		
+		$scope.finalAmt = result;
+	});
+	
+	$scope.addtogrid = function(){		
+		if($("#purchaseDt").val()==undefined || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.discount==undefined || $scope.finalAmt==undefined){
+			alert('All field are compulsary.');
+			throw 'All field are compulsary.';
+		}
+		
+		var dt=new Date();
+		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
+		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
+		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));		
+		
+		var tmpArr = {
+			"purchaseTm":dt.getTime(),
+			"purchaseDt":$("#purchaseDt").val(),
+			"lorryid":$scope.lorryid,
+			"lorryno":$scope.lorrynumber,
+			"supplierid":$scope.supplierid,
+			"supplier_nm":$scope.suppliernm,
+			"weight":$scope.weight,
+			"weightinkg":parseInt($scope.weight)*1000,
+			"billno":$scope.billno,
+			"productid":$scope.prodid,
+			"product":$scope.prodnm,
+			"rate":$scope.rate,
+			"discount":$scope.discount,
+			"finalAmt":$scope.finalAmt
+		};
+		$scope.purchaseData.push(tmpArr);
+		$scope.resetPurchaseForm()
+	};
+	
+	$scope.resetPurchaseForm = function(){
+		$("#purchaseDt").val('');
+		$scope.lorryid='';
+		$scope.lorrynumber='';
+		$scope.supplierid='';
+		$scope.suppliernm='';
+		$scope.prodid='';
+		$scope.prodnm='';
+		$scope.billno='';
+		$scope.weight='';
+		$scope.rate='';
+		$scope.discount='';
+		$scope.finalAmt='';
+	};
+	
+	$scope.removeProductDetails = function(purchaseDt,lorryno,billno){
+		var index=null;
+		for(var i=0;i<$scope.purchaseData.length;i++){
+			if($scope.purchaseData[i].purchaseDt==purchaseDt && $scope.purchaseData[i].lorryno==lorryno && $scope.purchaseData[i].billno==billno){
+				index=i;
+				break;
+			}
+		}
+		console.log(index);
+		$scope.purchaseData.splice(index,1);
+	};
+	
+	$scope.reload = function(){
+		$route.reload();
+	};
+	
+	$scope.addtodb = function(){
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=AddPurchaseDetailsToDB',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: $scope.purchaseData
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				
+			}
+			else{
+				alert('Error!!! Please contact system administrator.');
+			}
+		});	
 	};
 });

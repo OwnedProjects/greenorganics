@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', E_STRICT);
+//ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 

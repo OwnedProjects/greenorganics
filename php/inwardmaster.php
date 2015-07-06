@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', E_STRICT);
+//ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -69,6 +69,25 @@ $action=$_GET['action'];
 		$delProd="DELETE FROM `inward_product_master` WHERE `prod_id`=".$data->prodid;
 		$resdelProd=mysql_query($delProd);
 		if($resdelProd){
+			$obj->status=true;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}	
+	
+	if($action=='AddPurchaseDetailsToDB'){
+		$data = json_decode(file_get_contents("php://input"));
+		$flag=false;
+		for($i=0;$i<count($data);$i++){
+			$insProd="INSERT INTO `purchase_master`(`lorry_id`, `supplier_id`, `prod_id`, `weight`, `rate`, `discount`, `finalAmt`, `purchase_date`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",'".$data[$i]->weightinkg."','".$data[$i]->rate."','".$data[$i]->discount."','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."')";
+			$resinsProd=mysql_query($insProd);
+			if($resinsProd){
+				$flag=true;
+			}
+		}
+		if($flag==true){			
 			$obj->status=true;
 		}
 		else{
