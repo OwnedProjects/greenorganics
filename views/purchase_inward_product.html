@@ -3,7 +3,8 @@
 <h3 class="text-warning">Purchase Inward Product<span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
 
 <div class="col-md-8 col-sm-12 col-xs-12">
-
+<strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i></strong>
+<span class="messageDisp"></span>
 <div class="row">
 	<div class="col-md-3 col-sm-4 col-xs-12">
 		<label class="text-info">Enter Purchase Date: </label> 
@@ -130,7 +131,7 @@
 	  </tr>
 	</thead>
 	<tbody>
-	  <tr ng-repeat="data in purchaseData" class="fullData">		
+	  <tr ng-repeat="data in purchaseData">		
 		<td>{{data.purchaseDt}}</td>
 		<td>{{data.lorryno}}</td>
 		<td>{{data.supplier_nm}}</td>

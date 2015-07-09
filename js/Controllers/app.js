@@ -24,6 +24,24 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/purchase_inward_product', {
         templateUrl: 'views/purchase_inward_product.html'
       }).
+      when('/stock_list', {
+        templateUrl: 'views/stock_list.html'
+      }).
+      when('/add_supplier', {
+        templateUrl: 'views/add_supplier.html'
+      }).
+      when('/supplier_list', {
+        templateUrl: 'views/supplier_list.html'
+      }).
+      when('/deactivated_supplier_list', {
+        templateUrl: 'views/deactivated_supplier_list.html'
+      }).
+      when('/add_lorry', {
+        templateUrl: 'views/add_lorry.html'
+      }).
+      when('/lorry_list', {
+        templateUrl: 'views/lorry_list.html'
+      }).
       otherwise({
         redirectTo: '/dashboard'
       });

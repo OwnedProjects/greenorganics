@@ -13,14 +13,15 @@ $(document).ready(function(){
 		var mobilestr='';
 		$(xml_node).find('menu').each(function(){
 			if($(this).find('hasSubmenus').text()=='NO'){
-				/* desktopstr is just for side menu */
+				/* desktopstr is just for single side menu */
 				desktopstr=desktopstr+'<li class="list-group-item"><a href="'+$(this).find('link').text()+'" class="singleMenu"><i class="fa '+$(this).find('icon').text()+' text-primary"></i> '+$(this).find('name').text()+'</a></li>';
 				
 				/* mobilestr is for mobile menus */
 				mobilestr=mobilestr+'<li><a href="'+$(this).find('link').text()+'" class="mobileMenuclick"><i class="fa '+$(this).find('icon').text()+' text-primary"></i> '+$(this).find('name').text()+'</a></li>';
 			}
 			else if($(this).find('hasSubmenus').text()=='YES'){
-				var tmpdesktopstrstr='<li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu">'+$(this).children('name').text()+'</span> <ul class="list-group">';				
+				/* tmpdesktopstrstr is for dropdown multiple side menu */
+				var tmpdesktopstrstr='<li class="list-group-item"><i class="fa fa-caret-right carets"></i>  <span class="menu" ng-click="testfunction()">'+$(this).children('name').text()+'</span> <ul class="list-group">';				
 				var tmpdesktopstrstr1='';
 				
 				var tmpmobilestr='<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'+$(this).children('name').text()+' <span class="caret"></span></a><ul class="dropdown-menu" role="menu">';

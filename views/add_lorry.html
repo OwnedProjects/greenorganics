@@ -1,0 +1,26 @@
+<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="AddLorryController">
+	<h3 class="text-primary">ADD LORRY</h3>
+	<hr/>
+	<div class="col-md-6 col-sm-12 col-xs-12">
+		<span class="displayMsg"></span>
+		<form ng-submit="addlorry();">
+			<div class="col-md-2 col-sm-2 col-xs-4">
+				<input type="text" class="form-control" ng-model="lorrystate" placeholder="MH" maxlength='2' autofocus required />
+			</div>
+			<div class="col-md-2 col-sm-2 col-xs-4">
+				<input type="number" class="form-control" ng-model="lorrystatecode" placeholder="12" max="99" min="1" required />
+			</div>
+			<div class="col-md-2 col-sm-2 col-xs-4">
+				<input type="text" class="form-control" ng-model="lorrycode" placeholder="AA" maxlength='2' required />
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-4">
+				<input type="number" class="form-control" ng-model="lorryno" placeholder="0123" id="lorryno" max="9999" min="1" required />
+			</div>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<h4>Note: e.g  <span class="text-info">MH - 12 - AA - 0123</span></h4>			
+				<div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div>
+				<button type="submit" class="btn btn-success">Save Details</button>
+			</div>
+		</form>
+	</div>
+</div>

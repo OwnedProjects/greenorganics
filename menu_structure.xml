@@ -3,14 +3,14 @@
 	<menu>
 		<name>DASHBOARD</name>
 		<icon>fa-dashcube</icon>
-		<link>#/dashboard</link>
+		<mainlink>#/dashboard</mainlink>
 		<hasSubmenus>NO</hasSubmenus>
 		<submenu_module></submenu_module>
 	</menu>
 	<menu>
 		<name>INWARD PRODUCTS</name>
 		<icon></icon>
-		<link>#</link>
+		<mainlink>#</mainlink>
 		<hasSubmenus>YES</hasSubmenus>
 		<submenu_module>
 			<submenu>
@@ -19,14 +19,55 @@
 				<link>#/add_inward_product</link>
 			</submenu>
 			<submenu>
+				<name>Add Supplier</name>
+				<icon>fa-user-plus</icon>
+				<link>#/add_supplier</link>
+			</submenu>
+			<submenu>
 				<name>Products List</name>
 				<icon>fa-tasks</icon>
 				<link>#/inward_product_list</link>
 			</submenu>
 			<submenu>
+				<name>Supplier List</name>
+				<icon>fa-users</icon>
+				<link>#/supplier_list</link>
+			</submenu>
+			<submenu>
 				<name>Purchase</name>
 				<icon>fa-cart-plus</icon>
 				<link>#/purchase_inward_product</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
+		<name>LORRY DETAILS</name>
+		<icon></icon>
+		<mainlink>#/add_lorry</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>Add Lorry</name>
+				<icon>fa-truck</icon>
+				<link>#/add_lorry</link>
+			</submenu>
+			<submenu>
+				<name>List Lorries</name>
+				<icon>fa-truck</icon>
+				<link>#/lorry_list</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
+		<name>STOCK DETAILS</name>
+		<icon></icon>
+		<mainlink>#/stock_list</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>Stock Available</name>
+				<icon>fa-database</icon>
+				<link>#/stock_list</link>
 			</submenu>
 		</submenu_module>
 	</menu>

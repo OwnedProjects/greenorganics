@@ -1,0 +1,53 @@
+<div class="col-md-11 col-sm-12" ng-controller="DeactiveSupplierListController">
+
+<h3 class="text-warning">Deactivated Supplier Details <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+
+<div class="col-md-10 col-sm-12 col-xs-12">
+<span class="displayMsg"></span>
+
+<br/>
+	<div class="input-group date">
+		<input type="text" ng-model="searchSupplier" class="form-control" placeholder="Search Supplier"/>	
+		<span class="input-group-addon">
+			<span class="fa fa-lg fa-search-plus"></span>
+		</span>	
+	</div>
+
+<br/>
+
+<table class="table table-bordered">
+	<thead>
+	  <tr>
+		<th>Supplier Name</th>
+		<th>Supplier Contact No.</th>
+		<th>Supplier Contact Person</th>
+		<th>Supplier Address</th>
+		<th>Supplier City</th>
+		<th>Product Name</th>
+		<th>VAT No.</th>
+		<th>Activate</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="data in supplierData | filter:searchSupplier" class="fullData">		
+		<td>{{data.supplier_nm}}</td>
+		<td>{{data.supplier_contact}}</td>
+		<td>{{data.supplier_contact_person}}</td>
+		<td>{{data.supplier_address}}</td>
+		<td>{{data.supplier_city}}</td>
+		<td>{{data.prod_name}}</td>
+		<td>{{data.supplier_vatno}}</td>		
+		<td>
+			<button type="button" class="btn btn-sm btn-info" ng-click="activatesuppliers(data.supplier_id);"><i class="fa fa-unlock"></i></button> 			
+		</td>
+	  </tr>
+	  <tr class="noData">
+		<td colspan="8"> No Data Found </td>
+	  </tr>
+	  <tr class="loadData">
+		<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+	  </tr>
+	</tbody>
+</table>
+</div>
+</div>

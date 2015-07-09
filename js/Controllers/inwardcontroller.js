@@ -1,31 +1,5 @@
-greenorganics.controller("addinwardcontroller", function($scope, $http, $route){
-	$scope.initfunction = function(){
-		$(".waitspinner").show();
-		$http({
-			method: 'POST',
-			url: 'php/inwardmaster.php?action=checkinwardproductdetails',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).
-		error(function(data, status, headers, config) {
-			alert('Service Error');
-		}).
-		then(function(result){
-			if(result.data.status==true){
-				if(result.data.prodcount == null){
-					$scope.prodid=1;
-				}
-				else{
-					$scope.prodid=parseInt(result.data.prodcount)+1;
-				}
-			}
-			else{
-				alert('Error!!! Please contact system Administrator.');
-			}
-			$(".waitspinner").hide();
-		});
-	};
-	$scope.initfunction();
-	
+greenorganics.controller("AddInwardController", function($scope, $http, $route){
+	$(".waitspinner").hide();
 	$scope.addProduct = function(){
 		var prodObj={
 			"prodnm":$scope.prodname
@@ -118,7 +92,7 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 			else{
 				$('.modal-body').append("<span class='text-danger'><strong>Error!!! Please contact system Administrator.</strong></span>");
 				setTimeout(function(){
-					$('.modal-body span').remove();					
+					$('.modal-body span').remove();
 				},2500);
 			}			
 		});
@@ -163,6 +137,8 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 
 
 greenorganics.controller("PurchaseProductListController", function($scope, $http, $route){
+	$(".loadSpinner").hide();
+	$scope.discount=0;
 	$scope.purchaseData = new Array();
 	$scope.searchLorryNumber = function(){
 		$('.fullData').hide();
@@ -197,7 +173,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/suppliermaster.php?action=AllSuppliers',
+			url: 'php/inwardmaster.php?action=AllSuppliers',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -232,12 +208,13 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$('#supplierdetails').modal('hide');
 	};
 	
-	$scope.$watch("(rate*(weight*1000))-discount", function (result) {		
+	$scope.$watch("(rate*(weight*1000))-discount", function (result) {
 		$scope.finalAmt = result;
 	});
 	
-	$scope.addtogrid = function(){		
-		if($("#purchaseDt").val()==undefined || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.discount==undefined || $scope.finalAmt==undefined){
+	$scope.addtogrid = function(){
+		var flag=false;
+		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.discount==undefined || $scope.finalAmt==undefined){
 			alert('All field are compulsary.');
 			throw 'All field are compulsary.';
 		}
@@ -245,7 +222,14 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		var dt=new Date();
 		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
 		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
-		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));		
+		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));
+		
+		for(var i=0;i<$scope.purchaseData.length;i++){
+			if($scope.purchaseData[i].billno==$scope.billno){
+				flag=true;
+				break;
+			}
+		}
 		
 		var tmpArr = {
 			"purchaseTm":dt.getTime(),
@@ -255,7 +239,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 			"supplierid":$scope.supplierid,
 			"supplier_nm":$scope.suppliernm,
 			"weight":$scope.weight,
-			"weightinkg":parseInt($scope.weight)*1000,
+			"weightinkg":parseFloat($scope.weight)*1000,
 			"billno":$scope.billno,
 			"productid":$scope.prodid,
 			"product":$scope.prodnm,
@@ -263,7 +247,12 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 			"discount":$scope.discount,
 			"finalAmt":$scope.finalAmt
 		};
-		$scope.purchaseData.push(tmpArr);
+		if(flag==false){
+			$scope.purchaseData.push(tmpArr);
+		}
+		else{
+			alert('Element will bill already added. Please choose another bill / product.');
+		}
 		$scope.resetPurchaseForm()
 	};
 	
@@ -278,7 +267,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$scope.billno='';
 		$scope.weight='';
 		$scope.rate='';
-		$scope.discount='';
+		$scope.discount=0;
 		$scope.finalAmt='';
 	};
 	
@@ -299,6 +288,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 	};
 	
 	$scope.addtodb = function(){
+		$(".loadSpinner").show();
 		$http({
 			method: 'POST',
 			url: 'php/inwardmaster.php?action=AddPurchaseDetailsToDB',
@@ -310,11 +300,245 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		}).
 		then(function(result){
 			if(result.data.status==true){
-				
+				$(".loadSpinner").hide();
+				$(".messageDisp").append('<strong class="text-success">Inward Purchase Confirmed to Data Base.<br/><br/></strong>');
+				$scope.purchaseData.length=0;
+				setTimeout(function(){
+					$(".messageDisp strong").remove();
+				},2000);
+			}
+			else{
+				$(".loadSpinner").hide();
+				$(".messageDisp").append('<strong class="text-danger">Error!!! Please contact system administrator.<br/><br/></strong>');
+				setTimeout(function(){
+					$(".messageDisp strong").remove();
+				},3000);
+			}
+		});
+	};
+});
+
+greenorganics.controller("AddSupplierController", function($scope, $http, $route){
+	$scope.prod=true;
+	$scope.fillproducts = function(){
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=allproductdetails',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: $scope.purchaseData
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$scope.prod=false;
+				$(".loadSpinner").hide();
+				$scope.productData=result.data.Products;
+			}
+			else{
+				$(".loadSpinner").hide();
+				alert('Please add a product first !!!');
+			}
+		});	
+	};
+	$scope.fillproducts();
+	
+	$scope.addtodb = function(){
+		if($scope.suppliernm==undefined || $scope.suppliercontact==undefined || $scope.address==undefined || $scope.suppliercity==undefined || $scope.contactperson==undefined || $scope.selprod==undefined || $scope.vatno==undefined){
+			alert('All field are compulsary.');
+			throw "Fields Empty";
+		}
+		var tmpSupplier = {
+			"suppliernm": $scope.suppliernm,
+			"suppliercontact": $scope.suppliercontact,
+			"address": $scope.address,
+			"suppliercity": $scope.suppliercity,
+			"contactperson": $scope.contactperson,
+			"prodid": $scope.selprod,
+			"vatno": $scope.vatno
+		};
+		$(".loadSpinner").show();
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=AddSupplierToDB',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: tmpSupplier
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$scope.prod=true;
+				$(".messageDisp").append('<strong class="text-success">Supplier Added Successfully.<br/><br/></strong>');
+				tmpSupplier=null;
+				setTimeout(function(){
+					$(".loadSpinner").hide();
+					$(".messageDisp strong").remove();
+					$route.reload();
+				},2000);
+			}
+			else{
+				$(".loadSpinner").hide();
+				$(".messageDisp").append('<strong class="text-danger">Error!!! Please contact system administrator.<br/><br/></strong>');
+				setTimeout(function(){
+					$(".messageDisp strong").remove();
+				},3000);
+			}
+		});	
+	};
+});
+
+greenorganics.controller("SupplierListController", function($scope, $http, $route){
+	$scope.loadSuppliers = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=AllSuppliers',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.supplierData=result.data.Suppliers;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}
+		});
+	};
+	$scope.loadSuppliers();
+	
+	$scope.setEditSupplierDetails = function(suppid, suppnm){
+		$scope.suppid=suppid;
+		$scope.suppnm=suppnm;
+		$scope.fetchSpecificSupplierDetails();
+	};
+	
+	$scope.setDeleteSupplierDetails = function(suppid, suppnm){
+		$scope.suppid=suppid;
+		$scope.suppnm=suppnm;		
+	};
+	
+	$scope.fetchSpecificSupplierDetails = function(){
+		$scope.prod=true;
+		$http({
+		method: 'POST',
+		url: 'php/inwardmaster.php?action=fetchSpecificSupplierDetails',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		data:$scope.suppid
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+				if(result.data.status==true){
+					$scope.prod=false;
+					$scope.suppliernm=result.data.Suppliers.supplier_nm;
+					$scope.suppliercontact=result.data.Suppliers.supplier_contact
+					$scope.address=result.data.Suppliers.supplier_address
+					$scope.suppliercity=result.data.Suppliers.supplier_city
+					$scope.contactperson=result.data.Suppliers.supplier_contact_person
+					$scope.vatno=result.data.Suppliers.supplier_vatno
+				}
+				else{
+					alert('Error!!! Please contact system administrator.');
+				}
+		});
+	};
+	
+	$scope.deactivatesupplier = function(){
+		$http({
+		method: 'POST',
+		url: 'php/inwardmaster.php?action=deactivatesupplier',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		data:$scope.suppid
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$(".modal-footer").prepend('<strong class="text-success">Supplier Deactivated Successfully</strong>');
+				setTimeout(function(){
+					$(".modal-footer strong").remove();
+					$route.reload();
+				},2000);
 			}
 			else{
 				alert('Error!!! Please contact system administrator.');
 			}
-		});	
+		});
+	};	
+	
+	$scope.reload = function(){
+		$route.reload();
+	};
+});
+
+greenorganics.controller("DeactiveSupplierListController", function($scope, $http, $route){
+	$scope.loadSuppliers = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=AllDeactiveSuppliers',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.supplierData=result.data.Suppliers;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}
+		});
+	};
+	$scope.loadSuppliers();
+	
+	$scope.activatesuppliers = function(suppid){		
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=activatesuppliers',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:suppid
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.displayMsg').append('<strong class="text-success">Supplier Activated Successfully</strong>');
+				setTimeout(function(){
+					$route.reload();
+				},1500);
+			}
+			else{
+				
+			}
+		});
+	};
+	
+	$scope.reload = function(){
+		$route.reload();
 	};
 });

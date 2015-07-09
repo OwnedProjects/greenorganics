@@ -1,0 +1,90 @@
+<div class="col-md-11 col-sm-12" ng-controller="AddSupplierController">
+
+<h3 class="text-warning">Add Supplier<span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+
+<div class="col-md-8 col-sm-12 col-xs-12">
+<strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i><br/><br/></strong>
+<span class="messageDisp"></span>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Supplier Name: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="suppliernm" placeholder="Supplier Name" class="form-control" ng-disabled="prod"/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Supplier Contact: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="suppliercontact" placeholder="Supplier Contact" class="form-control" ng-disabled="prod"/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Supplier Address: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<textarea ng-model="address" placeholder="Address" class="form-control" ng-disabled="prod"></textarea>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">City: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="suppliercity" placeholder="City" class="form-control" ng-disabled="prod"/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Contact Person: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="contactperson" placeholder="Contact Person" class="form-control" ng-disabled="prod"/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Select Product: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">		
+		<select type="text" ng-model="selprod" placeholder="Supplier" class="form-control" ng-disabled="prod">
+			<option ng-repeat="data in productData" ng-value="data.prod_id">{{data.prod_name}}</option>
+		</select>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">VAT No.: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="vatno" placeholder="VAT No." class="form-control" ng-disabled="prod"/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-sm-4 col-xs-12">		
+		<button class="btn btn-sm btn-success" ng-click="addtodb()"><i class="fa fa-save"> SAVE</i></button>
+		<br/><br/>
+	</div>
+</div>
+
+</div>
+
+</div>

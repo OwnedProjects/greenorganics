@@ -1,0 +1,61 @@
+<div class="col-md-11 col-sm-12" ng-controller="LorryListController">
+
+<h3 class="text-warning">Lorry Details <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+
+<div class="col-md-10 col-sm-12 col-xs-12">
+
+<br/>
+	<div class="input-group date">
+		<input type="text" ng-model="searchLorry" class="form-control" placeholder="Search Lorry"/>	
+		<span class="input-group-addon">
+			<span class="fa fa-lg fa-search-plus"></span>
+		</span>	
+	</div>
+
+<br/>
+
+<table class="table table-bordered">
+	<thead>
+	  <tr>
+		<th>Lorry Id</th>
+		<th>Lorry No.</th>
+		<th>Delete</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="data in lorryData | filter:searchLorry" class="fullData">		
+		<td>{{data.lorry_id}}</td>
+		<td>{{data.lorry_no}}</td>
+		<td>			
+			<button type="button" class="btn btn-sm btn-danger" ng-click="setlorryDetails(data.lorry_id, data.lorry_no);" data-toggle="modal" data-target="#NonActiveModal">
+				<i class="fa fa-trash"></i></button>
+		</td>
+	  </tr>
+	  <tr class="noData">
+		<td colspan="8"> No Data Found </td>
+	  </tr>
+	  <tr class="loadData">
+		<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+	  </tr>
+	</tbody>
+</table>
+</div>
+
+
+<!-- Small modal -->
+<div class="modal fade" id="NonActiveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Are you sure to Delete - <span class="text-info">{{lorryno}} </span>?</h4>
+      </div>
+      <div class="modal-footer">		
+        <button type="button" class="btn btn-primary" ng-click="deletelorry();"><i class="fa fa-thumbs-up"></i> Confirm</button>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+</div>

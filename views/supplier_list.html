@@ -1,0 +1,102 @@
+<div class="col-md-11 col-sm-12" ng-controller="SupplierListController">
+
+<h3 class="text-warning">Supplier Details <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+
+<div class="col-md-10 col-sm-12 col-xs-12">
+
+<br/>
+	<div class="input-group date">
+		<input type="text" ng-model="searchSupplier" class="form-control" placeholder="Search Supplier"/>	
+		<span class="input-group-addon">
+			<span class="fa fa-lg fa-search-plus"></span>
+		</span>	
+	</div>
+
+<br/>
+<a href="#/deactivated_supplier_list"><i class="fa fa-user-secret"></i> DEACTIVATED SUPPLIERS</a>
+<br/>
+<br/>
+
+<table class="table table-bordered">
+	<thead>
+	  <tr>
+		<th>Supplier Name</th>
+		<th>Supplier Contact No.</th>
+		<th>Supplier Contact Person</th>
+		<th>Supplier Address</th>
+		<th>Supplier City</th>
+		<th>Product Name</th>
+		<th>VAT No.</th>
+		<th>Edit / Delete</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="data in supplierData | filter:searchSupplier" class="fullData">		
+		<td>{{data.supplier_nm}}</td>
+		<td>{{data.supplier_contact}}</td>
+		<td>{{data.supplier_contact_person}}</td>
+		<td>{{data.supplier_address}}</td>
+		<td>{{data.supplier_city}}</td>
+		<td>{{data.prod_name}}</td>
+		<td>{{data.supplier_vatno}}</td>		
+		<td>
+			<button type="button" class="btn btn-sm btn-success" ng-click="setEditSupplierDetails(data.supplier_id, data.supplier_nm);" data-toggle="modal" data-target="#myModal">
+				<i class="fa fa-eraser"></i></button> 
+			<button type="button" class="btn btn-sm btn-danger" ng-click="setDeleteSupplierDetails(data.supplier_id, data.supplier_nm);" data-toggle="modal" data-target="#NonActiveModal">
+				<i class="fa fa-trash"></i></button>
+		</td>
+	  </tr>
+	  <tr class="noData">
+		<td colspan="8"> No Data Found </td>
+	  </tr>
+	  <tr class="loadData">
+		<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+	  </tr>
+	</tbody>
+</table>
+</div>
+
+<!-- Large modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+	<form ng-submit="saveEdittedSupplierDetails();">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Supplier Details</h4>
+      </div>
+      <div class="modal-body">        
+				<input type="hidden" class="form-control" ng-model="suppid" /><br/>
+				<input type="text" ng-model="suppliernm" placeholder="Supplier Name" class="form-control" ng-disabled="prod"/><br/>
+				<input type="text" ng-model="suppliercontact" placeholder="Supplier Contact" class="form-control" ng-disabled="prod"/><br/>
+				<textarea ng-model="address" placeholder="Address" class="form-control" ng-disabled="prod" ></textarea><br/>
+				<input type="text" ng-model="suppliercity" placeholder="City" class="form-control" ng-disabled="prod"/><br/>
+				<input type="text" ng-model="contactperson" placeholder="Contact Person" class="form-control" ng-disabled="prod"/><br/>
+				<input type="text" ng-model="vatno" placeholder="VAT No." class="form-control" ng-disabled="prod"/><br/>
+      </div>
+      <div class="modal-footer">		
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-disabled="prod"><i class="fa fa-times-circle"></i> Close</button>
+        <button type="submit" class="btn btn-primary saveDetails" ng-disabled="prod"><i class="fa fa-floppy-o"></i> Save Details</button>
+      </div>
+	</div>
+	</form>
+  </div>
+</div>
+
+<!-- Small modal -->
+<div class="modal fade" id="NonActiveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Are you sure to Delete - <span class="text-info">{{suppnm}} </span>?</h4>
+      </div>
+      <div class="modal-footer">		
+        <button type="button" class="btn btn-primary" ng-click="deactivatesupplier();"><i class="fa fa-thumbs-up"></i> Confirm</button>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+</div>

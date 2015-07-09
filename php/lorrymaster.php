@@ -21,5 +21,31 @@ $action=$_GET['action'];
 			$obj->status=false;
 		}
 		echo json_encode($obj);
-	}	
+	}
+	
+	if($action=='addlorry'){
+		$data = json_decode(file_get_contents("php://input"));
+		$selLorries="INSERT INTO `lorry_register`(`lorry_number`) SELECT * FROM (SELECT '".$data->lorry."') AS tmp WHERE NOT EXISTS (SELECT lorry_number from `lorry_register` where `lorry_number`='".$data->lorry."')";
+		$resLorry=mysql_query($selLorries);		
+		if($resLorry){
+			$obj->status=true;			
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='DelLorry'){
+		$data = json_decode(file_get_contents("php://input"));
+		$selLorries="DELETE FROM `lorry_register` WHERE `lorry_id`=".$data;
+		$resLorry=mysql_query($selLorries);		
+		if($resLorry){
+			$obj->status=true;			
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
 ?>
