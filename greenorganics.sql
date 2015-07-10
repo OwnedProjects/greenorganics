@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 09, 2015 at 11:27 AM
+-- Generation Time: Jul 10, 2015 at 11:46 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `purchase_master` (
   `prod_id` int(10) NOT NULL,
   `weight` int(200) NOT NULL,
   `rate` varchar(100) NOT NULL,
-  `discount` varchar(100) NOT NULL,
+  `lorryfreight` varchar(100) NOT NULL,
   `finalAmt` varchar(100) NOT NULL,
   `purchase_date` varchar(50) NOT NULL,
   PRIMARY KEY (`purchase_id`)
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `purchase_master` (
 -- Dumping data for table `purchase_master`
 --
 
-INSERT INTO `purchase_master` (`purchase_id`, `lorry_id`, `supplier_id`, `prod_id`, `weight`, `rate`, `discount`, `finalAmt`, `purchase_date`) VALUES
+INSERT INTO `purchase_master` (`purchase_id`, `lorry_id`, `supplier_id`, `prod_id`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`) VALUES
 (3, 1, 2, 12, 1000, '50', '1000', '49000', '1436271579128'),
 (4, 1, 2, 12, 2000, '50', '100', '99900', '1436358025369'),
 (5, 2, 2, 12, 3000, '50', '0', '150000', '1436423398511'),
