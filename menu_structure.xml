@@ -41,6 +41,19 @@
 		</submenu_module>
 	</menu>
 	<menu>
+		<name>PRODUCTION</name>
+		<icon></icon>
+		<mainlink>#/add_production_batch</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>Add Production Batch</name>
+				<icon>fa-cubes</icon>
+				<link>#/add_production_batch</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
 		<name>LORRY DETAILS</name>
 		<icon></icon>
 		<mainlink>#/add_lorry</mainlink>

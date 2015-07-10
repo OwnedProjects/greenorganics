@@ -138,7 +138,7 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 
 greenorganics.controller("PurchaseProductListController", function($scope, $http, $route){
 	$(".loadSpinner").hide();
-	$scope.discount=0;
+	$scope.lorryfreight=0;
 	$scope.purchaseData = new Array();
 	$scope.searchLorryNumber = function(){
 		$('.fullData').hide();
@@ -208,13 +208,22 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$('#supplierdetails').modal('hide');
 	};
 	
-	$scope.$watch("(rate*(weight*1000))-discount", function (result) {
+	$scope.$watch("(rate*weight)", function (result) {
 		$scope.finalAmt = result;
+	});
+	
+	$scope.$watch("(lorryfreight)", function (result) {
+		if($scope.lorryfreight>0){
+			$scope.finalAmt=$scope.finalAmt+parseFloat(result);
+		}
+		else{			
+			$scope.finalAmt = $scope.finalAmt-parseFloat(result);
+		}
 	});
 	
 	$scope.addtogrid = function(){
 		var flag=false;
-		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.discount==undefined || $scope.finalAmt==undefined){
+		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.lorryfreight==undefined || $scope.finalAmt==undefined){
 			alert('All field are compulsary.');
 			throw 'All field are compulsary.';
 		}
@@ -244,7 +253,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 			"productid":$scope.prodid,
 			"product":$scope.prodnm,
 			"rate":$scope.rate,
-			"discount":$scope.discount,
+			"lorryfreight":$scope.lorryfreight,
 			"finalAmt":$scope.finalAmt
 		};
 		if(flag==false){
@@ -267,7 +276,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$scope.billno='';
 		$scope.weight='';
 		$scope.rate='';
-		$scope.discount=0;
+		$scope.lorryfreight=0;
 		$scope.finalAmt='';
 	};
 	

@@ -3,7 +3,7 @@ greenorganics.controller("AddLorryController", function($scope, $http, $route){
 	
 	$scope.addlorry = function(){
 		$('.waitspinner').show();
-		var tmpString=$scope.lorrystate+ " "+$scope.lorrystatecode+"/"+ $scope.lorrycode+" "+$('#lorryno').val();		
+		var tmpString=$scope.lorrystate+ " "+$("#lorrystatecode").val()+"/"+ $scope.lorrycode+" "+$('#lorryno').val();		
 		var lorryObj={
 			"lorry":tmpString.toUpperCase()
 		};

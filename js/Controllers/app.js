@@ -42,6 +42,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/lorry_list', {
         templateUrl: 'views/lorry_list.html'
       }).
+      when('/add_production_batch', {
+        templateUrl: 'views/add_production_batch.html'
+      }).
       otherwise({
         redirectTo: '/dashboard'
       });

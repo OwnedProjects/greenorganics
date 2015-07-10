@@ -88,7 +88,7 @@ $action=$_GET['action'];
 		$data = json_decode(file_get_contents("php://input"));
 		$flag=false;
 		for($i=0;$i<count($data);$i++){
-			$insProd="INSERT INTO `purchase_master`(`lorry_id`, `supplier_id`, `prod_id`, `weight`, `rate`, `discount`, `finalAmt`, `purchase_date`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",".$data[$i]->weightinkg.",'".$data[$i]->rate."','".$data[$i]->discount."','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."')";
+			$insProd="INSERT INTO `purchase_master`(`lorry_id`, `supplier_id`, `prod_id`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",".$data[$i]->weightinkg.",'".$data[$i]->rate."','".$data[$i]->lorryfreight."','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."')";
 			$resinsProd=mysql_query($insProd);
 			$milliseconds = round(microtime(true) * 1000);
 			$selProd="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data[$i]->productid;
