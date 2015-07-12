@@ -137,6 +137,7 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 
 
 greenorganics.controller("PurchaseProductListController", function($scope, $http, $route){
+	$scope.lorryfrieghtcheck=false;
 	$(".loadSpinner").hide();
 	$scope.lorryfreight=0;
 	$scope.purchaseData = new Array();
@@ -208,21 +209,11 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$('#supplierdetails').modal('hide');
 	};
 	
-	$scope.$watch("(rate*weight)", function (result) {
-		$scope.finalAmt = result;
-	});
-	
-	$scope.$watch("(lorryfreight)", function (result) {
-		if($scope.lorryfreight>0){
-			$scope.finalAmt=$scope.finalAmt+parseFloat(result);
-		}
-		else{			
-			$scope.finalAmt = $scope.finalAmt-parseFloat(result);
-		}
-	});
+	$scope.changeFinalAmt = function () {
+		$scope.finalAmt=parseFloat($scope.rate) * parseFloat($scope.weight) + parseFloat($scope.lorryfreight);
+	};
 	
 	$scope.addtogrid = function(){
-		var flag=false;
 		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.lorryfreight==undefined || $scope.finalAmt==undefined){
 			alert('All field are compulsary.');
 			throw 'All field are compulsary.';
@@ -232,13 +223,6 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
 		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
 		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));
-		
-		for(var i=0;i<$scope.purchaseData.length;i++){
-			if($scope.purchaseData[i].billno==$scope.billno){
-				flag=true;
-				break;
-			}
-		}
 		
 		var tmpArr = {
 			"purchaseTm":dt.getTime(),
@@ -256,12 +240,8 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 			"lorryfreight":$scope.lorryfreight,
 			"finalAmt":$scope.finalAmt
 		};
-		if(flag==false){
-			$scope.purchaseData.push(tmpArr);
-		}
-		else{
-			alert('Element will bill already added. Please choose another bill / product.');
-		}
+		
+		$scope.purchaseData.push(tmpArr);
 		$scope.resetPurchaseForm()
 	};
 	
@@ -319,6 +299,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 			else{
 				$(".loadSpinner").hide();
 				$(".messageDisp").append('<strong class="text-danger">Error!!! Please contact system administrator.<br/><br/></strong>');
+				debugger;
 				setTimeout(function(){
 					$(".messageDisp strong").remove();
 				},3000);

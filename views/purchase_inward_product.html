@@ -2,7 +2,7 @@
 
 <h3 class="text-warning">Purchase Inward Product<span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
 
-<div class="col-md-8 col-sm-12 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12">
 <strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i></strong>
 <span class="messageDisp"></span>
 <div class="row">
@@ -72,7 +72,7 @@
 		<label class="text-info">Weight (in M.T): </label>
 	</div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
-		<input type="text" ng-model="weight" placeholder="Weight (in M.T)" class="form-control" />
+		<input type="text" ng-model="weight" placeholder="Weight (in M.T)" ng-change="changeFinalAmt()" class="form-control" />
 		<br/>
 	</div>
 </div>
@@ -82,7 +82,7 @@
 		<label class="text-info">Rate: </label>
 	</div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
-		<input type="text" ng-model="rate" placeholder="Rate (in INR)" class="form-control" />
+		<input type="text" ng-model="rate" placeholder="Rate (in INR)" ng-change="changeFinalAmt()" class="form-control" />
 		<br/>
 	</div>
 </div>
@@ -92,7 +92,7 @@
 		<label class="text-info">Lorry Freight: </label>
 	</div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
-		<input type="text" ng-model="lorryfreight" placeholder="Lorry Freight" class="form-control" />
+		<input type="text" ng-model="lorryfreight" ng-change="changeFinalAmt()" placeholder="Lorry Freight" class="form-control" />
 		<br/>
 	</div>
 </div>
@@ -109,7 +109,7 @@
 
 <div class="row">
 	<div class="col-md-4 col-sm-4 col-xs-12">
-		<button class="btn btn-sm btn-warning" ng-click="addtogrid()"><i class="fa fa-plus"> ADD</i></button>
+		<button class="btn btn-sm btn-warning" ng-click="addtogrid()" ng-disabled="lorryfrieghtcheck"><i class="fa fa-plus"> ADD</i></button>
 		<button class="btn btn-sm btn-success" ng-click="addtodb()" ng-disabled="!purchaseData.length"><i class="fa fa-save"> SAVE</i></button>
 		<br/><br/>
 	</div>
@@ -142,8 +142,8 @@
 		<td>{{data.lorryfreight}}</td>
 		<td>{{data.finalAmt}}</td>
 		<td>
-			<button type="button" class="btn btn-sm btn-danger" ng-click="removeProductDetails(data.purchaseDt, data.lorryno, data.billno)" data-toggle="modal" data-target="#NonActiveModal">
-				<i class="fa fa-trash"></i> Remove</button>
+			<button type="button" class="btn btn-sm btn-danger" ng-click="removeProductDetails(data.purchaseDt, data.lorryno, data.billno)" data-toggle="modal" data-target="#NonActiveModal" title="Remove Item">
+				<i class="fa fa-trash"></i></button>
 		</td>
 	  </tr>
 	</tbody>

@@ -1,5 +1,5 @@
 <?php
-//ini_set('error_reporting', E_STRICT);
+ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -27,7 +27,7 @@ $action=$_GET['action'];
 		$resProd=mysql_query($selProd);
 		$rowProd = mysql_fetch_array($resProd,MYSQL_BOTH);
 		
-		$insStock="INSERT INTO `stock_master`(`product_type`, `prod_id`) VALUES ('Inward',".$rowProd['MAX(`prod_id`)'].")";
+		$insStock="INSERT INTO `stock_master`(`product_type`, `prod_id`, `stock_avail`) VALUES ('Inward',".$rowProd['MAX(`prod_id`)'].",'0')";
 		mysql_query($insStock);
 		if($resinsUser){			
 			$obj->status=true;
@@ -90,23 +90,25 @@ $action=$_GET['action'];
 		for($i=0;$i<count($data);$i++){
 			$insProd="INSERT INTO `purchase_master`(`lorry_id`, `supplier_id`, `prod_id`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",".$data[$i]->weightinkg.",'".$data[$i]->rate."','".$data[$i]->lorryfreight."','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."')";
 			$resinsProd=mysql_query($insProd);
-			$milliseconds = round(microtime(true) * 1000);
+			#$milliseconds = round(microtime(true) * 1000); - Returns System get time in PHP
 			$selProd="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data[$i]->productid;
 			$resProd=mysql_query($selProd);
 			$rowProd = mysql_fetch_array($resProd,MYSQL_BOTH);
 			$newstk=intval($rowProd['stock_avail'])+intval($data[$i]->weightinkg);
-			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$milliseconds."' where `prod_id`=".$data[$i]->productid;
+			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data[$i]->purchaseTm."' where `prod_id`=".$data[$i]->productid;
 			$resupdtStock=mysql_query($updtStock);
-			if($resinsProd){
+			$tmpCnt[$i]->resinsProd=$resinsProd;
+			if($resupdtStock){
 				$flag=true;
 			}
 		}
-		if($flag==true){			
+		$obj->resinsProd=$tmpCnt;
+		 if($flag==true){
 			$obj->status=true;
-		}
-		else{
-			$obj->status=false;
-		}
+		 }
+		 else{
+			 $obj->status=false;
+		 }
 		echo json_encode($obj);
 	}
 	
