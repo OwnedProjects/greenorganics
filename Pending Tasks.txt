@@ -1,1 +1,2 @@
-supplier: VAT No and Address. Same for Dealer
+1. Need to check whether entries are getting updated in Purchase Master.
+2. Change name from Purchase Master to Purchase Register and Re-Evaluate
