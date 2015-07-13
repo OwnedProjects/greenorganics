@@ -226,6 +226,8 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		
 		var tmpArr = {
 			"purchaseTm":dt.getTime(),
+			"purchaseMnt":(parseInt($("#purchaseDt").val().split('/')[1])-1),
+			"purchaseYr":(parseInt($("#purchaseDt").val().split('/')[2])),
 			"purchaseDt":$("#purchaseDt").val(),
 			"lorryid":$scope.lorryid,
 			"lorryno":$scope.lorrynumber,
@@ -242,6 +244,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		};
 		
 		$scope.purchaseData.push(tmpArr);
+		console.log($scope.purchaseData);
 		$scope.resetPurchaseForm()
 	};
 	
