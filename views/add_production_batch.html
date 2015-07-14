@@ -1,11 +1,47 @@
 <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="AddProductionBatchController">
 	<h3 class="text-primary">ADD PRODUCTION BATCH</h3>
 	<hr/>
-	<div class="col-md-8 col-sm-12 col-xs-12">
+	<div class="col-md-10 col-sm-12 col-xs-12">
 		<form ng-submit="addBatch();">
-			<input type="text" class="form-control" ng-model="batchNo" placeholder="Batch Number" autofocus required />
-			<div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
-			<button type="submit" class="btn btn-success">Save Details</button>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-12 col-xs-12">
+						<label class="text-info">Batch Number: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="batchNo" placeholder="Batch Number" autofocus required />
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-12 col-xs-12">
+						<label class="text-info">Production Date: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<input type="text" id="prodDate" class="form-control" placeholder="Production Date" required />
+							<span class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</span>
+						</div>						
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
+				<button type="submit" class="btn btn-success">Save Details</button>
+			</div>
 		</form>
 	</div>
 </div>
+<script type="text/javascript">
+$(function() {  
+    $('#prodDate').datetimepicker({
+		format: 'D/M/YYYY',
+		defaultDate: new Date(),
+		maxDate:new Date()
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>
