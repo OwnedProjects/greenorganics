@@ -38,6 +38,11 @@
 				<icon>fa-cart-plus</icon>
 				<link>#/purchase_inward_product</link>
 			</submenu>
+			<submenu>
+				<name>Purchase Bags</name>
+				<icon>fa-bitbucket</icon>
+				<link>#/purchase_inward_bags</link>
+			</submenu>
 		</submenu_module>
 	</menu>
 	<menu>
@@ -50,6 +55,11 @@
 				<name>Add Production Batch</name>
 				<icon>fa-cubes</icon>
 				<link>#/add_production_batch</link>
+			</submenu>
+			<submenu>
+				<name>Add Production Profile</name>
+				<icon>fa-cube</icon>
+				<link>#/add_production_profile</link>
 			</submenu>
 		</submenu_module>
 	</menu>

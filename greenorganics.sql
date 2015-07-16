@@ -1,20 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.11
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 12, 2015 at 05:34 AM
--- Server version: 5.6.21
--- PHP Version: 5.5.19
+-- Host: localhost
+-- Generation Time: Jul 16, 2015 at 11:36 AM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.3.13
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `greenorganics`
@@ -27,9 +27,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `inward_product_master` (
-  `prod_id` int(10) NOT NULL,
-  `prod_name` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+  `prod_id` int(10) NOT NULL AUTO_INCREMENT,
+  `prod_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`prod_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `inward_product_master`
@@ -40,7 +41,8 @@ INSERT INTO `inward_product_master` (`prod_id`, `prod_name`) VALUES
 (13, 'Organic Manure'),
 (14, 'Slaughter House Waste'),
 (15, 'Animal Waste Filler'),
-(16, 'Gypsum');
+(16, 'Gypsum'),
+(17, 'HDPE Bags');
 
 -- --------------------------------------------------------
 
@@ -49,9 +51,10 @@ INSERT INTO `inward_product_master` (`prod_id`, `prod_name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `lorry_register` (
-  `lorry_id` int(10) NOT NULL,
-  `lorry_number` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `lorry_id` int(10) NOT NULL AUTO_INCREMENT,
+  `lorry_number` varchar(20) NOT NULL,
+  PRIMARY KEY (`lorry_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `lorry_register`
@@ -65,20 +68,77 @@ INSERT INTO `lorry_register` (`lorry_id`, `lorry_number`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `purchase_master`
+-- Table structure for table `production_profile_master`
 --
 
-CREATE TABLE IF NOT EXISTS `purchase_master` (
-  `purchase_id` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `production_profile_master` (
+  `profile_id` int(10) NOT NULL AUTO_INCREMENT,
+  `filler_powder` varchar(10) DEFAULT NULL,
+  `organic_manure` varchar(10) DEFAULT NULL,
+  `shw` varchar(10) DEFAULT NULL,
+  `gypsum` varchar(10) DEFAULT NULL,
+  `awf` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`profile_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `production_profile_master`
+--
+
+INSERT INTO `production_profile_master` (`profile_id`, `filler_powder`, `organic_manure`, `shw`, `gypsum`, `awf`) VALUES
+(4, '5', '5', '5', '5', '5');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_bag_register`
+--
+
+CREATE TABLE IF NOT EXISTS `purchase_bag_register` (
+  `purchasebag_id` int(10) NOT NULL AUTO_INCREMENT,
   `lorry_id` int(10) NOT NULL,
   `supplier_id` int(10) NOT NULL,
   `prod_id` int(10) NOT NULL,
+  `number_bags` varchar(10) NOT NULL,
+  `billno` varchar(10) DEFAULT NULL,
+  `purchase_date` varchar(50) DEFAULT NULL,
+  `purchase_month` varchar(50) DEFAULT NULL,
+  `purchase_year` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`purchasebag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_register`
+--
+
+CREATE TABLE IF NOT EXISTS `purchase_register` (
+  `purchase_id` int(10) NOT NULL AUTO_INCREMENT,
+  `lorry_id` int(10) NOT NULL,
+  `supplier_id` int(10) NOT NULL,
+  `prod_id` int(10) NOT NULL,
+  `billno` varchar(50) NOT NULL,
   `weight` int(200) NOT NULL,
   `rate` varchar(100) NOT NULL,
   `lorryfreight` varchar(100) NOT NULL,
   `finalAmt` varchar(100) NOT NULL,
-  `purchase_date` varchar(50) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  `purchase_date` varchar(50) NOT NULL,
+  `purchase_month` varchar(10) DEFAULT NULL,
+  `purchase_year` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`purchase_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `purchase_register`
+--
+
+INSERT INTO `purchase_register` (`purchase_id`, `lorry_id`, `supplier_id`, `prod_id`, `billno`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES
+(11, 2, 4, 13, '', 1000, '5000', '-1000', '4000', '1435744414601', NULL, NULL),
+(12, 2, 3, 16, '', 2000, '6000', '0', '12000', '1436522235690', NULL, NULL),
+(13, 1, 4, 13, '', 5000, '10000', '0', '50000', '1431252321911', '4', '2015'),
+(14, 2, 2, 12, '', 6000, '5000', '0', '30000', '1433930741370', '5', '2015'),
+(15, 1, 2, 12, '123456', 1500, '5000', '0', '7500', '1436612875568', '6', '2015');
 
 -- --------------------------------------------------------
 
@@ -87,23 +147,25 @@ CREATE TABLE IF NOT EXISTS `purchase_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `stock_master` (
-  `stock_id` int(10) NOT NULL,
+  `stock_id` int(10) NOT NULL AUTO_INCREMENT,
   `product_type` varchar(100) NOT NULL,
   `prod_id` int(10) NOT NULL,
   `stock_avail` int(50) DEFAULT NULL,
-  `stock_date` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `stock_date` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`stock_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `stock_master`
 --
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
-(1, 'Inward', 12, 32500, '1436671471551'),
-(2, 'Inward', 13, 20000, '1436671126332'),
+(1, 'Inward', 12, 40000, '1436612875568'),
+(2, 'Inward', 13, 26000, '1431252321911'),
 (3, 'Inward', 14, 10000, '1436671049298'),
 (4, 'Inward', 15, 10000, '1436671315463'),
-(5, 'Inward', 16, 8000, '1435807606918');
+(5, 'Inward', 16, 10000, '1436522235690'),
+(6, 'Inward', 17, 2000, '1436268723416');
 
 -- --------------------------------------------------------
 
@@ -112,7 +174,7 @@ INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`
 --
 
 CREATE TABLE IF NOT EXISTS `supplier_master` (
-  `supplier_id` int(10) NOT NULL,
+  `supplier_id` int(10) NOT NULL AUTO_INCREMENT,
   `prod_id` int(10) NOT NULL,
   `supplier_name` varchar(100) NOT NULL,
   `supplier_contact` varchar(20) NOT NULL,
@@ -120,8 +182,9 @@ CREATE TABLE IF NOT EXISTS `supplier_master` (
   `supplier_address` varchar(500) NOT NULL,
   `supplier_city` varchar(100) NOT NULL,
   `vat_no` varchar(50) NOT NULL,
-  `supplier_status` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `supplier_status` varchar(20) NOT NULL,
+  PRIMARY KEY (`supplier_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `supplier_master`
@@ -132,7 +195,8 @@ INSERT INTO `supplier_master` (`supplier_id`, `prod_id`, `supplier_name`, `suppl
 (3, 16, 'Gypsum Mill', '9999999999', 'Mr. Patil', 'Nashik Main Road', 'Nashik', 'N123456', 'active'),
 (4, 13, 'Lucky Bone Mill', '8888888888', 'Mr. Baig', 'Aurangabad', 'Aurangabad', '12456', 'active'),
 (5, 14, 'KK', '123456', 'Wasim', 'NagarRoad', 'Pune', 'V123498765', 'active'),
-(6, 15, 'Animal Filler Firm', '123456789', 'Mr. Govind', 'Bombay', 'Bombay', 'V123456789', 'active');
+(6, 15, 'Animal Filler Firm', '123456789', 'Mr. Govind', 'Bombay', 'Bombay', 'V123456789', 'active'),
+(7, 17, 'AADI Plastic Ind. P. Ltd', '10741485', 'AADI', 'India', 'Pune', 'V187645', 'active');
 
 -- --------------------------------------------------------
 
@@ -142,7 +206,8 @@ INSERT INTO `supplier_master` (`supplier_id`, `prod_id`, `supplier_name`, `suppl
 
 CREATE TABLE IF NOT EXISTS `user_master` (
   `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL
+  `password` varchar(50) NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -152,75 +217,6 @@ CREATE TABLE IF NOT EXISTS `user_master` (
 INSERT INTO `user_master` (`username`, `password`) VALUES
 ('admin', 'admin');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `inward_product_master`
---
-ALTER TABLE `inward_product_master`
-  ADD PRIMARY KEY (`prod_id`);
-
---
--- Indexes for table `lorry_register`
---
-ALTER TABLE `lorry_register`
-  ADD PRIMARY KEY (`lorry_id`);
-
---
--- Indexes for table `purchase_master`
---
-ALTER TABLE `purchase_master`
-  ADD PRIMARY KEY (`purchase_id`);
-
---
--- Indexes for table `stock_master`
---
-ALTER TABLE `stock_master`
-  ADD PRIMARY KEY (`stock_id`);
-
---
--- Indexes for table `supplier_master`
---
-ALTER TABLE `supplier_master`
-  ADD PRIMARY KEY (`supplier_id`);
-
---
--- Indexes for table `user_master`
---
-ALTER TABLE `user_master`
-  ADD PRIMARY KEY (`username`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `inward_product_master`
---
-ALTER TABLE `inward_product_master`
-  MODIFY `prod_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
---
--- AUTO_INCREMENT for table `lorry_register`
---
-ALTER TABLE `lorry_register`
-  MODIFY `lorry_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `purchase_master`
---
-ALTER TABLE `purchase_master`
-  MODIFY `purchase_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT for table `stock_master`
---
-ALTER TABLE `stock_master`
-  MODIFY `stock_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `supplier_master`
---
-ALTER TABLE `supplier_master`
-  MODIFY `supplier_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

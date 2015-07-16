@@ -174,7 +174,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AllSuppliers',
+			url: 'php/inwardmaster.php?action=AllSuppliersNonBags',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -301,8 +301,170 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 			}
 			else{
 				$(".loadSpinner").hide();
-				$(".messageDisp").append('<strong class="text-danger">Error!!! Please contact system administrator.<br/><br/></strong>');
-				debugger;
+				$(".messageDisp").append('<strong class="text-danger">Error!!! Please contact system administrator.<br/><br/></strong>');				
+				setTimeout(function(){
+					$(".messageDisp strong").remove();
+				},3000);
+			}
+		});
+	};
+});
+
+greenorganics.controller("PurchaseBagsListController", function($scope, $http, $route){
+	$scope.lorryfrieghtcheck=false;
+	$(".loadSpinner").hide();
+	$scope.lorryfreight=0;
+	$scope.purchaseData = new Array();
+	$scope.searchLorryNumber = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$http({
+			method: 'POST',
+			url: 'php/lorrymaster.php?action=AllLorries',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.lorryData=result.data.lorries;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}
+		});
+	};
+	
+	$scope.searchSupplier = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=AllSuppliersOnlyBags',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.supplierData=result.data.Suppliers;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}
+		});
+	};
+	
+	$scope.selectLorry = function(lorry_id, lorry_no){
+		$scope.lorryid=lorry_id;
+		$scope.lorrynumber=lorry_no;
+		$('#lorrydetails').modal('hide');
+	};
+	
+	$scope.setSupplier = function(supplier_id, supplier_nm,prod_id, prod_name){
+		$scope.supplierid=supplier_id;
+		$scope.suppliernm=supplier_nm;
+		$scope.prodid=prod_id;
+		$scope.prodnm=prod_name;
+		$('#supplierdetails').modal('hide');
+	};
+		
+	$scope.addtogrid = function(){
+		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.totalbags==undefined){
+			alert('All field are compulsary.');
+			throw 'All field are compulsary.';
+		}
+		
+		var dt=new Date();
+		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
+		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
+		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));
+		
+		var tmpArr = {
+			"purchaseTm":dt.getTime(),
+			"purchaseMnt":(parseInt($("#purchaseDt").val().split('/')[1])-1),
+			"purchaseYr":(parseInt($("#purchaseDt").val().split('/')[2])),
+			"purchaseDt":$("#purchaseDt").val(),
+			"lorryid":$scope.lorryid,
+			"lorryno":$scope.lorrynumber,
+			"supplierid":$scope.supplierid,
+			"supplier_nm":$scope.suppliernm,			
+			"billno":$scope.billno,
+			"productid":$scope.prodid,
+			"product":$scope.prodnm,			
+			"totalbags":$scope.totalbags
+		};
+		
+		$scope.purchaseData.push(tmpArr);
+		$scope.addtodb();		
+	};
+	
+	$scope.resetPurchaseForm = function(){
+		$("#purchaseDt").val('');
+		$scope.lorryid='';
+		$scope.lorrynumber='';
+		$scope.supplierid='';
+		$scope.suppliernm='';
+		$scope.prodid='';
+		$scope.prodnm='';
+		$scope.billno='';
+		$scope.totalbags='';
+	};
+	
+	$scope.removeProductDetails = function(purchaseDt,lorryno,billno){
+		var index=null;
+		for(var i=0;i<$scope.purchaseData.length;i++){
+			if($scope.purchaseData[i].purchaseDt==purchaseDt && $scope.purchaseData[i].lorryno==lorryno && $scope.purchaseData[i].billno==billno){
+				index=i;
+				break;
+			}
+		}
+		console.log(index);
+		$scope.purchaseData.splice(index,1);
+	};
+	
+	$scope.reload = function(){
+		$route.reload();
+	};
+	
+	$scope.addtodb = function(){
+		$(".loadSpinner").show();
+		$http({
+			method: 'POST',
+			url: 'php/inwardmaster.php?action=AddPurchaseBagsToDB',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: $scope.purchaseData
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$(".loadSpinner").hide();
+				$(".messageDisp").append('<strong class="text-success">Inward Purchase Confirmed to Data Base.<br/><br/></strong>');
+				$scope.purchaseData.length=0;
+				setTimeout(function(){
+					$(".messageDisp strong").remove();
+					$scope.resetPurchaseForm();
+				},2000);
+			}
+			else{
+				$(".loadSpinner").hide();
+				$(".messageDisp").append('<strong class="text-danger">Error!!! Please contact system administrator.<br/><br/></strong>');				
 				setTimeout(function(){
 					$(".messageDisp strong").remove();
 				},3000);

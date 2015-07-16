@@ -88,7 +88,7 @@ $action=$_GET['action'];
 		$data = json_decode(file_get_contents("php://input"));
 		$flag=false;
 		for($i=0;$i<count($data);$i++){
-			$insProd="INSERT INTO `purchase_register`(`lorry_id`, `supplier_id`, `prod_id`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",".$data[$i]->weightinkg.",'".$data[$i]->rate."','".$data[$i]->lorryfreight."','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
+			$insProd="INSERT INTO `purchase_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",'".$data[$i]->billno."',".$data[$i]->weightinkg.",'".$data[$i]->rate."','".$data[$i]->lorryfreight."','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
 			$resinsProd=mysql_query($insProd);
 			#$milliseconds = round(microtime(true) * 1000); - Returns System get time in PHP
 			$selProd="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data[$i]->productid;
@@ -110,11 +110,93 @@ $action=$_GET['action'];
 			 $obj->status=false;
 		 }
 		echo json_encode($obj);
+	}	
+	
+	if($action=='AddPurchaseBagsToDB'){
+		$data = json_decode(file_get_contents("php://input"));
+		$flag=false;
+		for($i=0;$i<count($data);$i++){
+			$insProd="INSERT INTO `purchase_bag_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `totalbags`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",'".$data[$i]->billno."','".$data[$i]->totalbags."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
+			$resinsProd=mysql_query($insProd);
+			#$milliseconds = round(microtime(true) * 1000); - Returns System get time in PHP
+			$selProd="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data[$i]->productid;
+			$resProd=mysql_query($selProd);
+			$rowProd = mysql_fetch_array($resProd,MYSQL_BOTH);
+			$newstk=intval($rowProd['stock_avail'])+intval($data[$i]->totalbags);
+			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data[$i]->purchaseTm."' where `prod_id`=".$data[$i]->productid;
+			$resupdtStock=mysql_query($updtStock);
+			$tmpCnt[$i]->resinsProd=$resinsProd;
+			if($resupdtStock){
+				$flag=true;
+			}
+		}
+		$obj->resinsProd=$tmpCnt;
+		 if($flag==true){
+			$obj->status=true;
+		 }
+		 else{
+			 $obj->status=false;
+		 }
+		echo json_encode($obj);
 	}
 	
 	/* Supplier Details */
 	if($action=='AllSuppliers'){
 		$selSupplier="SELECT * FROM `supplier_master`,`inward_product_master` WHERE supplier_master.prod_id=inward_product_master.prod_id and supplier_master.supplier_status='active'";
+		$resSupplier=mysql_query($selSupplier);
+		$count = mysql_num_rows($resSupplier);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resSupplier )) {
+				$tmpRes[$cnt]->supplier_id=$row['supplier_id'];
+				$tmpRes[$cnt]->supplier_nm=$row['supplier_name'];
+				$tmpRes[$cnt]->supplier_contact=$row['supplier_contact'];
+				$tmpRes[$cnt]->supplier_contact_person=$row['supplier_contact_person'];
+				$tmpRes[$cnt]->supplier_address=$row['supplier_address'];
+				$tmpRes[$cnt]->supplier_vatno=$row['vat_no'];
+				$tmpRes[$cnt]->supplier_city=$row['supplier_city'];
+				$tmpRes[$cnt]->prod_id=$row['prod_id'];
+				$tmpRes[$cnt]->prod_name=$row['prod_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->Suppliers=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='AllSuppliersNonBags'){
+		$selSupplier="SELECT * FROM `supplier_master`,`inward_product_master` WHERE supplier_master.prod_id=inward_product_master.prod_id and supplier_master.supplier_status='active' and NOT inward_product_master.prod_name='HDPE Bags'";
+		$resSupplier=mysql_query($selSupplier);
+		$count = mysql_num_rows($resSupplier);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resSupplier )) {
+				$tmpRes[$cnt]->supplier_id=$row['supplier_id'];
+				$tmpRes[$cnt]->supplier_nm=$row['supplier_name'];
+				$tmpRes[$cnt]->supplier_contact=$row['supplier_contact'];
+				$tmpRes[$cnt]->supplier_contact_person=$row['supplier_contact_person'];
+				$tmpRes[$cnt]->supplier_address=$row['supplier_address'];
+				$tmpRes[$cnt]->supplier_vatno=$row['vat_no'];
+				$tmpRes[$cnt]->supplier_city=$row['supplier_city'];
+				$tmpRes[$cnt]->prod_id=$row['prod_id'];
+				$tmpRes[$cnt]->prod_name=$row['prod_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->Suppliers=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='AllSuppliersOnlyBags'){
+		$selSupplier="SELECT * FROM `supplier_master`,`inward_product_master` WHERE supplier_master.prod_id=inward_product_master.prod_id and supplier_master.supplier_status='active' and inward_product_master.prod_name='HDPE Bags'";
 		$resSupplier=mysql_query($selSupplier);
 		$count = mysql_num_rows($resSupplier);
 		if($count>0){

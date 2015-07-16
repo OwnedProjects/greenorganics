@@ -1,0 +1,110 @@
+<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="AddProductionProfileController">
+	<h3 class="text-primary">ADD PRODUCTION PROFILE</h3>
+	<hr/>
+	<div class="col-md-10 col-sm-12 col-xs-12">
+		<form ng-submit="addProfile();">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Filler Powder: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="fillerpowder" placeholder="Filler Powder" required />
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Organic Manure: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="organicmanure" placeholder="Organic Manure" required />
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Slaughter House Waste: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="slaughterhouse" placeholder="Slaughter House Waste" required />
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Gypsum: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="gypsum" placeholder="Gypsum" required />
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Animal Waste Filler: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="awf" placeholder="Animal Waste Filler" required />
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delprofile" ng-click="getProfiles();"><i class="fa fa-outdent"></i> List Profiles</button>
+			</div>
+		</form>
+	</div>
+	
+<!-- Set Profile Modal -->
+<div class="modal fade" id="delprofile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">PRE-DEFINED PROFILES</h4>
+      </div>
+      <div class="modal-body">
+		<table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Filler Powder</th>
+				<th>Organic Manure</th>
+				<th>Slaughter House Waste</th>
+				<th>Gypsum</th>
+				<th>Animal Waste Filler</th>
+				<th>Select</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in profileData" class="fullData">		
+				<td>{{data.fillerpowder}}</td>
+				<td>{{data.organicmanure}}</td>
+				<td>{{data.slaughterhouse}}</td>
+				<td>{{data.gypsum}}</td>
+				<td>{{data.awf}}</td>
+				<td>			
+					<button type="button" class="btn btn-sm btn-danger" ng-click="deleteProfile(data.profile_id);">
+						<i class="fa fa-trash"></i></button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	  </div>
+    </div>
+	</form>
+  </div>
+</div>
+</div>

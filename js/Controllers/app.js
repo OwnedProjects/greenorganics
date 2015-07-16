@@ -24,6 +24,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/purchase_inward_product', {
         templateUrl: 'views/purchase_inward_product.html'
       }).
+      when('/purchase_inward_bags', {
+        templateUrl: 'views/purchase_inward_bags.html'
+      }).
       when('/stock_list', {
         templateUrl: 'views/stock_list.html'
       }).
@@ -44,6 +47,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       }).
       when('/add_production_batch', {
         templateUrl: 'views/add_production_batch.html'
+      }).
+      when('/add_production_profile', {
+        templateUrl: 'views/add_production_profile.html'
       }).
       otherwise({
         redirectTo: '/dashboard'

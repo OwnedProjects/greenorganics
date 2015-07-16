@@ -5,7 +5,7 @@
 		<form ng-submit="addBatch();">
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-12 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Batch Number: </label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
@@ -14,7 +14,7 @@
 				</div>
 				
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-12 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Production Date: </label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
@@ -23,17 +23,125 @@
 							<span class="input-group-addon">
 								<span class="fa fa-calendar"></span>
 							</span>
-						</div>						
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Filler Powder: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="fillerpowder" placeholder="Filler Powder" required ng-disabled="profileFlag"/>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Organic Manure: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="organicmanure" placeholder="Organic Manure" required ng-disabled="profileFlag"/>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Slaughter House Waste: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="slaughterhouse" placeholder="Slaughter House Waste" required ng-disabled="profileFlag"/>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Gypsum: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="gypsum" placeholder="Gypsum" required ng-disabled="profileFlag"/>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Animal Waste Filler: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="awf" placeholder="Animal Waste Filler" required ng-disabled="profileFlag"/>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Bags Used: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="bags" placeholder="Bags Used" required />
 					</div>
 				</div>
 			</div>
 			
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
-				<button type="submit" class="btn btn-success">Save Details</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#setprofile" ng-click="getProfiles();"><i class="fa fa-outdent"></i> Set Profile</button>
 			</div>
 		</form>
 	</div>
+
+
+<!-- Set Profile Modal -->
+<div class="modal fade" id="setprofile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">SET PRE-DEFINED PROFILE</h4>
+      </div>
+      <div class="modal-body">
+		<table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Filler Powder</th>
+				<th>Organic Manure</th>
+				<th>Slaughter House Waste</th>
+				<th>Gypsum</th>
+				<th>Animal Waste Filler</th>
+				<th>Select</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in profileData" class="fullData">		
+				<td>{{data.fillerpowder}}</td>
+				<td>{{data.organicmanure}}</td>
+				<td>{{data.slaughterhouse}}</td>
+				<td>{{data.gypsum}}</td>
+				<td>{{data.awf}}</td>
+				<td>			
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setprofileDetails(data.fillerpowder, data.organicmanure,data.slaughterhouse,data.gypsum,data.awf);">
+						<i class="fa fa-outdent"></i> SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	  </div>
+    </div>
+	</form>
+  </div>
+</div>
 </div>
 <script type="text/javascript">
 $(function() {  
