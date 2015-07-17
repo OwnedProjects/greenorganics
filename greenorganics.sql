@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 16, 2015 at 11:36 AM
+-- Generation Time: Jul 17, 2015 at 08:35 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -64,6 +64,37 @@ INSERT INTO `lorry_register` (`lorry_id`, `lorry_number`) VALUES
 (1, 'MH 20/BT 4890'),
 (2, 'MH 20/AA 8682\n'),
 (6, 'MH 12/LL 2803');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `production_batch_register`
+--
+
+CREATE TABLE IF NOT EXISTS `production_batch_register` (
+  `production_id` int(10) NOT NULL AUTO_INCREMENT,
+  `batch_no` varchar(50) NOT NULL,
+  `product_produced` varchar(20) DEFAULT NULL,
+  `product_remained` varchar(30) DEFAULT NULL,
+  `filler_powder` varchar(10) DEFAULT NULL,
+  `organic_manure` varchar(10) DEFAULT NULL,
+  `shw` varchar(10) DEFAULT NULL,
+  `gypsum` varchar(10) DEFAULT NULL,
+  `awf` varchar(10) DEFAULT NULL,
+  `bags_used` varchar(10) DEFAULT NULL,
+  `production_date` varchar(20) DEFAULT NULL,
+  `production_month` varchar(10) DEFAULT NULL,
+  `production_year` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`production_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `production_batch_register`
+--
+
+INSERT INTO `production_batch_register` (`production_id`, `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `gypsum`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES
+(1, '1', '10000', '10000', '10', '6', '5', '5', '5', '500', '1436252434728', '6', '2015'),
+(2, '1', '10000', NULL, '30', '15', '5', '5', '5', '2000', '1436511828739', '6', '2015');
 
 -- --------------------------------------------------------
 
@@ -160,12 +191,12 @@ CREATE TABLE IF NOT EXISTS `stock_master` (
 --
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
-(1, 'Inward', 12, 40000, '1436612875568'),
-(2, 'Inward', 13, 26000, '1431252321911'),
-(3, 'Inward', 14, 10000, '1436671049298'),
-(4, 'Inward', 15, 10000, '1436671315463'),
-(5, 'Inward', 16, 10000, '1436522235690'),
-(6, 'Inward', 17, 2000, '1436268723416');
+(1, 'Inward', 12, 0, '1436511828739'),
+(2, 'Inward', 13, 5000, '1436511828739'),
+(3, 'Inward', 14, 0, '1436511828739'),
+(4, 'Inward', 15, 0, '1436511828739'),
+(5, 'Inward', 16, 0, '1436511828739'),
+(6, 'Inward', 17, 0, '1436511828739');
 
 -- --------------------------------------------------------
 
