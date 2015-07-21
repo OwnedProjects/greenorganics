@@ -3,7 +3,28 @@
 	<hr/>
 	<div class="col-md-10 col-sm-12 col-xs-12">
 		<form ng-submit="addProfile();">
+			<div class="row">			
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Raw Organic Manure: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="organicmanure" placeholder="ROM" required />
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Slaughter House Waste: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="slaughterhouse" placeholder="SHW" required />
+					</div>
+				</div>
+			</div>
+			<br/>
 			<div class="row">
+				
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Filler Powder: </label>
@@ -15,44 +36,14 @@
 				
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Organic Manure: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="organicmanure" placeholder="Organic Manure" required />
-					</div>
-				</div>
-			</div>
-			<br/>
-			<div class="row">
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Slaughter House Waste: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="slaughterhouse" placeholder="Slaughter House Waste" required />
-					</div>
-				</div>
-				
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Gypsum: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="gypsum" placeholder="Gypsum" required />
-					</div>
-				</div>
-			</div>
-			<br/>
-			<div class="row">
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Animal Waste Filler: </label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="awf" placeholder="Animal Waste Filler" required />
+						<input type="text" class="form-control" ng-model="awf" placeholder="AWF" required />
 					</div>
 				</div>
 			</div>
+			<br/>
 			
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>

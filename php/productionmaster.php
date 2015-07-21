@@ -1,11 +1,11 @@
 <?php
-//ini_set('error_reporting', E_STRICT);
+ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
 	if($action=='AddProductionProfile'){
 		$data = json_decode(file_get_contents("php://input"));
-		$addProf="INSERT INTO `production_profile_master`(`filler_powder`, `organic_manure`, `shw`, `gypsum`, `awf`) VALUES ('".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->gypsum."','".$data->awf."')";
+		$addProf="INSERT INTO `production_profile_master`(`filler_powder`, `organic_manure`, `shw`, `awf`) VALUES ('".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->awf."')";
 		$resProf=mysql_query($addProf);		
 		if($resProf){
 			$obj->status=true;			
@@ -18,9 +18,7 @@ $action=$_GET['action'];
 	
 	if($action=='AddProductionBatch'){
 		$data = json_decode(file_get_contents("php://input"));
-		//echo "fillerpowder".$data->fillerpowder." organicmanure".$data->organicmanure." slaughterhouse".$data->slaughterhouse." gypsum".$data->gypsum." awf".$data->awf." bags".$data->bags." idfillerpowder".$data->idfillerpowder." idorganicmanure".$data->idorganicmanure." idslaughterhouse".$data->idslaughterhouse." idgypsum".$data->idgypsum." idawf".$data->idawf." idbags".$data->idbags." production_date".$data->production_date." production_mnt".$data->production_mnt." production_yr".$data->production_yr." batchno".$data->batchno;
-		//exit;
-		$addProd="INSERT INTO `production_batch_register`( `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `gypsum`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES ('".$data->batchno."','10000','10000','".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->gypsum."','".$data->awf."','".$data->bags."','".$data->production_date."','".$data->production_mnt."','".$data->production_yr."')";
+		$addProd="INSERT INTO `production_batch_register`( `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES ('".$data->batchno."','10000','10000','".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->awf."','".$data->bags."','".$data->production_date."','".$data->production_mnt."','".$data->production_yr."')";
 		$resProd=mysql_query($addProd);	
 			
 			/* Update Stock for filler_powder */
@@ -46,14 +44,6 @@ $action=$_GET['action'];
 			$newshwstk=intval($rowshwpow['stock_avail'])-(intval($data->slaughterhouse)*1000);
 			$updshwStock="UPDATE `stock_master` SET `stock_avail`=".$newshwstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idslaughterhouse;
 			mysql_query($updshwStock);
-			
-			/* Update Stock for gypsum */
-			$selgyppow="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data->idgypsum;
-			$resgyppow=mysql_query($selgyppow);
-			$rowgyppow = mysql_fetch_array($resgyppow,MYSQL_BOTH);
-			$newgypstk=intval($rowgyppow['stock_avail'])-(intval($data->gypsum)*1000);
-			$updgypStock="UPDATE `stock_master` SET `stock_avail`=".$newgypstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idgypsum;
-			mysql_query($updgypStock);
 			
 			/* Update Stock for awf */
 			$selawfpow="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data->idawf;
@@ -109,7 +99,6 @@ $action=$_GET['action'];
 				$tmpRes[$cnt]->fillerpowder=$row['filler_powder'];
 				$tmpRes[$cnt]->organicmanure=$row['organic_manure'];
 				$tmpRes[$cnt]->slaughterhouse=$row['shw'];
-				$tmpRes[$cnt]->gypsum=$row['gypsum'];
 				$tmpRes[$cnt]->awf=$row['awf'];
 				$cnt++;
 			}

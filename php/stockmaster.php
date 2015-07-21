@@ -1,10 +1,10 @@
 <?php
-//ini_set('error_reporting', E_STRICT);
+ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
 	if($action=='fetchStockDetails'){
-		$selStock="SELECT * FROM `stock_master`, `inward_product_master` WHERE stock_master.prod_id=inward_product_master.prod_id AND NOT stock_master.stock_avail='NULL'";
+		$selStock="SELECT * FROM `stock_master`, `inward_product_master` WHERE stock_master.prod_id=inward_product_master.prod_id ";
 		$resStock=mysql_query($selStock);
 		$count = mysql_num_rows($resStock);
 		if($count>0){

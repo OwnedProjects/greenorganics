@@ -29,11 +29,10 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 		});
 	};
 	
-	$scope.setprofileDetails = function(fillerpowder,organicmanure,slaughterhouse,gypsum,awf){
+	$scope.setprofileDetails = function(fillerpowder,organicmanure,slaughterhouse,awf){
 		$scope.fillerpowder=fillerpowder;
 		$scope.organicmanure=organicmanure;
 		$scope.slaughterhouse=slaughterhouse;
-		$scope.gypsum=gypsum;
 		$scope.awf=awf;
 		$('#setprofile').modal('hide');
 		$scope.profileFlag=true;
@@ -54,22 +53,25 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 				$scope.stkorganicmanure=result.data.Stocks[1].stock_avail/1000;
 				$scope.stkslaughterhouse=result.data.Stocks[2].stock_avail/1000;
 				$scope.stkawf=result.data.Stocks[3].stock_avail/1000;
-				$scope.stkgypsum=result.data.Stocks[4].stock_avail/1000;
-				$scope.stkbags=result.data.Stocks[5].stock_avail;
+				$scope.stkbags=result.data.Stocks[4].stock_avail;
 				
 				$scope.stkfillerpowderid=result.data.Stocks[0].prod_id;
 				$scope.stkorganicmanureid=result.data.Stocks[1].prod_id;
 				$scope.stkslaughterhouseid=result.data.Stocks[2].prod_id;
 				$scope.stkawfid=result.data.Stocks[3].prod_id;
-				$scope.stkgypsumid=result.data.Stocks[4].prod_id;
-				$scope.stkbagsid=result.data.Stocks[5].prod_id;
+				$scope.stkbagsid=result.data.Stocks[4].prod_id;
 			}
 		});
 	};
 	$scope.FetchDetailedStock();
 	
+	$scope.$watch('fillerpowder + awf+ slaughterhouse+ organicmanure', function() {
+		$scope.totValProd = parseFloat($scope.fillerpowder) + parseFloat($scope.awf)+ parseFloat($scope.slaughterhouse) + parseFloat($scope.organicmanure);
+		console.log($scope.totValProd);
+	});
+	
 	$scope.addBatch = function(){
-		if($scope.fillerpowder>$scope.stkfillerpowder || $scope.organicmanure>$scope.stkorganicmanure || $scope.slaughterhouse>$scope.stkslaughterhouse || $scope.awf > $scope.stkawf || $scope.gypsum>$scope.stkgypsum || parseInt($scope.bags) > parseInt($scope.stkbags)){
+		if($scope.fillerpowder>$scope.stkfillerpowder || $scope.organicmanure>$scope.stkorganicmanure || $scope.slaughterhouse>$scope.stkslaughterhouse || $scope.awf > $scope.stkawf  || parseInt($scope.bags) > parseInt($scope.stkbags)){
 			alert('Please check you entries, Production values cannot be more than stock available.');
 			throw 'Please check you entries, Production values cannot be more than stock available.';
 		}
@@ -83,13 +85,11 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 			"fillerpowder":$scope.fillerpowder,
 			"organicmanure":$scope.organicmanure,
 			"slaughterhouse":$scope.slaughterhouse,
-			"gypsum":$scope.gypsum,
 			"awf":$scope.awf,
 			"bags":$scope.bags,
 			"idfillerpowder":$scope.stkfillerpowderid,
 			"idorganicmanure":$scope.stkorganicmanureid,
 			"idslaughterhouse":$scope.stkslaughterhouseid,
-			"idgypsum":$scope.stkgypsumid,
 			"idawf":$scope.stkawfid,
 			"idbags":$scope.stkbagsid,
 			"production_date":dt.getTime(),
@@ -132,7 +132,6 @@ greenorganics.controller("AddProductionProfileController", function($scope, $htt
 			"fillerpowder":$scope.fillerpowder,
 			"organicmanure":$scope.organicmanure,
 			"slaughterhouse":$scope.slaughterhouse,
-			"gypsum":$scope.gypsum,
 			"awf":$scope.awf
 		};
 		$(".waitspinner").show();
