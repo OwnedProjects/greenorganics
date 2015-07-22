@@ -147,7 +147,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/lorrymaster.php?action=AllLorries',
+			url: 'php/master.php?action=AllLorries',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -321,7 +321,7 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/lorrymaster.php?action=AllLorries',
+			url: 'php/master.php?action=AllLorries',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {

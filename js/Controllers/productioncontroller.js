@@ -41,7 +41,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 	$scope.FetchDetailedStock = function(){
 		$http({
 			method: 'POST',
-			url: 'php/stockmaster.php?action=FetchDetailedStockForProduction',
+			url: 'php/master.php?action=FetchDetailedStockForProduction',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
