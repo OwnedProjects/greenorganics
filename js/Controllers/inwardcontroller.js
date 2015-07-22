@@ -7,7 +7,7 @@ greenorganics.controller("AddInwardController", function($scope, $http, $route){
 		$(".waitspinner").show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=insertinwardproductdetails',
+			url: 'php/master.php?action=insertinwardproductdetails',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:prodObj
 		}).
@@ -40,7 +40,7 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 		$(".fullData").hide();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=allproductdetails',
+			url: 'php/master.php?action=allproductdetails',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -74,7 +74,7 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 		};
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=saveEdittedProductDetails',
+			url: 'php/master.php?action=saveEdittedProductDetails',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:prodObj
 		}).
@@ -104,7 +104,7 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 		};
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=deleteproduct',
+			url: 'php/master.php?action=deleteproduct',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:prodObj
 		}).
@@ -174,7 +174,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AllSuppliersNonBags',
+			url: 'php/master.php?action=AllSuppliersNonBags',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -283,7 +283,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$(".loadSpinner").show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AddPurchaseDetailsToDB',
+			url: 'php/master.php?action=AddPurchaseDetailsToDB',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: $scope.purchaseData
 		}).
@@ -348,7 +348,7 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AllSuppliersOnlyBags',
+			url: 'php/master.php?action=AllSuppliersOnlyBags',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -445,7 +445,7 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 		$(".loadSpinner").show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AddPurchaseBagsToDB',
+			url: 'php/master.php?action=AddPurchaseBagsToDB',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: $scope.purchaseData
 		}).
@@ -478,7 +478,7 @@ greenorganics.controller("AddSupplierController", function($scope, $http, $route
 	$scope.fillproducts = function(){
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=allproductdetails',
+			url: 'php/master.php?action=allproductdetails',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: $scope.purchaseData
 		}).
@@ -516,7 +516,7 @@ greenorganics.controller("AddSupplierController", function($scope, $http, $route
 		$(".loadSpinner").show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AddSupplierToDB',
+			url: 'php/master.php?action=AddSupplierToDB',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: tmpSupplier
 		}).
@@ -552,7 +552,7 @@ greenorganics.controller("SupplierListController", function($scope, $http, $rout
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AllSuppliers',
+			url: 'php/master.php?action=AllSuppliers',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -589,7 +589,7 @@ greenorganics.controller("SupplierListController", function($scope, $http, $rout
 		$scope.prod=true;
 		$http({
 		method: 'POST',
-		url: 'php/inwardmaster.php?action=fetchSpecificSupplierDetails',
+		url: 'php/master.php?action=fetchSpecificSupplierDetails',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		data:$scope.suppid
 		}).
@@ -615,7 +615,7 @@ greenorganics.controller("SupplierListController", function($scope, $http, $rout
 	$scope.deactivatesupplier = function(){
 		$http({
 		method: 'POST',
-		url: 'php/inwardmaster.php?action=deactivatesupplier',
+		url: 'php/master.php?action=deactivatesupplier',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		data:$scope.suppid
 		}).
@@ -648,7 +648,7 @@ greenorganics.controller("DeactiveSupplierListController", function($scope, $htt
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=AllDeactiveSuppliers',
+			url: 'php/master.php?action=AllDeactiveSuppliers',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -673,7 +673,7 @@ greenorganics.controller("DeactiveSupplierListController", function($scope, $htt
 	$scope.activatesuppliers = function(suppid){		
 		$http({
 			method: 'POST',
-			url: 'php/inwardmaster.php?action=activatesuppliers',
+			url: 'php/master.php?action=activatesuppliers',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:suppid
 		}).

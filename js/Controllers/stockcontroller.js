@@ -5,7 +5,7 @@ greenorganics.controller("StockListController", function($scope, $http, $route){
 		$(".fullData").hide();
 		$http({
 			method: 'POST',
-			url: 'php/stockmaster.php?action=fetchStockDetails',
+			url: 'php/master.php?action=fetchStockDetails',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {

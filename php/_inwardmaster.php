@@ -110,7 +110,7 @@ $action=$_GET['action'];
 			 $obj->status=false;
 		 }
 		echo json_encode($obj);
-	}	
+	}
 	
 	if($action=='AddPurchaseBagsToDB'){
 		$data = json_decode(file_get_contents("php://input"));
@@ -222,7 +222,6 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 	
-	
 	if($action=='AddSupplierToDB'){
 		$data = json_decode(file_get_contents("php://input"));
 		$addSupplier="INSERT INTO `supplier_master`( `prod_id`, `supplier_name`, `supplier_contact`, `supplier_contact_person`, `supplier_address`, `supplier_city`, `vat_no`, `supplier_status`) VALUES (".$data->prodid.",'".$data->suppliernm."','".$data->suppliercontact."','".$data->contactperson."','".$data->address."','".$data->suppliercity."','".$data->vatno."','active')";
@@ -285,7 +284,7 @@ $action=$_GET['action'];
 		}
 		echo json_encode($obj);
 	}
-		
+
 	if($action=='AllDeactiveSuppliers'){
 		$selSupplier="SELECT * FROM `supplier_master`,`inward_product_master` WHERE supplier_master.prod_id=inward_product_master.prod_id and supplier_master.supplier_status='deactive'";
 		$resSupplier=mysql_query($selSupplier);
