@@ -31,7 +31,7 @@
 			<div class="row">								
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Raw Organic Manure: <span class="text-warning"> [{{stkorganicmanure}}]</span></label>
+						<label class="text-info">Raw Organic Manure: <span class="text-warning"> [{{stkorganicmanure | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="text" class="form-control" ng-model="organicmanure" placeholder="ROM" required ng-disabled="profileFlag"/>
@@ -40,7 +40,7 @@
 				
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Slaughter House Waste: <span class="text-warning"> [{{stkslaughterhouse}}]</span></label>
+						<label class="text-info">Slaughter House Waste: <span class="text-warning"> [{{stkslaughterhouse | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="text" class="form-control" ng-model="slaughterhouse" placeholder="SHW" required ng-disabled="profileFlag"/>
@@ -53,7 +53,7 @@
 				
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Filler Powder: <span class="text-warning"> [{{stkfillerpowder}}]</span></label>
+						<label class="text-info">Filler Powder: <span class="text-warning"> [{{stkfillerpowder | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="text" class="form-control" ng-model="fillerpowder" placeholder="Filler Powder" required ng-disabled="profileFlag"/>
@@ -62,7 +62,7 @@
 				
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Animal Waste Filler: <span class="text-warning"> [{{stkawf}}]</span></label>
+						<label class="text-info">Animal Waste Filler: <span class="text-warning"> [{{stkawf | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="text" class="form-control" ng-model="awf" placeholder="AWF" required ng-disabled="profileFlag"/>

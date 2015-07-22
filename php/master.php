@@ -1,5 +1,5 @@
 <?php
-//ini_set('error_reporting', E_STRICT);
+ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -110,7 +110,7 @@ $action=$_GET['action'];
 			$selProd="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data[$i]->productid;
 			$resProd=mysql_query($selProd);
 			$rowProd = mysql_fetch_array($resProd,MYSQL_BOTH);
-			$newstk=intval($rowProd['stock_avail'])+intval($data[$i]->weightinkg);
+			$newstk=floatval($rowProd['stock_avail'])+floatval($data[$i]->weightinkg);
 			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data[$i]->purchaseTm."' where `prod_id`=".$data[$i]->productid;
 			$resupdtStock=mysql_query($updtStock);
 			$tmpCnt[$i]->resinsProd=$resinsProd;
@@ -138,7 +138,7 @@ $action=$_GET['action'];
 			$selProd="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data[$i]->productid;
 			$resProd=mysql_query($selProd);
 			$rowProd = mysql_fetch_array($resProd,MYSQL_BOTH);
-			$newstk=intval($rowProd['stock_avail'])+intval($data[$i]->totalbags);
+			$newstk=floatval($rowProd['stock_avail'])+floatval($data[$i]->totalbags);
 			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data[$i]->purchaseTm."' where `prod_id`=".$data[$i]->productid;
 			$resupdtStock=mysql_query($updtStock);
 			$tmpCnt[$i]->resinsProd=$resinsProd;
@@ -396,7 +396,7 @@ $action=$_GET['action'];
 			$selfillerpow="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data->idfillerpowder;
 			$resfillerpow=mysql_query($selfillerpow);
 			$rowfillerpow = mysql_fetch_array($resfillerpow,MYSQL_BOTH);
-			$newfstk=intval($rowfillerpow['stock_avail'])-(intval($data->fillerpowder)*1000);
+			$newfstk=floatval($rowfillerpow['stock_avail'])-(floatval($data->fillerpowder)*1000);
 			$updfStock="UPDATE `stock_master` SET `stock_avail`=".$newfstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idfillerpowder;
 			mysql_query($updfStock);
 			
@@ -404,7 +404,7 @@ $action=$_GET['action'];
 			$selorgpow="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data->idorganicmanure;
 			$resorgpow=mysql_query($selorgpow);
 			$roworgpow = mysql_fetch_array($resorgpow,MYSQL_BOTH);
-			$neworgstk=intval($roworgpow['stock_avail'])-(intval($data->organicmanure)*1000);
+			$neworgstk=floatval($roworgpow['stock_avail'])-(floatval($data->organicmanure)*1000);
 			$updorgStock="UPDATE `stock_master` SET `stock_avail`=".$neworgstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idorganicmanure;
 			mysql_query($updorgStock);
 			
@@ -412,7 +412,7 @@ $action=$_GET['action'];
 			$selshwpow="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data->idslaughterhouse;
 			$resshwpow=mysql_query($selshwpow);
 			$rowshwpow = mysql_fetch_array($resshwpow,MYSQL_BOTH);
-			$newshwstk=intval($rowshwpow['stock_avail'])-(intval($data->slaughterhouse)*1000);
+			$newshwstk=floatval($rowshwpow['stock_avail'])-(floatval($data->slaughterhouse)*1000);
 			$updshwStock="UPDATE `stock_master` SET `stock_avail`=".$newshwstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idslaughterhouse;
 			mysql_query($updshwStock);
 			
@@ -420,7 +420,7 @@ $action=$_GET['action'];
 			$selawfpow="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data->idawf;
 			$resawfpow=mysql_query($selawfpow);
 			$rowawfpow = mysql_fetch_array($resawfpow,MYSQL_BOTH);
-			$newawfstk=intval($rowawfpow['stock_avail'])-(intval($data->awf)*1000);
+			$newawfstk=floatval($rowawfpow['stock_avail'])-(floatval($data->awf)*1000);
 			$updawfStock="UPDATE `stock_master` SET `stock_avail`=".$newawfstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idawf;
 			mysql_query($updawfStock);
 			
@@ -428,7 +428,7 @@ $action=$_GET['action'];
 			$selbagpow="SELECT `stock_avail` FROM `stock_master` where `prod_id`=".$data->idbags;
 			$resbagpow=mysql_query($selbagpow);
 			$rowbagpow = mysql_fetch_array($resbagpow,MYSQL_BOTH);
-			$newbagstk=intval($rowbagpow['stock_avail'])-intval($data->bags);
+			$newbagstk=floatval($rowbagpow['stock_avail'])-floatval($data->bags);
 			$updbagStock="UPDATE `stock_master` SET `stock_avail`=".$newbagstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idbags;
 			mysql_query($updbagStock);
 
