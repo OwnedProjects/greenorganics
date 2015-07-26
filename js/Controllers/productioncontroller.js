@@ -8,7 +8,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 		$(".loadData").show();
 		$http({
 			method: 'POST',
-			url: 'php/productionmaster.php?action=GetProfiles',
+			url: 'php/master.php?action=GetProfiles',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -41,7 +41,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 	$scope.FetchDetailedStock = function(){
 		$http({
 			method: 'POST',
-			url: 'php/stockmaster.php?action=FetchDetailedStockForProduction',
+			url: 'php/master.php?action=FetchDetailedStockForProduction',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -99,7 +99,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 		$(".waitspinner").show();
 		$http({
 			method: 'POST',
-			url: 'php/productionmaster.php?action=AddProductionBatch',
+			url: 'php/master.php?action=AddProductionBatch',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:prodObj
 		}).
@@ -137,7 +137,7 @@ greenorganics.controller("AddProductionProfileController", function($scope, $htt
 		$(".waitspinner").show();
 		$http({
 			method: 'POST',
-			url: 'php/productionmaster.php?action=AddProductionProfile',
+			url: 'php/master.php?action=AddProductionProfile',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:prodObj
 		}).
@@ -168,7 +168,7 @@ greenorganics.controller("AddProductionProfileController", function($scope, $htt
 		$(".loadData").show();
 		$http({
 			method: 'POST',
-			url: 'php/productionmaster.php?action=GetProfiles',
+			url: 'php/master.php?action=GetProfiles',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -197,7 +197,7 @@ greenorganics.controller("AddProductionProfileController", function($scope, $htt
 		$(".waitspinner").show();
 		$http({
 			method: 'POST',
-			url: 'php/productionmaster.php?action=DeleteProfile',
+			url: 'php/master.php?action=DeleteProfile',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:prodObj
 		}).

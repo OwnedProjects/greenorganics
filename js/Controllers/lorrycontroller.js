@@ -9,7 +9,7 @@ greenorganics.controller("AddLorryController", function($scope, $http, $route){
 		};
 		$http({
 			method: 'POST',
-			url: 'php/lorrymaster.php?action=addlorry',
+			url: 'php/master.php?action=addlorry',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: lorryObj
 		}).
@@ -39,7 +39,7 @@ greenorganics.controller("LorryListController", function($scope, $http, $route){
 		$('.loadData').show();
 		$http({
 			method: 'POST',
-			url: 'php/lorrymaster.php?action=AllLorries',
+			url: 'php/master.php?action=AllLorries',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).
 		error(function(data, status, headers, config) {
@@ -69,7 +69,7 @@ greenorganics.controller("LorryListController", function($scope, $http, $route){
 	$scope.deletelorry = function(){		
 		$http({
 			method: 'POST',
-			url: 'php/lorrymaster.php?action=DelLorry',
+			url: 'php/master.php?action=DelLorry',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data:$scope.lorryid
 		}).

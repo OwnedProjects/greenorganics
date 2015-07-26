@@ -61,17 +61,12 @@ $action=$_GET['action'];
 			$updbagStock="UPDATE `stock_master` SET `stock_avail`=".$newbagstk.",`stock_date`='".$data->production_date."' where `prod_id`=".$data->idbags;
 			mysql_query($updbagStock);
 
-
-		
 		if($resProd){
 			$obj->status=true;			
 		}
 		else{
 			$obj->status=false;
 		}
-		
-		
-		
 		echo json_encode($obj);
 	}
 
