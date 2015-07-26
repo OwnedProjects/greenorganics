@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.5.2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 17, 2015 at 08:35 AM
--- Server version: 5.5.24-log
--- PHP Version: 5.3.13
+-- Generation Time: Jul 26, 2015 at 03:46 PM
+-- Server version: 5.5.25a
+-- PHP Version: 5.4.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -38,10 +38,9 @@ CREATE TABLE IF NOT EXISTS `inward_product_master` (
 
 INSERT INTO `inward_product_master` (`prod_id`, `prod_name`) VALUES
 (12, 'Filler Powder'),
-(13, 'Organic Manure'),
+(13, 'Raw Organic Manure'),
 (14, 'Slaughter House Waste'),
 (15, 'Animal Waste Filler'),
-(16, 'Gypsum'),
 (17, 'HDPE Bags');
 
 -- --------------------------------------------------------
@@ -68,6 +67,25 @@ INSERT INTO `lorry_register` (`lorry_id`, `lorry_number`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `outward_product_master`
+--
+
+CREATE TABLE IF NOT EXISTS `outward_product_master` (
+  `prod_id` int(10) NOT NULL AUTO_INCREMENT,
+  `prod_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`prod_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `outward_product_master`
+--
+
+INSERT INTO `outward_product_master` (`prod_id`, `prod_name`) VALUES
+(1, 'echomeal');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `production_batch_register`
 --
 
@@ -79,22 +97,24 @@ CREATE TABLE IF NOT EXISTS `production_batch_register` (
   `filler_powder` varchar(10) DEFAULT NULL,
   `organic_manure` varchar(10) DEFAULT NULL,
   `shw` varchar(10) DEFAULT NULL,
-  `gypsum` varchar(10) DEFAULT NULL,
   `awf` varchar(10) DEFAULT NULL,
   `bags_used` varchar(10) DEFAULT NULL,
   `production_date` varchar(20) DEFAULT NULL,
   `production_month` varchar(10) DEFAULT NULL,
   `production_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`production_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `production_batch_register`
 --
 
-INSERT INTO `production_batch_register` (`production_id`, `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `gypsum`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES
-(1, '1', '10000', '10000', '10', '6', '5', '5', '5', '500', '1436252434728', '6', '2015'),
-(2, '1', '10000', NULL, '30', '15', '5', '5', '5', '2000', '1436511828739', '6', '2015');
+INSERT INTO `production_batch_register` (`production_id`, `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES
+(1, '1', '10000', '10000', '10', '6', '5', '5', '500', '1436252434728', '6', '2015'),
+(2, '1', '10000', NULL, '30', '15', '5', '5', '2000', '1436511828739', '6', '2015'),
+(3, '10', '10000', '10000', '5', '2', '10', '10', '500', '1437490599417', '6', '2015'),
+(4, '10', '10000', '10000', '4.400', '2.100', '1.700', '0.800', '200', '1436891807991', '6', '2015'),
+(5, '12', '10000', '10000', '4', '1', '4', '1', '300', '1437571081891', '6', '2015');
 
 -- --------------------------------------------------------
 
@@ -110,14 +130,14 @@ CREATE TABLE IF NOT EXISTS `production_profile_master` (
   `gypsum` varchar(10) DEFAULT NULL,
   `awf` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`profile_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `production_profile_master`
 --
 
 INSERT INTO `production_profile_master` (`profile_id`, `filler_powder`, `organic_manure`, `shw`, `gypsum`, `awf`) VALUES
-(4, '5', '5', '5', '5', '5');
+(5, '5', '2', '10', '5', '10');
 
 -- --------------------------------------------------------
 
@@ -158,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `purchase_register` (
   `purchase_month` varchar(10) DEFAULT NULL,
   `purchase_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `purchase_register`
@@ -169,7 +189,14 @@ INSERT INTO `purchase_register` (`purchase_id`, `lorry_id`, `supplier_id`, `prod
 (12, 2, 3, 16, '', 2000, '6000', '0', '12000', '1436522235690', NULL, NULL),
 (13, 1, 4, 13, '', 5000, '10000', '0', '50000', '1431252321911', '4', '2015'),
 (14, 2, 2, 12, '', 6000, '5000', '0', '30000', '1433930741370', '5', '2015'),
-(15, 1, 2, 12, '123456', 1500, '5000', '0', '7500', '1436612875568', '6', '2015');
+(15, 1, 2, 12, '123456', 1500, '5000', '0', '7500', '1436612875568', '6', '2015'),
+(16, 1, 2, 12, '12', 50000, '500', '0', '25000', '1436539888241', '6', '2015'),
+(17, 2, 3, 16, '12', 50000, '500', '0', '25000', '1436971905946', '6', '2015'),
+(18, 6, 5, 14, '56', 10000, '5000', '0', '50000', '1436539934535', '6', '2015'),
+(19, 2, 6, 15, '12', 10000, '10000', '0', '100000', '1437058366471', '6', '2015'),
+(20, 1, 5, 14, '132', 15000, '1200', '0', '18000', '1436459557438', '6', '2015'),
+(21, 6, 6, 15, '5', 25000, '500', '0', '12500', '1436286944163', '6', '2015'),
+(22, 1, 4, 13, '12', 50000, '1500', '0', '75000', '1436188931018', '6', '2015');
 
 -- --------------------------------------------------------
 
@@ -184,19 +211,20 @@ CREATE TABLE IF NOT EXISTS `stock_master` (
   `stock_avail` int(50) DEFAULT NULL,
   `stock_date` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`stock_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `stock_master`
 --
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
-(1, 'Inward', 12, 0, '1436511828739'),
-(2, 'Inward', 13, 5000, '1436511828739'),
-(3, 'Inward', 14, 0, '1436511828739'),
-(4, 'Inward', 15, 0, '1436511828739'),
-(5, 'Inward', 16, 0, '1436511828739'),
-(6, 'Inward', 17, 0, '1436511828739');
+(1, 'Inward', 12, 37000, '1437571081891'),
+(2, 'Inward', 13, 50000, '1436188931018'),
+(3, 'Inward', 14, 10000, '1437571081891'),
+(4, 'Inward', 15, 24000, '1437571081891'),
+(5, 'Inward', 16, 45000, '1437490599417'),
+(6, 'Inward', 17, 1500, '1437571081891'),
+(8, 'Outward', 1, 10000, '1437571081891');
 
 -- --------------------------------------------------------
 
