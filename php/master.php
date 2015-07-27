@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', E_STRICT);
+//ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -156,7 +156,7 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 	
-	/* Supplier Details */
+/* Supplier Details */
 	if($action=='AllSuppliers'){
 		$selSupplier="SELECT * FROM `supplier_master`,`inward_product_master` WHERE supplier_master.prod_id=inward_product_master.prod_id and supplier_master.supplier_status='active'";
 		$resSupplier=mysql_query($selSupplier);
@@ -330,7 +330,7 @@ $action=$_GET['action'];
 
 /* STOCK MASTER */
 	if($action=='fetchStockDetails'){
-		$selStock="SELECT * FROM `stock_master`, `inward_product_master` WHERE stock_master.prod_id=inward_product_master.prod_id ";
+		$selStock="SELECT * FROM `stock_master`, `inward_product_master` WHERE stock_master.prod_id=inward_product_master.prod_id";
 		$resStock=mysql_query($selStock);
 		$count = mysql_num_rows($resStock);
 		if($count>0){
@@ -343,8 +343,17 @@ $action=$_GET['action'];
 				$tmpRes[$cnt]->stock_avail=$row['stock_avail'];
 				$cnt++;
 			}
+			$selOStock="SELECT * FROM `stock_master`, `outward_product_master` WHERE stock_master.prod_id=outward_product_master.prod_id";
+			$resoutward=mysql_query($selOStock);
+			$rowoutward = mysql_fetch_array($resoutward,MYSQL_BOTH);
+			$tmpNewRes->prod_id=$rowoutward['prod_id'];
+			$tmpNewRes->prod_name=$rowoutward['prod_name'];
+			$tmpNewRes->prod_type=$rowoutward['product_type'];
+			$tmpNewRes->stock_date=$rowoutward['stock_date'];
+			$tmpNewRes->stock_avail=$rowoutward['stock_avail'];
 			$obj->status=true;
 			$obj->Stocks=$tmpRes;
+			$obj->OStocks=$tmpNewRes;
 		}
 		else{
 			$obj->status=false;
@@ -538,4 +547,93 @@ $action=$_GET['action'];
 		}
 		echo json_encode($obj);
 	}
+
+/* Client Details */	
+	if($action=='insertclientdetails'){
+		$data = json_decode(file_get_contents("php://input"));
+		$insClients="INSERT INTO `client_master`(`client_name`, `address`, `city`, `district`, `contact_no`, `client_status`) VALUES ('".$data->clientnm."','".$data->address."','".$data->clientcity."','".$data->clientdist."','".$data->clientcontact."','active')";
+		$resClients=mysql_query($insClients);		
+		if($resClients){
+			$obj->status=true;			
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='updateClientDetails'){
+		$data = json_decode(file_get_contents("php://input"));
+		$insClients="UPDATE `client_master` SET `client_name`='".$data->clientnm."',`address`='".$data->address."',`city`='".$data->clientcity."',`district`='".$data->clientdist."',`contact_no`='".$data->clientcontact."' WHERE `client_id`=".$data->clientid;		
+		$resClients=mysql_query($insClients);		
+		if($resClients){
+			$obj->status=true;			
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='deactivateclient'){
+		$data = json_decode(file_get_contents("php://input"));
+		$insClients="UPDATE `client_master` SET `client_status`='deactive' WHERE `client_id`=".$data;		
+		$resClients=mysql_query($insClients);		
+		if($resClients){
+			$obj->status=true;			
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='fetchAllClients'){
+		$selClients="SELECT * FROM `client_master` WHERE `client_status`='active'";
+		$resClients=mysql_query($selClients);
+		$count = mysql_num_rows($resClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resClients )) {
+				$tmpRes[$cnt]->client_id=$row['client_id'];				
+				$tmpRes[$cnt]->client_nm=$row['client_name'];				
+				$tmpRes[$cnt]->client_contact=$row['contact_no'];				
+				$tmpRes[$cnt]->client_address=$row['address'];				
+				$tmpRes[$cnt]->client_city=$row['city'];				
+				$tmpRes[$cnt]->client_dist=$row['district'];				
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->clients=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='fetchSpecificClientDetails'){
+		$data = json_decode(file_get_contents("php://input"));
+		$selClients="SELECT * FROM `client_master` WHERE `client_status`='active' and client_id=".$data;
+		$resClients=mysql_query($selClients);
+		$count = mysql_num_rows($resClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resClients )) {
+				$tmpRes[$cnt]->client_id=$row['client_id'];				
+				$tmpRes[$cnt]->client_nm=$row['client_name'];				
+				$tmpRes[$cnt]->client_contact=$row['contact_no'];				
+				$tmpRes[$cnt]->client_address=$row['address'];				
+				$tmpRes[$cnt]->client_city=$row['city'];				
+				$tmpRes[$cnt]->client_dist=$row['district'];				
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->clients=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}	
 ?>

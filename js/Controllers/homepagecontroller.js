@@ -17,6 +17,7 @@ greenorganics.controller("DashboardController", function($scope, $http, $route){
 				$(".noData").hide();
 				$(".fullData").show();
 				$scope.stockdata=result.data.Stocks;				
+				$scope.outstockdata=result.data.OStocks;				
 			}
 			else{
 				$(".loadData").hide();

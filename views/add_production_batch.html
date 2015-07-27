@@ -9,7 +9,7 @@
 						<label class="text-info">Batch Number: </label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="batchNo" placeholder="Batch Number" autofocus required />
+						<input type="text" class="form-control" ng-model="batchNo" placeholder="Batch Number" ng-disabled="firstload" autofocus required/>
 					</div>
 				</div>
 				
@@ -19,7 +19,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="input-group date">
-							<input type="text" id="prodDate" class="form-control" placeholder="Production Date" required />
+							<input type="text" id="prodDate" class="form-control" placeholder="Production Date" ng-disabled="firstload" required />
 							<span class="input-group-addon">
 								<span class="fa fa-calendar"></span>
 							</span>
@@ -34,7 +34,7 @@
 						<label class="text-info">Raw Organic Manure: <span class="text-warning"> [{{stkorganicmanure | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="organicmanure" placeholder="ROM" required ng-disabled="profileFlag"/>
+						<input type="text" class="form-control" ng-model="organicmanure" placeholder="ROM" required ng-disabled="firstload || profileFlag"/>
 					</div>
 				</div>
 				
@@ -43,7 +43,7 @@
 						<label class="text-info">Slaughter House Waste: <span class="text-warning"> [{{stkslaughterhouse | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="slaughterhouse" placeholder="SHW" required ng-disabled="profileFlag"/>
+						<input type="text" class="form-control" ng-model="slaughterhouse" placeholder="SHW" required ng-disabled="firstload || profileFlag"/>
 					</div>
 				</div>
 
@@ -56,7 +56,7 @@
 						<label class="text-info">Filler Powder: <span class="text-warning"> [{{stkfillerpowder | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="fillerpowder" placeholder="Filler Powder" required ng-disabled="profileFlag"/>
+						<input type="text" class="form-control" ng-model="fillerpowder" placeholder="Filler Powder" required ng-disabled="firstload || profileFlag"/>
 					</div>
 				</div>
 				
@@ -65,7 +65,7 @@
 						<label class="text-info">Animal Waste Filler: <span class="text-warning"> [{{stkawf | number:3}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="awf" placeholder="AWF" required ng-disabled="profileFlag"/>
+						<input type="text" class="form-control" ng-model="awf" placeholder="AWF" required ng-disabled="firstload || profileFlag"/>
 					</div>
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 						<label class="text-info">HDPE Bags Used: <span class="text-warning"> [{{stkbags}}]</span></label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="bags" placeholder="Bags Used" required />
+						<input type="text" class="form-control" ng-model="bags" placeholder="Bags Used" required ng-disabled="firstload"/>
 					</div>
 				</div>
 				

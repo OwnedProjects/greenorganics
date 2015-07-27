@@ -1,8 +1,9 @@
 <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardController">
-	<h3 class="text-primary">My Dashboard</h3>
+	<h3 class="text-primary">MY DASHBOARD</h3>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<h4 class="text-info">Stock Master</h4>
-		<table class="table table-bordered">			
+		<table class="table table-bordered">
+			<caption><h5><strong>Inward Details</strong></h5></caption>
 			<thead>
 			  <tr>
 				<th>Product Name</th>				
@@ -13,8 +14,31 @@
 			<tbody>
 			  <tr ng-repeat="data in stockdata | filter:searchStock" class="fullData">				
 				<td>{{data.prod_name}}</td>				
-				<td>{{data.prod_name=='HDPE Bags'? data.stock_avail+' Bags' : data.stock_avail/1000}}</td>
+				<td>{{data.prod_name=='HDPE Bags'? data.stock_avail+' Bags' : (data.stock_avail/1000 | number:3)}}</td>
 				<td>{{data.stock_date | date: 'dd-MM-yyyy'}}</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+		<table class="table table-bordered">
+			<caption><h5><strong>Outward Details</strong></h5></caption>
+			<thead>
+			  <tr>
+				<th>Product Name</th>				
+				<th>Stock Available</th>
+				<th>Stock Date (Last Updated)</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr class="fullData">				
+				<td>{{outstockdata.prod_name | uppercase}}</td>				
+				<td>{{outstockdata.stock_avail/1000 | number:3}}</td>
+				<td>{{outstockdata.stock_date | date: 'dd-MM-yyyy'}}</td>
 			  </tr>
 			  <tr class="noData">
 				<td colspan="8"> No Data Found </td>

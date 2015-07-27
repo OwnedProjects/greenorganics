@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 26, 2015 at 03:46 PM
--- Server version: 5.5.25a
--- PHP Version: 5.4.4
+-- Generation Time: Jul 27, 2015 at 12:36 PM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `greenorganics`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_master`
+--
+
+CREATE TABLE IF NOT EXISTS `client_master` (
+  `client_id` int(10) NOT NULL AUTO_INCREMENT,
+  `client_name` varchar(500) DEFAULT NULL,
+  `address` varchar(1000) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `district` varchar(20) DEFAULT NULL,
+  `contact_no` varchar(15) DEFAULT NULL,
+  `client_status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `client_master`
+--
+
+INSERT INTO `client_master` (`client_id`, `client_name`, `address`, `city`, `district`, `contact_no`, `client_status`) VALUES
+(1, 'MAHARASHTRA AGRO AGENCIES', 'RAJAPUR', 'RAJAPUR', 'RAJAPUR', '12345678', 'active'),
+(2, 'SAMARTH TRADING CO.', 'ATPADI', 'ATPADI', 'ATPADI', '987654321', 'deactive');
 
 -- --------------------------------------------------------
 
@@ -103,18 +128,14 @@ CREATE TABLE IF NOT EXISTS `production_batch_register` (
   `production_month` varchar(10) DEFAULT NULL,
   `production_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`production_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `production_batch_register`
 --
 
 INSERT INTO `production_batch_register` (`production_id`, `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES
-(1, '1', '10000', '10000', '10', '6', '5', '5', '500', '1436252434728', '6', '2015'),
-(2, '1', '10000', NULL, '30', '15', '5', '5', '2000', '1436511828739', '6', '2015'),
-(3, '10', '10000', '10000', '5', '2', '10', '10', '500', '1437490599417', '6', '2015'),
-(4, '10', '10000', '10000', '4.400', '2.100', '1.700', '0.800', '200', '1436891807991', '6', '2015'),
-(5, '12', '10000', '10000', '4', '1', '4', '1', '300', '1437571081891', '6', '2015');
+(7, '10', '10000', '10000', '4.400', '3.100', '1.700', '0.800', '250', '1436512298270', '6', '2015');
 
 -- --------------------------------------------------------
 
@@ -130,14 +151,15 @@ CREATE TABLE IF NOT EXISTS `production_profile_master` (
   `gypsum` varchar(10) DEFAULT NULL,
   `awf` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`profile_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `production_profile_master`
 --
 
 INSERT INTO `production_profile_master` (`profile_id`, `filler_powder`, `organic_manure`, `shw`, `gypsum`, `awf`) VALUES
-(5, '5', '2', '10', '5', '10');
+(5, '5', '2', '10', '5', '10'),
+(6, '4.400', '3.100', '1.700', NULL, '0.800');
 
 -- --------------------------------------------------------
 
@@ -218,13 +240,13 @@ CREATE TABLE IF NOT EXISTS `stock_master` (
 --
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
-(1, 'Inward', 12, 37000, '1437571081891'),
-(2, 'Inward', 13, 50000, '1436188931018'),
-(3, 'Inward', 14, 10000, '1437571081891'),
-(4, 'Inward', 15, 24000, '1437571081891'),
+(1, 'Inward', 12, 28200, '1436512298270'),
+(2, 'Inward', 13, 43800, '1436512298270'),
+(3, 'Inward', 14, 6600, '1436512298270'),
+(4, 'Inward', 15, 22400, '1436512298270'),
 (5, 'Inward', 16, 45000, '1437490599417'),
-(6, 'Inward', 17, 1500, '1437571081891'),
-(8, 'Outward', 1, 10000, '1437571081891');
+(6, 'Inward', 17, 1000, '1436512298270'),
+(8, 'Outward', 1, 10000, '1436512298270');
 
 -- --------------------------------------------------------
 

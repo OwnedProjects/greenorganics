@@ -64,6 +64,37 @@
 		</submenu_module>
 	</menu>
 	<menu>
+		<name>SALES</name>
+		<icon></icon>
+		<mainlink>#/new_sale</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>New Sale</name>
+				<icon>fa-dropbox</icon>
+				<link>#/new_sale</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
+		<name>CLIENT DETAILS</name>
+		<icon></icon>
+		<mainlink>#/new_client</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>New Client</name>
+				<icon>fa-user-plus</icon>
+				<link>#/new_client</link>
+			</submenu>
+			<submenu>
+				<name>All Clients</name>
+				<icon>fa-users</icon>
+				<link>#/client_list</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
 		<name>LORRY DETAILS</name>
 		<icon></icon>
 		<mainlink>#/add_lorry</mainlink>
