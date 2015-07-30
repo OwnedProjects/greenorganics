@@ -1,6 +1,6 @@
-<div class="col-md-11 col-sm-12" ng-controller="ClientListController">
+<div class="col-md-11 col-sm-12" ng-controller="DeactiveClientListController">
 
-<h3 class="text-primary">CLIENT DETAILS <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+<h3 class="text-primary">DEACTIVE CLIENT DETAILS <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
 <hr>
 
 <div class="col-md-10 col-sm-12 col-xs-12">
@@ -12,9 +12,8 @@
 			<span class="fa fa-lg fa-search-plus"></span>
 		</span>	
 	</div>
-
 <br/>
-<a href="#/deactive_client_list"><i class="fa fa-user-secret"></i> DEACTIVATED CLIENTS</a>
+<a href="#/client_list" title="Total Clients" class="btn btn-sm btn-warning" ><i class="fa fa-hand-o-left"></i></a>
 <br/>
 <br/>
 
@@ -25,8 +24,8 @@
 		<th>Contact No.</th>
 		<th>Address</th>
 		<th>City</th>
-		<th>District</th>
-		<th>Edit / Delete</th>
+		<th>District</th>		
+		<th>Activate</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -36,11 +35,9 @@
 		<td>{{data.client_address}}</td>
 		<td>{{data.client_city}}</td>
 		<td>{{data.client_dist}}</td>		
-		<td>
-			<button type="button" class="btn btn-sm btn-success" ng-click="setEditClientDetails(data.client_id);" data-toggle="modal" data-target="#myModal">
-				<i class="fa fa-eraser"></i></button> 
-			<button type="button" class="btn btn-sm btn-danger" ng-click="setDeleteClientDetails(data.client_id, data.client_nm);" data-toggle="modal" data-target="#NonActiveModal" title="De-Activate Clients">
-				<i class="fa fa-trash"></i></button>
+		<td>			
+			<button type="button" class="btn btn-sm btn-info" ng-click="activateClient(data.client_id);" title="Activate Clients">
+				<i class="fa fa-unlock"></i></button>
 		</td>
 	  </tr>
 	  <tr class="noData">

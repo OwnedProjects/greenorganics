@@ -66,13 +66,13 @@
 	<menu>
 		<name>SALES</name>
 		<icon></icon>
-		<mainlink>#/new_sale</mainlink>
+		<mainlink>#/new_order</mainlink>
 		<hasSubmenus>YES</hasSubmenus>
 		<submenu_module>
 			<submenu>
-				<name>New Sale</name>
+				<name>New Order</name>
 				<icon>fa-dropbox</icon>
-				<link>#/new_sale</link>
+				<link>#/new_order</link>
 			</submenu>
 		</submenu_module>
 	</menu>

@@ -196,3 +196,67 @@ greenorganics.controller("ClientListController", function($scope, $http, $route)
 		});
 	};
 });
+
+greenorganics.controller("DeactiveClientListController", function($scope, $http, $route){
+	$scope.deactiveclients = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$scope.clnt=true;
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=deactiveclients',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){			
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.ClientData=result.data.clients;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}			
+		});
+	};
+	$scope.deactiveclients();
+	
+	$scope.activateClient = function(clntid){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$scope.clnt=true;
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=activateClient',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:clntid
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){			
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$route.reload();
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}			
+		});
+	};
+	
+	$scope.reload = function(){
+		$route.reload();
+	};
+});

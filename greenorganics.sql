@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 27, 2015 at 12:36 PM
+-- Generation Time: Jul 30, 2015 at 12:37 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `client_master` (
 
 INSERT INTO `client_master` (`client_id`, `client_name`, `address`, `city`, `district`, `contact_no`, `client_status`) VALUES
 (1, 'MAHARASHTRA AGRO AGENCIES', 'RAJAPUR', 'RAJAPUR', 'RAJAPUR', '12345678', 'active'),
-(2, 'SAMARTH TRADING CO.', 'ATPADI', 'ATPADI', 'ATPADI', '987654321', 'deactive');
+(2, 'SAMARTH TRADING CO.', 'ATPADI', 'ATPADI', 'ATPADI', '987654321', 'active');
 
 -- --------------------------------------------------------
 
@@ -127,15 +127,17 @@ CREATE TABLE IF NOT EXISTS `production_batch_register` (
   `production_date` varchar(20) DEFAULT NULL,
   `production_month` varchar(10) DEFAULT NULL,
   `production_year` varchar(10) DEFAULT NULL,
+  `batch_status` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`production_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `production_batch_register`
 --
 
-INSERT INTO `production_batch_register` (`production_id`, `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES
-(7, '10', '10000', '10000', '4.400', '3.100', '1.700', '0.800', '250', '1436512298270', '6', '2015');
+INSERT INTO `production_batch_register` (`production_id`, `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`, `batch_status`) VALUES
+(7, '10', '10000', '2000', '4.400', '3.100', '1.700', '0.800', '250', '1436512298270', '6', '2015', 'open'),
+(8, '11', '10000', '1000', '4.400', '3.100', '1.700', '0.800', '100', '1436166178949', '6', '2015', 'open');
 
 -- --------------------------------------------------------
 
@@ -223,6 +225,62 @@ INSERT INTO `purchase_register` (`purchase_id`, `lorry_id`, `supplier_id`, `prod
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sales_batch_register`
+--
+
+CREATE TABLE IF NOT EXISTS `sales_batch_register` (
+  `sales_batch_id` int(10) NOT NULL AUTO_INCREMENT,
+  `sales_id` int(10) NOT NULL,
+  `batch_no` varchar(10) DEFAULT NULL,
+  `volume` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`sales_batch_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `sales_batch_register`
+--
+
+INSERT INTO `sales_batch_register` (`sales_batch_id`, `sales_id`, `batch_no`, `volume`) VALUES
+(1, 1, '10', '6000'),
+(2, 1, '11', '4000'),
+(3, 2, '10', '2000'),
+(4, 3, '11', '5000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_register`
+--
+
+CREATE TABLE IF NOT EXISTS `sales_register` (
+  `sales_id` int(10) NOT NULL AUTO_INCREMENT,
+  `dc_no` varchar(10) DEFAULT NULL,
+  `order_date` varchar(20) DEFAULT NULL,
+  `dispatch_date` varchar(20) DEFAULT NULL,
+  `client_id` int(10) NOT NULL,
+  `lorry_id` int(10) NOT NULL,
+  `quantity` varchar(10) DEFAULT NULL,
+  `billno` varchar(10) DEFAULT NULL,
+  `bill_date` varchar(20) DEFAULT NULL,
+  `bill_amount` varchar(50) DEFAULT NULL,
+  `sale_date` varchar(20) DEFAULT NULL,
+  `sale_month` varchar(10) DEFAULT NULL,
+  `sale_year` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`sales_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `sales_register`
+--
+
+INSERT INTO `sales_register` (`sales_id`, `dc_no`, `order_date`, `dispatch_date`, `client_id`, `lorry_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `sale_date`, `sale_month`, `sale_year`) VALUES
+(1, '123', '1436267959778', '1438255159779', 1, 1, '10000', '101', '1438427959779', NULL, '1438255159779', '6', '2015'),
+(2, '1', '1436445284712', '1438259684712', 1, 2, '2000', '5', '1438346084712', '1500', '1438259684712', '6', '2015'),
+(3, '1', '1436358961303', '1438346161303', 1, 2, '5000', '6', '1439037361303', '15000', '1438259761304', '6', '2015');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stock_master`
 --
 
@@ -240,13 +298,13 @@ CREATE TABLE IF NOT EXISTS `stock_master` (
 --
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
-(1, 'Inward', 12, 28200, '1436512298270'),
-(2, 'Inward', 13, 43800, '1436512298270'),
-(3, 'Inward', 14, 6600, '1436512298270'),
-(4, 'Inward', 15, 22400, '1436512298270'),
+(1, 'Inward', 12, 23800, '1436166178949'),
+(2, 'Inward', 13, 40700, '1436166178949'),
+(3, 'Inward', 14, 4900, '1436166178949'),
+(4, 'Inward', 15, 21600, '1436166178949'),
 (5, 'Inward', 16, 45000, '1437490599417'),
-(6, 'Inward', 17, 1000, '1436512298270'),
-(8, 'Outward', 1, 10000, '1436512298270');
+(6, 'Inward', 17, 900, '1436166178949'),
+(8, 'Outward', 1, 3000, '1438259761304');
 
 -- --------------------------------------------------------
 
@@ -272,7 +330,7 @@ CREATE TABLE IF NOT EXISTS `supplier_master` (
 --
 
 INSERT INTO `supplier_master` (`supplier_id`, `prod_id`, `supplier_name`, `supplier_contact`, `supplier_contact_person`, `supplier_address`, `supplier_city`, `vat_no`, `supplier_status`) VALUES
-(2, 12, 'ABC FIRM', '9090909090', 'Mr. ABC', 'nagar', 'Nagar', '112312313', 'active'),
+(2, 12, 'ABC FIRM', '9090909090', 'Mr. ABC', 'nagar', 'Nagar', '112312313', 'deactive'),
 (3, 16, 'Gypsum Mill', '9999999999', 'Mr. Patil', 'Nashik Main Road', 'Nashik', 'N123456', 'active'),
 (4, 13, 'Lucky Bone Mill', '8888888888', 'Mr. Baig', 'Aurangabad', 'Aurangabad', '12456', 'active'),
 (5, 14, 'KK', '123456', 'Wasim', 'NagarRoad', 'Pune', 'V123498765', 'active'),

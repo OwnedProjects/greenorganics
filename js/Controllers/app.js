@@ -51,14 +51,17 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/add_production_profile', {
         templateUrl: 'views/add_production_profile.html'
       }).
-      when('/new_sale', {
-        templateUrl: 'views/new_sale.html'
+      when('/new_order', {
+        templateUrl: 'views/new_order.html'
       }).
       when('/new_client', {
         templateUrl: 'views/new_client.html'
       }).
       when('/client_list', {
         templateUrl: 'views/client_list.html'
+      }).
+      when('/deactive_client_list', {
+        templateUrl: 'views/deactive_client_list.html'
       }).
       otherwise({
         redirectTo: '/dashboard'

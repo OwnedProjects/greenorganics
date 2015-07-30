@@ -396,9 +396,31 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 	
+	if($action=='AllProductionBatches'){		
+		$selProd="SELECT * FROM `production_batch_register` where `batch_status`='open'";
+		$resProd=mysql_query($selProd);
+		$count = mysql_num_rows($resProd);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resProd )) {
+				$tmpRes[$cnt]->production_id=$row['production_id'];
+				$tmpRes[$cnt]->batch_no=$row['batch_no'];
+				$tmpRes[$cnt]->prod_produced=$row['product_produced'];
+				$tmpRes[$cnt]->prod_remained=$row['product_remained'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->Production=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
 	if($action=='AddProductionBatch'){
 		$data = json_decode(file_get_contents("php://input"));
-		$addProd="INSERT INTO `production_batch_register`( `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`) VALUES ('".$data->batchno."','10000','10000','".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->awf."','".$data->bags."','".$data->production_date."','".$data->production_mnt."','".$data->production_yr."')";
+		$addProd="INSERT INTO `production_batch_register`( `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`, `batch_status`) VALUES ('".$data->batchno."','10000','10000','".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->awf."','".$data->bags."','".$data->production_date."','".$data->production_mnt."','".$data->production_yr."','open')";
 		$resProd=mysql_query($addProd);	
 			
 			/* Check Stock if ECHO-MEAL is present? */
@@ -588,6 +610,19 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 	
+	if($action=='activateClient'){
+		$data = json_decode(file_get_contents("php://input"));
+		$insClients="UPDATE `client_master` SET `client_status`='active' WHERE `client_id`=".$data;		
+		$resClients=mysql_query($insClients);		
+		if($resClients){
+			$obj->status=true;			
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
 	if($action=='fetchAllClients'){
 		$selClients="SELECT * FROM `client_master` WHERE `client_status`='active'";
 		$resClients=mysql_query($selClients);
@@ -635,5 +670,76 @@ $action=$_GET['action'];
 			$obj->status=false;
 		}
 		echo json_encode($obj);
-	}	
+	}
+		
+	if($action=='deactiveclients'){
+		$selClients="SELECT * FROM `client_master` WHERE `client_status`='deactive'";
+		$resClients=mysql_query($selClients);
+		$count = mysql_num_rows($resClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resClients )) {
+				$tmpRes[$cnt]->client_id=$row['client_id'];				
+				$tmpRes[$cnt]->client_nm=$row['client_name'];				
+				$tmpRes[$cnt]->client_contact=$row['contact_no'];				
+				$tmpRes[$cnt]->client_address=$row['address'];				
+				$tmpRes[$cnt]->client_city=$row['city'];				
+				$tmpRes[$cnt]->client_dist=$row['district'];				
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->clients=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+/* Order Queries */
+	if($action=='NewOrder'){
+		
+		/* UPDATE Stock ECHO-MEAL */
+			$data = json_decode(file_get_contents("php://input"));
+			$seloutward="SELECT `stock_avail` FROM `stock_master` where `product_type`='Outward' and `prod_id`=1";
+			$resoutward=mysql_query($seloutward);
+			$rowoutward = mysql_fetch_array($resoutward,MYSQL_BOTH);
+			$count = mysql_num_rows($resoutward);
+			if($count>0){
+				/* Update Stock_master */
+				$newOstk=floatval($rowoutward['stock_avail'])-floatval($data->quantity);
+				$updOStock="UPDATE `stock_master` SET `stock_avail`=".$newOstk.",`stock_date`='".$data->sale_date."' where  `product_type`='Outward' and `prod_id`=1";
+				mysql_query($updOStock);
+				
+				/* Insert New Order */
+				$insOrder="INSERT INTO `sales_register`(`dc_no`, `order_date`, `dispatch_date`, `client_id`, `lorry_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `sale_date`, `sale_month`, `sale_year`) VALUES ('".$data->dc_no."','".$data->order_date."','".$data->disp_date."',".$data->client_id.",".$data->lorry_id.",'".$data->quantity."','".$data->billno."','".$data->bill_date."','".$data->bill_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."')";
+				$resOrder=mysql_query($insOrder);
+				if($resOrder){
+					$selmaxorder="SELECT MAX(`sales_id`) FROM `sales_register`";
+					$resmaxorder=mysql_query($selmaxorder);
+					$rowmaxorder = mysql_fetch_array($resmaxorder,MYSQL_BOTH);
+					$maxOrder=$rowmaxorder['MAX(`sales_id`)'];
+					
+					$batchObj=$data->batches_obj;
+					for($i=0;$i<count($batchObj);$i++) {
+						$selbatch="SELECT `product_remained` FROM `production_batch_register` WHERE `batch_no`=".$batchObj[$i]->batchno;
+						$resbatch=mysql_query($selbatch);
+						$rowbatch = mysql_fetch_array($resbatch,MYSQL_BOTH);
+						$newprodRem=floatval($rowbatch['product_remained'])-floatval($batchObj[$i]->volume);
+						
+						$updBatch="UPDATE `production_batch_register` SET `product_remained`='".$newprodRem."' WHERE `batch_no`=".$batchObj[$i]->batchno;
+						mysql_query($updBatch);
+						
+						$insbatchOrder="INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES (".$maxOrder.",'".$batchObj[$i]->batchno."','".$batchObj[$i]->volume."')";
+						$resBatchOrder=mysql_query($insbatchOrder);
+						//INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES ([value-1],[value-2],[value-3])
+					}
+					$obj->status=true;
+				}
+			}
+			else{
+				$obj->status=false;
+			}
+		echo json_encode($obj);
+	}
 ?>
