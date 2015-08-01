@@ -13,6 +13,7 @@
 	</div>
 <br/>
 <table class="table table-bordered">
+	<caption><h4>Inward Stocks</h4></caption>
 	<thead>
 	  <tr>
 		<th>Sr. No.</th>
@@ -29,6 +30,33 @@
 		<!-- <td>{{data.prod_type}}</td> -->
 		<td>{{data.prod_name=='HDPE Bags'? data.stock_avail+' Bags' : (data.stock_avail/1000 | number:3)}}</td>
 		<td>{{data.stock_date | date: 'dd-MM-yyyy'}}</td>
+	  </tr>
+	  <tr class="noData">
+		<td colspan="8"> No Data Found </td>
+	  </tr>
+	  <tr class="loadData">
+		<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+	  </tr>
+	</tbody>
+</table>
+<table class="table table-bordered">
+	<caption><h4>Outward Stocks</h4></caption>
+	<thead>
+	  <tr>
+		<th>Sr. No.</th>
+		<th>Product Name</th>
+		<!-- <th>Product Type</th> -->
+		<th>Stock Available (in M.T)</th>
+		<th>Stock Date (Last Updated)</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr class="fullData">
+		<td>{{$index+1}}</td>
+		<td>{{outstockdata.prod_name | uppercase}}</td>
+		<!-- <td>{{data.prod_type}}</td> -->
+		<td>{{outstockdata.stock_avail/1000 | number:3}}</td>
+		<td>{{outstockdata.stock_date | date: 'dd-MM-yyyy'}}</td>
 	  </tr>
 	  <tr class="noData">
 		<td colspan="8"> No Data Found </td>

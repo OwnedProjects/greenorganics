@@ -1,0 +1,283 @@
+<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="NewOrderController">
+	<h3 class="text-primary">NEW ORDER</h3>
+	<hr/>
+	<div class="col-md-10 col-sm-12 col-xs-12">
+		<form ng-submit="placeOrder();">
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">D.C Number: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="dcno" placeholder="Dispatch Chalan" ng-disabled="loadOrder" required/>
+					</div>
+				</div>
+					<br/><br/><br/>
+			</div>
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Date of Order: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<input type="text" id="orderDate" class="form-control" placeholder="Order Date" ng-disabled="loadOrder" required />
+							<span class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Date of Dispatch: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<input type="text" id="dispatchDate" class="form-control" placeholder="Order Date" ng-disabled="loadOrder" required />
+							<span class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+					<br/><br/><br/>
+			</div>
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Client: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<input type="hidden" class="form-control" ng-model="clientid"/>
+							<input type="text" class="form-control" ng-model="clientnm" placeholder="Client" ng-disabled="loadOrder" readonly required />
+							<span class="input-group-addon" ng-click="searchClientDetails()" data-toggle="modal" data-target="#setClientmodal">
+								<span class="fa fa-user-plus" ></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Destination: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="destination" placeholder="Destination" ng-disabled="loadOrder" readonly required/>
+					</div>
+				</div>
+				<br/><br/><br/>
+			</div>
+			
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Lorry: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<input type="hidden" class="form-control" ng-model="lorryid"/>
+							<input type="text" class="form-control" ng-model="lorryno" placeholder="Lorry No" ng-disabled="loadOrder" readonly required />
+							<span class="input-group-addon" ng-click="searchLorryDetails()" data-toggle="modal" data-target="#setLorrymodal">
+								<span class="fa fa-truck" ></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Quantity: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="quantity" placeholder="Quantity" ng-disabled="loadOrder" required/>
+					</div>
+				</div>
+				<br/><br/><br/>
+			</div>
+			
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Bill No: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="billno" placeholder="Bill No." ng-disabled="loadOrder" required/>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Bill Date: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<input type="text" id="billDate" class="form-control" ng-model="billdate" placeholder="Bill Date" ng-disabled="loadOrder" required />
+							<span class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<br/><br/><br/>
+			</div>
+			
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Bill Amount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="billamt" placeholder="Bill Amount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>				
+				<br/><br/><br/>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Select Batches: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<select class="form-control" ng-model="productionid" placeholder="Select Batch" ng-disabled="loadOrder" required>
+								<option ng-repeat="data in batchData" value="{{data.production_id}}">{{data.batch_no}}</option>
+							</select>
+							<span class="input-group-addon" title="Click to Add from Batch" ng-click="addBatchToOrder()">
+								<span class="fa fa-plus-square"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<table class="table table-condensed" ng-show="showBatches">
+							<thead>
+							  <tr>
+								<th>Batch No.</th>
+								<th>Product Remained</th>
+								<th>Quantity</th>
+							  </tr>
+							</thead>
+							<tbody class="batches">
+							  <tr ng-repeat="batch in setOrderBatches">
+								<td>{{batch.batch_no}}</td>
+								<td>{{batch.prod_remained /1000}}</td>
+								<td><input type="text" class="batchinput" data-batchno="{{batch.batch_no}}" ng-disabled="confirmBatch"></td>
+							  </tr>
+							  <tr>
+								<td colspan="3"><button type="button" class="btn btn-sm btn-info" ng-click="confirmBatches()" ng-disabled="confirmBatch">Confirm Batches</button></td>
+							  </tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
+				<button type="submit" class="btn btn-success" ng-disabled="!confirmBatch"><i class="fa fa-save"></i> Save</button>				
+			</div>
+		</form>
+	</div>
+
+<!-- Set Client Details Modal -->
+<div class="modal fade" id="setClientmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">SET CLIENT</h4>
+      </div>
+      <div class="modal-body">
+		<table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Name</th>
+				<th>City</th>
+				<th>Set</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in clients" class="fullData">		
+				<td>{{data.client_nm}}</td>
+				<td>{{data.client_city}}</td>
+				<td>			
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setclientDetails(data.client_id, data.client_nm, data.client_city);">
+						<i class="fa fa-outdent"></i> SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	  </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+<!-- Set Lorry Details Modal -->
+<div class="modal fade" id="setLorrymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">SET Lorry</h4>
+      </div>
+      <div class="modal-body">
+		<table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Sr. No.</th>
+				<th>Lorry Number</th>
+				<th>Set</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in lorryData" class="fullData">		
+				<td>{{$index+1}}</td>
+				<td>{{data.lorry_no}}</td>
+				<td>			
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setLorryDetails(data.lorry_id, data.lorry_no);">
+						<i class="fa fa-outdent"></i> SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	  </div>
+    </div>
+	</form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+$(function() {
+    $('#orderDate').datetimepicker({
+		format: 'D/M/YYYY',
+		defaultDate: new Date(),
+		maxDate:new Date()
+	});
+	
+    $('#dispatchDate,#billDate').datetimepicker({
+		format: 'D/M/YYYY',		
+		minDate:new Date()
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>

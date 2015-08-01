@@ -1,0 +1,101 @@
+<div class="col-md-11 col-sm-12" ng-controller="DeactiveClientListController">
+
+<h3 class="text-primary">DEACTIVE CLIENT DETAILS <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+<hr>
+
+<div class="col-md-10 col-sm-12 col-xs-12">
+
+<br/>
+	<div class="input-group date">
+		<input type="text" ng-model="searchClient" class="form-control" placeholder="Search Client"/>	
+		<span class="input-group-addon">
+			<span class="fa fa-lg fa-search-plus"></span>
+		</span>	
+	</div>
+<br/>
+<a href="#/client_list" title="Total Clients" class="btn btn-sm btn-warning" ><i class="fa fa-hand-o-left"></i></a>
+<br/>
+<br/>
+
+<table class="table table-bordered">
+	<thead>
+	  <tr>
+		<th>Name</th>
+		<th>Contact No.</th>
+		<th>Address</th>
+		<th>City</th>
+		<th>District</th>		
+		<th>Activate</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="data in ClientData | filter:searchClient" class="fullData">		
+		<td>{{data.client_nm}}</td>
+		<td>{{data.client_contact}}</td>		
+		<td>{{data.client_address}}</td>
+		<td>{{data.client_city}}</td>
+		<td>{{data.client_dist}}</td>		
+		<td>			
+			<button type="button" class="btn btn-sm btn-info" ng-click="activateClient(data.client_id);" title="Activate Clients">
+				<i class="fa fa-unlock"></i></button>
+		</td>
+	  </tr>
+	  <tr class="noData">
+		<td colspan="8"> No Data Found </td>
+	  </tr>
+	  <tr class="loadData">
+		<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+	  </tr>
+	</tbody>
+</table>
+</div>
+
+<!-- Large modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+	<form ng-submit="saveEdittedClientDetails();">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Client Details</h4>
+      </div>
+      <div class="modal-body">        
+				<input type="hidden" class="form-control" ng-model="clntid" /><br/>
+				<input type="text" ng-model="clientnm" placeholder="Client Name" class="form-control" ng-disabled="clnt" required/><br/>
+				<input type="text" ng-model="clientcontact" placeholder="Client Contact" class="form-control" ng-disabled="clnt" required/><br/>
+				<textarea ng-model="address" placeholder="Address" class="form-control" ng-disabled="clnt" required></textarea><br/>
+				<input type="text" list="clientcity" ng-model="clientcity" placeholder="City" class="form-control" ng-disabled="clnt" required/><br/>
+					<datalist id="clientcity">
+						<option ng-repeat="dt in ClientData" ng-value="dt.client_city"></option>
+					</datalist>
+				<input type="text" list="clientdist" ng-model="clientdist" placeholder="Client District" class="form-control" ng-disabled="clnt" required/><br/>				
+					<datalist id="clientdist">
+						<option ng-repeat="dt in ClientData" ng-value="dt.client_dist"></option>
+					</datalist>
+      </div>
+      <div class="modal-footer">		
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-disabled="clnt"><i class="fa fa-times-circle"></i> Close</button>
+        <button type="submit" class="btn btn-primary saveDetails" ng-disabled="clnt"><i class="fa fa-floppy-o"></i> Save Details</button>
+      </div>
+	</div>
+	</form>
+  </div>
+</div>
+
+<!-- Small modal -->
+<div class="modal fade" id="NonActiveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Are you sure to Delete - <span class="text-info">{{clntnm}} </span>?</h4>
+      </div>
+      <div class="modal-footer">		
+        <button type="button" class="btn btn-primary" ng-click="deactivateclient();"><i class="fa fa-thumbs-up"></i> Confirm</button>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+</div>

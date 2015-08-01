@@ -1,5 +1,6 @@
 greenorganics.controller("AddProductionBatchController", function($scope, $http, $route){
 	$scope.profileFlag=false;
+	$scope.firstload=true;
 	$scope.stocks=null;
 	$('.waitspinner').hide();
 	$scope.getProfiles = function(){		
@@ -18,7 +19,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 			if(result.data.status==true){
 				$(".fullData").show();
 				$(".noData").hide();
-				$(".loadData").hide();
+				$(".loadData").hide();				
 				$scope.profileData=result.data.Profiles;
 			}
 			else{
@@ -39,6 +40,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 	};
 	
 	$scope.FetchDetailedStock = function(){
+		$scope.firstload=true;
 		$http({
 			method: 'POST',
 			url: 'php/master.php?action=FetchDetailedStockForProduction',
@@ -60,6 +62,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 				$scope.stkslaughterhouseid=result.data.Stocks[2].prod_id;
 				$scope.stkawfid=result.data.Stocks[3].prod_id;
 				$scope.stkbagsid=result.data.Stocks[4].prod_id;
+				$scope.firstload=false;
 			}
 		});
 	};
@@ -161,6 +164,11 @@ greenorganics.controller("AddProductionProfileController", function($scope, $htt
 			}			
 		});
 	};
+	
+	$scope.$watch('fillerpowder + awf+ slaughterhouse+ organicmanure', function() {
+		$scope.totValProd = parseFloat($scope.fillerpowder) + parseFloat($scope.awf)+ parseFloat($scope.slaughterhouse) + parseFloat($scope.organicmanure);
+		console.log($scope.totValProd);
+	});
 	
 	$scope.getProfiles = function(){		
 		$(".fullData").hide();

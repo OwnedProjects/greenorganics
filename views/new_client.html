@@ -1,0 +1,71 @@
+<div class="col-md-11 col-sm-12" ng-controller="NewClientController">
+
+<h3 class="text-warning">ADD CLIENT<span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+
+<div class="col-md-10 col-sm-12 col-xs-12">
+<strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i><br/><br/></strong>
+<span class="messageDisp"></span>
+<form ng-submit="addtodb()">
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Client Name: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" list="clients" ng-model="clientnm" placeholder="Client Name" class="form-control" ng-disabled="clnt" required/>
+		  <datalist id="clients">
+			<option ng-repeat="dt in clients" ng-value="dt.client_nm"></option>
+		  </datalist>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Client Contact: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="clientcontact" placeholder="Client Contact" class="form-control" ng-disabled="clnt" required/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">Client Address: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<textarea ng-model="address" placeholder="Address" class="form-control" ng-disabled="clnt" required></textarea>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">City: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="clientcity" placeholder="City" class="form-control" ng-disabled="clnt" required/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-4 col-xs-12">	
+		<label class="text-info">District: </label>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<input type="text" ng-model="clientdist" placeholder="District" class="form-control" ng-disabled="clnt" required/>
+		<br/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-sm-4 col-xs-12">		
+		<button class="btn btn-sm btn-success" ><i class="fa fa-save"> SAVE</i></button>
+		<br/><br/>
+	</div>
+</div>
+</form>
+</div>
+
+</div>

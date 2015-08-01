@@ -44,6 +44,18 @@
 				</div>
 			</div>
 			<br/>
+			<div class="row">
+				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Total Product: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="totValProd" placeholder="Total Product" readonly />
+					</div>
+				</div>
+			</div>
+			<br/>
 			
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
@@ -68,7 +80,6 @@
 				<th>Filler Powder</th>
 				<th>Organic Manure</th>
 				<th>Slaughter House Waste</th>
-				<th>Gypsum</th>
 				<th>Animal Waste Filler</th>
 				<th>Select</th>
 			  </tr>
@@ -78,7 +89,6 @@
 				<td>{{data.fillerpowder}}</td>
 				<td>{{data.organicmanure}}</td>
 				<td>{{data.slaughterhouse}}</td>
-				<td>{{data.gypsum}}</td>
 				<td>{{data.awf}}</td>
 				<td>			
 					<button type="button" class="btn btn-sm btn-danger" ng-click="deleteProfile(data.profile_id);">

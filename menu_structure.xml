@@ -13,7 +13,7 @@
 		<mainlink>#</mainlink>
 		<hasSubmenus>YES</hasSubmenus>
 		<submenu_module>
-			<submenu>
+			<!-- <submenu>
 				<name>Add Product</name>
 				<icon>fa-plus-circle</icon>
 				<link>#/add_inward_product</link>
@@ -22,7 +22,7 @@
 				<name>Add Supplier</name>
 				<icon>fa-user-plus</icon>
 				<link>#/add_supplier</link>
-			</submenu>
+			</submenu> -->
 			<submenu>
 				<name>Products List</name>
 				<icon>fa-tasks</icon>
@@ -60,6 +60,37 @@
 				<name>Add Production Profile</name>
 				<icon>fa-cube</icon>
 				<link>#/add_production_profile</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
+		<name>SALES</name>
+		<icon></icon>
+		<mainlink>#/new_order</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>New Order</name>
+				<icon>fa-dropbox</icon>
+				<link>#/new_order</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
+		<name>CLIENT DETAILS</name>
+		<icon></icon>
+		<mainlink>#/new_client</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>New Client</name>
+				<icon>fa-user-plus</icon>
+				<link>#/new_client</link>
+			</submenu>
+			<submenu>
+				<name>All Clients</name>
+				<icon>fa-users</icon>
+				<link>#/client_list</link>
 			</submenu>
 		</submenu_module>
 	</menu>
