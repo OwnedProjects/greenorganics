@@ -17,12 +17,12 @@
 				<name>Add Product</name>
 				<icon>fa-plus-circle</icon>
 				<link>#/add_inward_product</link>
-			</submenu>
+			</submenu>-->
 			<submenu>
 				<name>Add Supplier</name>
 				<icon>fa-user-plus</icon>
 				<link>#/add_supplier</link>
-			</submenu> -->
+			</submenu>
 			<submenu>
 				<name>Products List</name>
 				<icon>fa-tasks</icon>

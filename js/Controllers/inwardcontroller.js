@@ -585,6 +585,51 @@ greenorganics.controller("SupplierListController", function($scope, $http, $rout
 		$scope.suppnm=suppnm;		
 	};
 	
+	$scope.saveEdittedSupplierDetails = function(){
+		if($scope.suppliernm==undefined || $scope.suppliercontact==undefined || $scope.address==undefined || $scope.suppliercity==undefined || $scope.contactperson==undefined || $scope.vatno==undefined){
+			alert('All field are compulsary.');
+			throw "Fields Empty";
+		}
+		var tmpSupplier = {
+			"suppid": $scope.suppid,
+			"suppliernm": $scope.suppliernm,
+			"suppliercontact": $scope.suppliercontact,
+			"address": $scope.address,
+			"suppliercity": $scope.suppliercity,
+			"contactperson": $scope.contactperson,
+			"vatno": $scope.vatno
+		};
+		$(".loadSpinner").show();
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=updtSupplierDetails',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: tmpSupplier
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$scope.prod=true;
+				$(".messageDisp").append('<strong class="text-success">Supplier Added Successfully.<br/><br/></strong>');
+				tmpSupplier=null;
+				setTimeout(function(){
+					$(".loadSpinner").hide();
+					$(".messageDisp strong").remove();
+					$route.reload();
+				},2000);
+			}
+			else{
+				$(".loadSpinner").hide();
+				$(".messageDisp").append('<strong class="text-danger">Error!!! Please contact system administrator.<br/><br/></strong>');
+				setTimeout(function(){
+					$(".messageDisp strong").remove();
+				},3000);
+			}
+		});
+	};
+	
 	$scope.fetchSpecificSupplierDetails = function(){
 		$scope.prod=true;
 		$http({

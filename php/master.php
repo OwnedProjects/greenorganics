@@ -251,6 +251,20 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 	
+	if($action=='updtSupplierDetails'){
+		$data = json_decode(file_get_contents("php://input"));
+		$addSupplier="UPDATE `supplier_master` SET `supplier_name`='".$data->suppliernm."',`supplier_contact`='".$data->suppliercontact."',`supplier_contact_person`='".$data->contactperson."',`supplier_address`='".$data->address."',`supplier_city`='".$data->suppliercity."',`vat_no`='".$data->vatno."' WHERE `supplier_id`=".$data->suppid;
+		
+		$resSupplier=mysql_query($addSupplier);
+		if($resSupplier){
+			$obj->status=true;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
 	if($action=='fetchSpecificSupplierDetails'){
 		$data = json_decode(file_get_contents("php://input"));
 		$selSupplier="SELECT * FROM `supplier_master` WHERE supplier_id=".$data;
