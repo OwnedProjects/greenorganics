@@ -2,7 +2,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 	$scope.showBatches=false;
 	$scope.confirmBatch=false;
 	$scope.setOrderBatches=new Array();
-	
+	$scope.discount=0;
 	$scope.loadProductionBatches = function(){
 		$('.waitspinner').show();
 		$scope.loadOrder=true;
@@ -181,6 +181,10 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 		}
 	};
 	
+	$scope.$watch('billamt-discount', function() {
+		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);		
+	});
+	
 	$scope.placeOrder = function(){
 		
 		var orderdt=new Date();
@@ -203,6 +207,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 			"sale_date":dt.getTime(),
 			"sale_month":dt.getMonth(),
 			"sale_year":dt.getFullYear(),
+			"order_no":$scope.orderNo,
 			"dc_no":$scope.dcno,
 			"order_date":orderdt.getTime(),					//Order Date and Sales Date can be different
 			"disp_date":dispdt.getTime(),
@@ -212,6 +217,9 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 			"billno":$scope.billno,
 			"bill_date":billdt.getTime(),
 			"bill_amount":$scope.billamt,
+			"discount":$scope.discount,
+			"net_amount":$scope.netamt,
+			"vat_amount":$scope.vatamt,
 			"batches_obj":$scope.newEnteredBatchArray
 		};
 		
@@ -232,6 +240,36 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 			}
 			else{
 				alert('Error!!! Please Contact your System Administrator.');
+			}
+		});
+	};
+	
+	$scope.addlorry = function(){
+		$('.waitspinner').show();
+		var tmpString=$scope.lorrystate+ " "+$("#lorrystatecode").val()+"/"+ $scope.lorrycode+" "+$('#popuplorryno').val();		
+		var lorryObj={
+			"lorry":tmpString.toUpperCase()
+		};
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=addlorry',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: lorryObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$(".waitspinner").parent().append('<strong class="text-success">Lorry Added Successfully</strong>');
+				setTimeout(function(){
+					$(".waitspinner").parent().children("strong").remove();
+					$('.waitspinner').hide();
+					$route.reload();
+				},2000);
+			}
+			else{
+				alert('Error!!! Please contact your system Administrator.');
 			}
 		});
 	};

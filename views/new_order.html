@@ -3,18 +3,15 @@
 	<hr/>
 	<div class="col-md-10 col-sm-12 col-xs-12">
 		<form ng-submit="placeOrder();">
-			<div class="row">				
+			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">D.C Number: </label>
+						<label class="text-info">Order Number: </label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="dcno" placeholder="Dispatch Chalan" ng-disabled="loadOrder" required/>
+						<input type="text" class="form-control" ng-model="orderNo" placeholder="Order Number" ng-disabled="loadOrder" required/>
 					</div>
 				</div>
-					<br/><br/><br/>
-			</div>
-			<div class="row">				
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Date of Order: </label>
@@ -26,6 +23,18 @@
 								<span class="fa fa-calendar"></span>
 							</span>
 						</div>
+					</div>
+				</div>
+					<br/><br/><br/>
+			</div>
+				
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">D.C Number: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="dcno" placeholder="Dispatch Chalan" ng-disabled="loadOrder" required/>
 					</div>
 				</div>
 				
@@ -83,6 +92,9 @@
 							<span class="input-group-addon" ng-click="searchLorryDetails()" data-toggle="modal" data-target="#setLorrymodal">
 								<span class="fa fa-truck" ></span>
 							</span>
+							<span class="input-group-addon" data-toggle="modal" data-target="#addLorrymodal">
+								<span class="fa fa-plus" ></span>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -132,9 +144,40 @@
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="text" class="form-control" ng-model="billamt" placeholder="Bill Amount" ng-disabled="loadOrder" required/>
 					</div>
+				</div>					
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Discount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="discount" placeholder="Discount" ng-disabled="loadOrder" required/>
+					</div>
 				</div>				
 				<br/><br/><br/>
 			</div>
+			
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Net Amount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="netamt" placeholder="Net Amount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>					
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">VAT Amount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="vatamt" placeholder="VAT Amount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>				
+				<br/><br/><br/>
+			</div>
+			
+			
+			
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
@@ -195,6 +238,15 @@
         <h4 class="modal-title" id="myModalLabel">SET CLIENT</h4>
       </div>
       <div class="modal-body">
+		<div class="row col-md-6 col-sm-6 sol-xs-6">
+			<div class="input-group date">
+				<input type="text" class="form-control" placeholder="Search..." ng-model="searchClient">
+				<span class="input-group-addon">
+					<span class="fa fa-search"></span>
+				</span>
+			</div>
+		</div>
+		<br/><br/>
 		<table class="table table-bordered">
 			<thead>
 			  <tr>
@@ -204,7 +256,7 @@
 			  </tr>
 			</thead>
 			<tbody>
-			  <tr ng-repeat="data in clients" class="fullData">		
+			  <tr ng-repeat="data in clients | filter:searchClient" class="fullData">		
 				<td>{{data.client_nm}}</td>
 				<td>{{data.client_city}}</td>
 				<td>			
@@ -235,6 +287,15 @@
         <h4 class="modal-title" id="myModalLabel">SET Lorry</h4>
       </div>
       <div class="modal-body">
+	  <div class="row col-md-6 col-sm-6 sol-xs-6">
+			<div class="input-group date">
+				<input type="text" class="form-control" placeholder="Search..." ng-model="searchLorry">
+				<span class="input-group-addon">
+					<span class="fa fa-search"></span>
+				</span>
+			</div>
+		</div>
+		<br/><br/>
 		<table class="table table-bordered">
 			<thead>
 			  <tr>
@@ -244,7 +305,7 @@
 			  </tr>
 			</thead>
 			<tbody>
-			  <tr ng-repeat="data in lorryData" class="fullData">		
+			  <tr ng-repeat="data in lorryData | filter:searchLorry" class="fullData">		
 				<td>{{$index+1}}</td>
 				<td>{{data.lorry_no}}</td>
 				<td>			
@@ -261,9 +322,48 @@
 			</tbody>
 		</table>
 	  </div>
-    </div>
-	</form>
+    </div>	
   </div>
+</div>
+
+
+<!-- Add New Lorry Modal -->
+<div class="modal fade" id="addLorrymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <form ng-submit="addlorry();">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Lorry</h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<span class="displayMsg"></span>
+		
+			<div class="col-md-2 col-sm-2 col-xs-4">
+				<input type="text" class="form-control" ng-model="lorrystate" placeholder="MH" maxlength='2' autofocus required />
+			</div>
+			<div class="col-md-3 col-sm-2 col-xs-4">
+				<input type="number" class="form-control" ng-model="lorrystatecode" id="lorrystatecode" placeholder="12" max="99" min="1" required />
+			</div>
+			<div class="col-md-2 col-sm-2 col-xs-4">
+				<input type="text" class="form-control" ng-model="lorrycode" placeholder="AA" maxlength='2' required />
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-4">
+				<input type="number" class="form-control" ng-model="popuplorryno" placeholder="0123" id="popuplorryno" max="9999" min="1" required />
+			</div>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<h4>Note: e.g  <span class="text-info">MH - 12 - AA - 0123</span></h4>			
+				<div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div>
+				<button type="submit" class="btn btn-success">Save Details</button>
+			</div>
+		</div>
+		
+	  
+	  </div>    
+  </div>
+  </form>
+</div>
 </div>
 </div>
 <script type="text/javascript">

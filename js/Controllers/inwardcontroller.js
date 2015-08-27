@@ -311,6 +311,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 });
 
 greenorganics.controller("PurchaseBagsListController", function($scope, $http, $route){
+	$scope.discount=0;
 	$scope.lorryfrieghtcheck=false;
 	$(".loadSpinner").hide();
 	$scope.lorryfreight=0;
@@ -384,7 +385,7 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 	};
 		
 	$scope.addtogrid = function(){
-		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.totalbags==undefined){
+		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.totalbags==undefined || $scope.billamt==undefined || $scope.discount==undefined || $scope.netamt==undefined ){
 			alert('All field are compulsary.');
 			throw 'All field are compulsary.';
 		}
@@ -404,6 +405,9 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 			"supplierid":$scope.supplierid,
 			"supplier_nm":$scope.suppliernm,			
 			"billno":$scope.billno,
+			"billamt":$scope.billamt,
+			"discount":$scope.discount,
+			"netamt":$scope.netamt,
 			"productid":$scope.prodid,
 			"product":$scope.prodnm,			
 			"totalbags":$scope.totalbags
@@ -412,6 +416,11 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 		$scope.purchaseData.push(tmpArr);
 		$scope.addtodb();		
 	};
+	
+	
+	$scope.$watch('billamt-discount', function() {
+		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);		
+	});
 	
 	$scope.resetPurchaseForm = function(){
 		$("#purchaseDt").val('');
@@ -422,6 +431,9 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 		$scope.prodid='';
 		$scope.prodnm='';
 		$scope.billno='';
+		$scope.billamt='';
+		$scope.discount='';
+		$scope.netamt='';
 		$scope.totalbags='';
 	};
 	

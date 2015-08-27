@@ -1,4 +1,6 @@
-1. Discount, Rate, Net amount and VAT Amount--> in New Order
-2. Order No Orderdate then DC No and DC Date
+1. Discount, Rate, Net amount and VAT Amount--> in New Order  [Completed]
+2. Order No Order date then DC No and DC Date [Completed]
 3. Bill Amount - in Purchase Bags.
 4. Amount need to be added in Purchases and "Total Amount" change to Net Amount.
+
+//Bag purchase not entering in DB

@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', E_STRICT);
+//ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -132,7 +132,7 @@ $action=$_GET['action'];
 		$data = json_decode(file_get_contents("php://input"));
 		$flag=false;
 		for($i=0;$i<count($data);$i++){
-			$insProd="INSERT INTO `purchase_bag_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `totalbags`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",'".$data[$i]->billno."','".$data[$i]->totalbags."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
+			$insProd="INSERT INTO `purchase_bag_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `totalbags`, `bill_amount`, `discount`, `net_amount`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",'".$data[$i]->billno."','".$data[$i]->totalbags."','".$data[$i]->billamt."','".$data[$i]->discount."','".$data[$i]->netamt."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
 			$resinsProd=mysql_query($insProd);
 			#$milliseconds = round(microtime(true) * 1000); - Returns System get time in PHP
 			$selProd="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data[$i]->productid;
@@ -726,7 +726,7 @@ $action=$_GET['action'];
 				mysql_query($updOStock);
 				
 				/* Insert New Order */
-				$insOrder="INSERT INTO `sales_register`(`dc_no`, `order_date`, `dispatch_date`, `client_id`, `lorry_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `sale_date`, `sale_month`, `sale_year`) VALUES ('".$data->dc_no."','".$data->order_date."','".$data->disp_date."',".$data->client_id.",".$data->lorry_id.",'".$data->quantity."','".$data->billno."','".$data->bill_date."','".$data->bill_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."')";
+				$insOrder="INSERT INTO `sales_register`(`order_no`, `dc_no`, `order_date`, `dispatch_date`, `client_id`, `lorry_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `discount`, `net_amount`, `vat_amount`, `sale_date`, `sale_month`, `sale_year`) VALUES ('".$data->order_no."','".$data->dc_no."','".$data->order_date."','".$data->disp_date."',".$data->client_id.",".$data->lorry_id.",'".$data->quantity."','".$data->billno."','".$data->bill_date."','".$data->bill_amount."','".$data->discount."','".$data->net_amount."','".$data->vat_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."')";
 				$resOrder=mysql_query($insOrder);
 				if($resOrder){
 					$selmaxorder="SELECT MAX(`sales_id`) FROM `sales_register`";
