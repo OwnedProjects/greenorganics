@@ -311,11 +311,8 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 });
 
 greenorganics.controller("PurchaseBagsListController", function($scope, $http, $route){
-	$scope.discount=0;
-	$scope.lorryfrieghtcheck=false;
-	$(".loadSpinner").hide();
-	$scope.lorryfreight=0;
-	$scope.purchaseData = new Array();
+	$scope.discount=0;	
+	$(".loadSpinner").hide();	
 	$scope.searchLorryNumber = function(){
 		$('.fullData').hide();
 		$('.noData').hide();
@@ -383,19 +380,28 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 		$scope.prodnm=prod_name;
 		$('#supplierdetails').modal('hide');
 	};
-		
-	$scope.addtogrid = function(){
+	
+	$scope.$watch('billamt-discount', function() {
+		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);		
+	});
+	
+	$scope.reload = function(){
+		$route.reload();
+	};
+	
+	$scope.addtodb = function(){
 		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.totalbags==undefined || $scope.billamt==undefined || $scope.discount==undefined || $scope.netamt==undefined ){
 			alert('All field are compulsary.');
 			throw 'All field are compulsary.';
 		}
+		$(".loadSpinner").show();
 		
 		var dt=new Date();
 		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
 		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
 		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));
 		
-		var tmpArr = {
+		$scope.purchaseData = {
 			"purchaseTm":dt.getTime(),
 			"purchaseMnt":(parseInt($("#purchaseDt").val().split('/')[1])-1),
 			"purchaseYr":(parseInt($("#purchaseDt").val().split('/')[2])),
@@ -413,48 +419,6 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 			"totalbags":$scope.totalbags
 		};
 		
-		$scope.purchaseData.push(tmpArr);
-		$scope.addtodb();		
-	};
-	
-	
-	$scope.$watch('billamt-discount', function() {
-		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);		
-	});
-	
-	$scope.resetPurchaseForm = function(){
-		$("#purchaseDt").val('');
-		$scope.lorryid='';
-		$scope.lorrynumber='';
-		$scope.supplierid='';
-		$scope.suppliernm='';
-		$scope.prodid='';
-		$scope.prodnm='';
-		$scope.billno='';
-		$scope.billamt='';
-		$scope.discount='';
-		$scope.netamt='';
-		$scope.totalbags='';
-	};
-	
-	$scope.removeProductDetails = function(purchaseDt,lorryno,billno){
-		var index=null;
-		for(var i=0;i<$scope.purchaseData.length;i++){
-			if($scope.purchaseData[i].purchaseDt==purchaseDt && $scope.purchaseData[i].lorryno==lorryno && $scope.purchaseData[i].billno==billno){
-				index=i;
-				break;
-			}
-		}
-		console.log(index);
-		$scope.purchaseData.splice(index,1);
-	};
-	
-	$scope.reload = function(){
-		$route.reload();
-	};
-	
-	$scope.addtodb = function(){
-		$(".loadSpinner").show();
 		$http({
 			method: 'POST',
 			url: 'php/master.php?action=AddPurchaseBagsToDB',
@@ -471,7 +435,7 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 				$scope.purchaseData.length=0;
 				setTimeout(function(){
 					$(".messageDisp strong").remove();
-					$scope.resetPurchaseForm();
+					$route.reload();
 				},2000);
 			}
 			else{

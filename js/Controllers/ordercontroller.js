@@ -170,7 +170,8 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 					$('.batches').find('input[type=text]').each(function(){
 						var tmpArr={
 							"batchno":$(this).attr('data-batchno'),
-							"volume":parseFloat($(this).val())*1000
+							"volume":parseFloat($(this).val())*1000,
+							"volume_remained":parseFloat($(this).attr('data-prod_remained'))-(parseFloat($(this).val())*1000)
 						};
 						$scope.newEnteredBatchArray.push(tmpArr); 
 					});

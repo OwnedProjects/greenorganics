@@ -203,13 +203,16 @@
 								<th>Batch No.</th>
 								<th>Product Remained</th>
 								<th>Quantity</th>
+								<th></th>
 							  </tr>
 							</thead>
 							<tbody class="batches">
 							  <tr ng-repeat="batch in setOrderBatches">
 								<td>{{batch.batch_no}}</td>
 								<td>{{batch.prod_remained /1000}}</td>
-								<td><input type="text" class="batchinput" data-batchno="{{batch.batch_no}}" ng-disabled="confirmBatch"></td>
+								<td><input type="text" class="batchinput" data-batchno="{{batch.batch_no}}" data-prod_remained="{{batch.prod_remained}}" ng-disabled="confirmBatch">
+									<!-- <span class="text-danger"><span class="fa fa-close removeBatch"></span></span> -->
+								</td>
 							  </tr>
 							  <tr>
 								<td colspan="3"><button type="button" class="btn btn-sm btn-info" ng-click="confirmBatches()" ng-disabled="confirmBatch">Confirm Batches</button></td>

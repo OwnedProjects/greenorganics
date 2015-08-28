@@ -130,22 +130,20 @@ $action=$_GET['action'];
 	
 	if($action=='AddPurchaseBagsToDB'){
 		$data = json_decode(file_get_contents("php://input"));
-		$flag=false;
-		for($i=0;$i<count($data);$i++){
-			$insProd="INSERT INTO `purchase_bag_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `totalbags`, `bill_amount`, `discount`, `net_amount`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",'".$data[$i]->billno."','".$data[$i]->totalbags."','".$data[$i]->billamt."','".$data[$i]->discount."','".$data[$i]->netamt."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
+		$flag=false;		
+			$insProd="INSERT INTO `purchase_bag_register`(`lorry_id`, `supplier_id`, `prod_id`, `number_bags`, `billno`, `bill_amount`, `discount`, `net_amount`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data->lorryid.",".$data->supplierid.",".$data->productid.",'".$data->totalbags."','".$data->billno."','".$data->billamt."','".$data->discount."','".$data->netamt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";			
 			$resinsProd=mysql_query($insProd);
 			#$milliseconds = round(microtime(true) * 1000); - Returns System get time in PHP
-			$selProd="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data[$i]->productid;
+			$selProd="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data->productid;
 			$resProd=mysql_query($selProd);
 			$rowProd = mysql_fetch_array($resProd,MYSQL_BOTH);
-			$newstk=floatval($rowProd['stock_avail'])+floatval($data[$i]->totalbags);
-			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data[$i]->purchaseTm."' where  `product_type`='Inward' and `prod_id`=".$data[$i]->productid;
+			$newstk=floatval($rowProd['stock_avail'])+floatval($data->totalbags);
+			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data->purchaseTm."' where  `product_type`='Inward' and `prod_id`=".$data->productid;
 			$resupdtStock=mysql_query($updtStock);
-			$tmpCnt[$i]->resinsProd=$resinsProd;
+			$tmpCnt->resinsProd=$resinsProd;
 			if($resupdtStock){
 				$flag=true;
-			}
-		}
+			}		
 		$obj->resinsProd=$tmpCnt;
 		 if($flag==true){
 			$obj->status=true;
@@ -746,6 +744,11 @@ $action=$_GET['action'];
 						
 						$insbatchOrder="INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES (".$maxOrder.",'".$batchObj[$i]->batchno."','".$batchObj[$i]->volume."')";
 						$resBatchOrder=mysql_query($insbatchOrder);
+						
+						if($batchObj[$i]->volume_remained==0){
+							$updBatchNew="UPDATE `production_batch_register` SET `batch_status`='closed' WHERE `batch_no`=".$batchObj[$i]->batchno;
+							mysql_query($updBatchNew);
+						}
 						//INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES ([value-1],[value-2],[value-3])
 					}
 					$obj->status=true;
