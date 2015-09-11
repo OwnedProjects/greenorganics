@@ -103,22 +103,25 @@ $action=$_GET['action'];
 	if($action=='AddPurchaseDetailsToDB'){
 		$data = json_decode(file_get_contents("php://input"));
 		$flag=false;
-		for($i=0;$i<count($data);$i++){
-			$insProd="INSERT INTO `purchase_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data[$i]->lorryid.",".$data[$i]->supplierid.",".$data[$i]->productid.",'".$data[$i]->billno."',".$data[$i]->weightinkg.",'".$data[$i]->rate."','".$data[$i]->lorryfreight."','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
+		
+			$insProd="INSERT INTO `purchase_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data->lorryid.",".$data->supplierid.",".$data->productid.",'".$data->billno."',".$data->weight.",'".$data->rate."','".$data->lorryfreight."','".$data->finalAmt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
 			$resinsProd=mysql_query($insProd);
+			
 			#$milliseconds = round(microtime(true) * 1000); - Returns System get time in PHP
-			$selProd="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data[$i]->productid;
+			
+			$selProd="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data->productid;
 			$resProd=mysql_query($selProd);
 			$rowProd = mysql_fetch_array($resProd,MYSQL_BOTH);
-			$newstk=floatval($rowProd['stock_avail'])+floatval($data[$i]->weightinkg);
-			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data[$i]->purchaseTm."' where  `product_type`='Inward' and `prod_id`=".$data[$i]->productid;
-			$resupdtStock=mysql_query($updtStock);
-			$tmpCnt[$i]->resinsProd=$resinsProd;
-			if($resupdtStock){
-				$flag=true;
-			}
-		}
-		$obj->resinsProd=$tmpCnt;
+			
+			$newstk=floatval($rowProd['stock_avail'])+floatval($data->weight);
+			$updtStock="UPDATE `stock_master` SET `stock_avail`=".$newstk.",`stock_date`='".$data->purchaseTm."' where  `product_type`='Inward' and `prod_id`=".$data->productid;
+			$resupdtStock=mysql_query($updtStock);			
+			
+			//$insAccounts="INSERT INTO `account_register`(`acc_client_id`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data[$i]->supplierid.",'credit','".$data[$i]->finalAmt."','".$data[$i]->purchaseTm."','".$data[$i]->purchaseMnt."','".$data[$i]->purchaseYr."')";
+		if($resupdtStock){
+			$flag=true;
+		}		
+		$obj->resinsProd=$resinsProd;
 		 if($flag==true){
 			$obj->status=true;
 		 }
@@ -441,12 +444,12 @@ $action=$_GET['action'];
 			$rowoutward = mysql_fetch_array($resoutward,MYSQL_BOTH);
 			$count = mysql_num_rows($resoutward);
 			if($count>0){
-				$newOstk=floatval($rowoutward['stock_avail'])+10000;
+				$newOstk=floatval($rowoutward['stock_avail'])+10;
 				$updOStock="UPDATE `stock_master` SET `stock_avail`=".$newOstk.",`stock_date`='".$data->production_date."' where  `product_type`='Outward' and `prod_id`=1";
 				mysql_query($updOStock);
 			}
 			else{
-				$updOStock="INSERT INTO `stock_master`(`product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES ('Outward','1','10000','".$data->production_date."')";
+				$updOStock="INSERT INTO `stock_master`(`product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES ('Outward','1','10','".$data->production_date."')";
 				mysql_query($updOStock);
 			}
 						
@@ -454,7 +457,7 @@ $action=$_GET['action'];
 			$selfillerpow="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data->idfillerpowder;
 			$resfillerpow=mysql_query($selfillerpow);
 			$rowfillerpow = mysql_fetch_array($resfillerpow,MYSQL_BOTH);
-			$newfstk=floatval($rowfillerpow['stock_avail'])-(floatval($data->fillerpowder)*1000);
+			$newfstk=floatval($rowfillerpow['stock_avail'])-(floatval($data->fillerpowder));
 			$updfStock="UPDATE `stock_master` SET `stock_avail`=".$newfstk.",`stock_date`='".$data->production_date."' where  `product_type`='Inward' and `prod_id`=".$data->idfillerpowder;
 			mysql_query($updfStock);
 			
@@ -462,7 +465,7 @@ $action=$_GET['action'];
 			$selorgpow="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data->idorganicmanure;
 			$resorgpow=mysql_query($selorgpow);
 			$roworgpow = mysql_fetch_array($resorgpow,MYSQL_BOTH);
-			$neworgstk=floatval($roworgpow['stock_avail'])-(floatval($data->organicmanure)*1000);
+			$neworgstk=floatval($roworgpow['stock_avail'])-(floatval($data->organicmanure));
 			$updorgStock="UPDATE `stock_master` SET `stock_avail`=".$neworgstk.",`stock_date`='".$data->production_date."' where `product_type`='Inward' and `prod_id`=".$data->idorganicmanure;
 			mysql_query($updorgStock);
 			
@@ -470,7 +473,7 @@ $action=$_GET['action'];
 			$selshwpow="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data->idslaughterhouse;
 			$resshwpow=mysql_query($selshwpow);
 			$rowshwpow = mysql_fetch_array($resshwpow,MYSQL_BOTH);
-			$newshwstk=floatval($rowshwpow['stock_avail'])-(floatval($data->slaughterhouse)*1000);
+			$newshwstk=floatval($rowshwpow['stock_avail'])-(floatval($data->slaughterhouse));
 			$updshwStock="UPDATE `stock_master` SET `stock_avail`=".$newshwstk.",`stock_date`='".$data->production_date."' where `product_type`='Inward' and `prod_id`=".$data->idslaughterhouse;
 			mysql_query($updshwStock);
 			
@@ -478,7 +481,7 @@ $action=$_GET['action'];
 			$selawfpow="SELECT `stock_avail` FROM `stock_master` where `product_type`='Inward' and `prod_id`=".$data->idawf;
 			$resawfpow=mysql_query($selawfpow);
 			$rowawfpow = mysql_fetch_array($resawfpow,MYSQL_BOTH);
-			$newawfstk=floatval($rowawfpow['stock_avail'])-(floatval($data->awf)*1000);
+			$newawfstk=floatval($rowawfpow['stock_avail'])-(floatval($data->awf));
 			$updawfStock="UPDATE `stock_master` SET `stock_avail`=".$newawfstk.",`stock_date`='".$data->production_date."' where `product_type`='Inward' and `prod_id`=".$data->idawf;
 			mysql_query($updawfStock);
 			

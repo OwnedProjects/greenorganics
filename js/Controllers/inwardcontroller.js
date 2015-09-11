@@ -211,43 +211,8 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 	
 	$scope.changeFinalAmt = function () {
 		$scope.finalAmt=parseFloat($scope.rate) * parseFloat($scope.weight) + parseFloat($scope.lorryfreight);
-	};
-	
-	$scope.addtogrid = function(){
-		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.lorryfreight==undefined || $scope.finalAmt==undefined){
-			alert('All field are compulsary.');
-			throw 'All field are compulsary.';
-		}
+	};	
 		
-		var dt=new Date();
-		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
-		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
-		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));
-		
-		var tmpArr = {
-			"purchaseTm":dt.getTime(),
-			"purchaseMnt":(parseInt($("#purchaseDt").val().split('/')[1])-1),
-			"purchaseYr":(parseInt($("#purchaseDt").val().split('/')[2])),
-			"purchaseDt":$("#purchaseDt").val(),
-			"lorryid":$scope.lorryid,
-			"lorryno":$scope.lorrynumber,
-			"supplierid":$scope.supplierid,
-			"supplier_nm":$scope.suppliernm,
-			"weight":$scope.weight,
-			"weightinkg":parseFloat($scope.weight)*1000,
-			"billno":$scope.billno,
-			"productid":$scope.prodid,
-			"product":$scope.prodnm,
-			"rate":$scope.rate,
-			"lorryfreight":$scope.lorryfreight,
-			"finalAmt":$scope.finalAmt
-		};
-		
-		$scope.purchaseData.push(tmpArr);
-		console.log($scope.purchaseData);
-		$scope.resetPurchaseForm()
-	};
-	
 	$scope.resetPurchaseForm = function(){
 		$("#purchaseDt").val('');
 		$scope.lorryid='';
@@ -263,24 +228,38 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		$scope.finalAmt='';
 	};
 	
-	$scope.removeProductDetails = function(purchaseDt,lorryno,billno){
-		var index=null;
-		for(var i=0;i<$scope.purchaseData.length;i++){
-			if($scope.purchaseData[i].purchaseDt==purchaseDt && $scope.purchaseData[i].lorryno==lorryno && $scope.purchaseData[i].billno==billno){
-				index=i;
-				break;
-			}
-		}
-		console.log(index);
-		$scope.purchaseData.splice(index,1);
-	};
-	
 	$scope.reload = function(){
 		$route.reload();
 	};
 	
 	$scope.addtodb = function(){
+		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.lorryfreight==undefined || $scope.finalAmt==undefined){
+			alert('All field are compulsary.');
+			throw 'All field are compulsary.';			
+		}
+		
+		var dt=new Date();
+		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
+		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
+		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));
 		$(".loadSpinner").show();
+		$scope.purchaseData = {
+			"purchaseTm":dt.getTime(),
+			"purchaseMnt":(parseInt($("#purchaseDt").val().split('/')[1])-1),
+			"purchaseYr":(parseInt($("#purchaseDt").val().split('/')[2])),
+			"purchaseDt":$("#purchaseDt").val(),
+			"lorryid":$scope.lorryid,
+			"lorryno":$scope.lorrynumber,
+			"supplierid":$scope.supplierid,
+			"supplier_nm":$scope.suppliernm,
+			"weight":parseFloat($scope.weight),
+			"billno":$scope.billno,
+			"productid":$scope.prodid,
+			"product":$scope.prodnm,
+			"rate":$scope.rate,
+			"lorryfreight":$scope.lorryfreight,
+			"finalAmt":$scope.finalAmt
+		};
 		$http({
 			method: 'POST',
 			url: 'php/master.php?action=AddPurchaseDetailsToDB',
@@ -293,11 +272,8 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 		then(function(result){
 			if(result.data.status==true){
 				$(".loadSpinner").hide();
-				$(".messageDisp").append('<strong class="text-success">Inward Purchase Confirmed to Data Base.<br/><br/></strong>');
-				$scope.purchaseData.length=0;
-				setTimeout(function(){
-					$(".messageDisp strong").remove();
-				},2000);
+				localStorage.inwardPayment=JSON.stringify($scope.purchaseData);				
+				//$location.path('/inwardPayment');
 			}
 			else{
 				$(".loadSpinner").hide();

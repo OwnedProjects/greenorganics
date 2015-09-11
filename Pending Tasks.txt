@@ -1,5 +1,1 @@
-1. Discount, Rate, Net amount and VAT Amount--> in New Order  [Completed]
-2. Order No Order date then DC No and DC Date [Completed]
-3. Bill Amount - in Purchase Bags. [Completed]
-
-//Bag purchase not entering in DB
+Changed Grid Add Structure to Only Add and added to DB + LocalStorage, Now create a payment page

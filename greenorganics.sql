@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 28, 2015 at 11:11 AM
+-- Generation Time: Sep 11, 2015 at 12:22 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -19,6 +19,44 @@ SET time_zone = "+00:00";
 --
 -- Database: `greenorganics`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `account_master`
+--
+
+CREATE TABLE IF NOT EXISTS `account_master` (
+  `account_id` int(100) NOT NULL AUTO_INCREMENT,
+  `acc_client_id` int(10) NOT NULL,
+  `acc_nonclient` varchar(20) DEFAULT NULL,
+  `acc_nonclient_desc` varchar(1000) DEFAULT NULL,
+  `credit_debit` varchar(20) NOT NULL,
+  `acc_amount` varchar(100) NOT NULL,
+  `acc_date` varchar(50) DEFAULT NULL,
+  `acc_month` varchar(50) DEFAULT NULL,
+  `acc_year` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `account_register`
+--
+
+CREATE TABLE IF NOT EXISTS `account_register` (
+  `account_id` int(100) NOT NULL AUTO_INCREMENT,
+  `acc_client_id` int(10) NOT NULL,
+  `acc_nonclient` varchar(20) DEFAULT NULL,
+  `acc_nonclient_desc` varchar(1000) DEFAULT NULL,
+  `credit_debit` varchar(20) NOT NULL,
+  `acc_amount` varchar(100) NOT NULL,
+  `acc_date` varchar(50) DEFAULT NULL,
+  `acc_month` varchar(50) DEFAULT NULL,
+  `acc_year` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -206,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `purchase_register` (
   `supplier_id` int(10) NOT NULL,
   `prod_id` int(10) NOT NULL,
   `billno` varchar(50) NOT NULL,
-  `weight` int(200) NOT NULL,
+  `weight` varchar(200) NOT NULL,
   `rate` varchar(100) NOT NULL,
   `lorryfreight` varchar(100) NOT NULL,
   `finalAmt` varchar(100) NOT NULL,
@@ -214,25 +252,16 @@ CREATE TABLE IF NOT EXISTS `purchase_register` (
   `purchase_month` varchar(10) DEFAULT NULL,
   `purchase_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `purchase_register`
 --
 
 INSERT INTO `purchase_register` (`purchase_id`, `lorry_id`, `supplier_id`, `prod_id`, `billno`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES
-(11, 2, 4, 13, '', 1000, '5000', '-1000', '4000', '1435744414601', NULL, NULL),
-(12, 2, 3, 16, '', 2000, '6000', '0', '12000', '1436522235690', NULL, NULL),
-(13, 1, 4, 13, '', 5000, '10000', '0', '50000', '1431252321911', '4', '2015'),
-(14, 2, 2, 12, '', 6000, '5000', '0', '30000', '1433930741370', '5', '2015'),
-(15, 1, 2, 12, '123456', 1500, '5000', '0', '7500', '1436612875568', '6', '2015'),
-(16, 1, 2, 12, '12', 50000, '500', '0', '25000', '1436539888241', '6', '2015'),
-(17, 2, 3, 16, '12', 50000, '500', '0', '25000', '1436971905946', '6', '2015'),
-(18, 6, 5, 14, '56', 10000, '5000', '0', '50000', '1436539934535', '6', '2015'),
-(19, 2, 6, 15, '12', 10000, '10000', '0', '100000', '1437058366471', '6', '2015'),
-(20, 1, 5, 14, '132', 15000, '1200', '0', '18000', '1436459557438', '6', '2015'),
-(21, 6, 6, 15, '5', 25000, '500', '0', '12500', '1436286944163', '6', '2015'),
-(22, 1, 4, 13, '12', 50000, '1500', '0', '75000', '1436188931018', '6', '2015');
+(24, 1, 4, 13, '1', '20', '10000', '50', '200050', '1441109112243', '8', '2015'),
+(25, 7, 4, 13, '2', '21', '10000', '10', '205010', '1441454750043', '8', '2015'),
+(26, 7, 4, 13, '2', '21', '10000', '10', '205010', '1441454821609', '8', '2015');
 
 -- --------------------------------------------------------
 
@@ -319,7 +348,7 @@ CREATE TABLE IF NOT EXISTS `stock_master` (
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
 (1, 'Inward', 12, 19400, '1438755222238'),
-(2, 'Inward', 13, 37600, '1438755222238'),
+(2, 'Inward', 13, 37671, '1441454821609'),
 (3, 'Inward', 14, 3200, '1438755222238'),
 (4, 'Inward', 15, 20800, '1438755222238'),
 (5, 'Inward', 16, 45000, '1437490599417'),

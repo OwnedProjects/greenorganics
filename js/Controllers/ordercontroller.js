@@ -142,7 +142,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 		else{
 			/* Check if Entered Batch Volume > Product Remained */
 			for(var i=0;i<$scope.setOrderBatches.length;i++){
-				if(parseFloat($('.batchinput[data-batchno='+$scope.setOrderBatches[i].batch_no+']').val())>parseFloat($scope.setOrderBatches[i].prod_remained)/1000){
+				if(parseFloat($('.batchinput[data-batchno='+$scope.setOrderBatches[i].batch_no+']').val())>parseFloat($scope.setOrderBatches[i].prod_remained)){
 					exceedprodval=true;
 					break;
 				}
@@ -170,8 +170,8 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 					$('.batches').find('input[type=text]').each(function(){
 						var tmpArr={
 							"batchno":$(this).attr('data-batchno'),
-							"volume":parseFloat($(this).val())*1000,
-							"volume_remained":parseFloat($(this).attr('data-prod_remained'))-(parseFloat($(this).val())*1000)
+							"volume":parseFloat($(this).val()),
+							"volume_remained":parseFloat($(this).attr('data-prod_remained'))-(parseFloat($(this).val()))
 						};
 						$scope.newEnteredBatchArray.push(tmpArr); 
 					});
@@ -214,7 +214,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 			"disp_date":dispdt.getTime(),
 			"client_id":$scope.clientid,
 			"lorry_id":$scope.lorryid,
-			"quantity":parseFloat($scope.quantity)*1000,
+			"quantity":parseFloat($scope.quantity),
 			"billno":$scope.billno,
 			"bill_date":billdt.getTime(),
 			"bill_amount":$scope.billamt,

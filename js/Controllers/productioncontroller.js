@@ -51,10 +51,10 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 		}).
 		then(function(result){
 			if(result.data.status==true){				
-				$scope.stkfillerpowder=result.data.Stocks[0].stock_avail/1000;
-				$scope.stkorganicmanure=result.data.Stocks[1].stock_avail/1000;
-				$scope.stkslaughterhouse=result.data.Stocks[2].stock_avail/1000;
-				$scope.stkawf=result.data.Stocks[3].stock_avail/1000;
+				$scope.stkfillerpowder=result.data.Stocks[0].stock_avail;
+				$scope.stkorganicmanure=result.data.Stocks[1].stock_avail;
+				$scope.stkslaughterhouse=result.data.Stocks[2].stock_avail;
+				$scope.stkawf=result.data.Stocks[3].stock_avail;
 				$scope.stkbags=result.data.Stocks[4].stock_avail;
 				
 				$scope.stkfillerpowderid=result.data.Stocks[0].prod_id;
