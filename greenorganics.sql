@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.5.2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 11, 2015 at 12:22 PM
--- Server version: 5.5.24-log
--- PHP Version: 5.3.13
+-- Generation Time: Sep 13, 2015 at 04:34 PM
+-- Server version: 5.5.25a
+-- PHP Version: 5.5.19
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -55,8 +55,19 @@ CREATE TABLE IF NOT EXISTS `account_register` (
   `acc_date` varchar(50) DEFAULT NULL,
   `acc_month` varchar(50) DEFAULT NULL,
   `acc_year` varchar(10) DEFAULT NULL,
+  `ifBalanceDt` varchar(20) DEFAULT NULL,
+  `acc_particulars` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `account_register`
+--
+
+INSERT INTO `account_register` (`account_id`, `acc_client_id`, `acc_nonclient`, `acc_nonclient_desc`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `ifBalanceDt`, `acc_particulars`) VALUES
+(6, 5, NULL, NULL, 'debit', '63000', '1441460782053', '8', '2015', '', 'Mammu'),
+(7, 5, NULL, NULL, 'debit', '50000', '1441460782053', '8', '2015', '1443623520686', 'Wasimakram'),
+(8, 5, NULL, NULL, 'credit', '13000', '1441460782053', '8', '2015', '1443623520686', 'Wasimakram');
 
 -- --------------------------------------------------------
 
@@ -252,16 +263,15 @@ CREATE TABLE IF NOT EXISTS `purchase_register` (
   `purchase_month` varchar(10) DEFAULT NULL,
   `purchase_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `purchase_register`
 --
 
 INSERT INTO `purchase_register` (`purchase_id`, `lorry_id`, `supplier_id`, `prod_id`, `billno`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES
-(24, 1, 4, 13, '1', '20', '10000', '50', '200050', '1441109112243', '8', '2015'),
-(25, 7, 4, 13, '2', '21', '10000', '10', '205010', '1441454750043', '8', '2015'),
-(26, 7, 4, 13, '2', '21', '10000', '10', '205010', '1441454821609', '8', '2015');
+(28, 1, 4, 13, '1', '10', '5000', '1000', '51000', '1442064894547', '8', '2015'),
+(29, 1, 5, 14, '123', '25', '2500', '500', '63000', '1441460782053', '8', '2015');
 
 -- --------------------------------------------------------
 
@@ -348,8 +358,8 @@ CREATE TABLE IF NOT EXISTS `stock_master` (
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
 (1, 'Inward', 12, 19400, '1438755222238'),
-(2, 'Inward', 13, 37671, '1441454821609'),
-(3, 'Inward', 14, 3200, '1438755222238'),
+(2, 'Inward', 13, 37731, '1442064894547'),
+(3, 'Inward', 14, 3225, '1441460782053'),
 (4, 'Inward', 15, 20800, '1438755222238'),
 (5, 'Inward', 16, 45000, '1437490599417'),
 (6, 'Inward', 17, 2300, '1438755222238'),

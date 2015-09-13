@@ -136,7 +136,10 @@ greenorganics.controller("InwardProductListController", function($scope, $http, 
 });
 
 
-greenorganics.controller("PurchaseProductListController", function($scope, $http, $route){
+greenorganics.controller("PurchaseProductController", function($scope, $http, $route, $location){
+	if(localStorage.inwardPayment){
+		$location.path('/inwardPayment');
+	}
 	$scope.lorryfrieghtcheck=false;
 	$(".loadSpinner").hide();
 	$scope.lorryfreight=0;
@@ -235,7 +238,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 	$scope.addtodb = function(){
 		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.lorryfreight==undefined || $scope.finalAmt==undefined){
 			alert('All field are compulsary.');
-			throw 'All field are compulsary.';			
+			throw 'All field are compulsary.';
 		}
 		
 		var dt=new Date();
@@ -273,7 +276,7 @@ greenorganics.controller("PurchaseProductListController", function($scope, $http
 			if(result.data.status==true){
 				$(".loadSpinner").hide();
 				localStorage.inwardPayment=JSON.stringify($scope.purchaseData);				
-				//$location.path('/inwardPayment');
+				$location.path('/inwardPayment');
 			}
 			else{
 				$(".loadSpinner").hide();
@@ -692,5 +695,76 @@ greenorganics.controller("DeactiveSupplierListController", function($scope, $htt
 	
 	$scope.reload = function(){
 		$route.reload();
+	};
+});
+
+greenorganics.controller("PurchasePaymentController", function($scope, $http, $route){
+	$scope.inwardPayment=JSON.parse(localStorage.inwardPayment);
+	console.log($scope.inwardPayment);
+	$('.loadSpinner').hide();
+	$('#balPay').val('');
+	$scope.payAmt=0;
+	$scope.$watch('payAmt', function() {
+		if(parseInt($scope.payAmt)<=parseInt($scope.inwardPayment.finalAmt)){
+			$scope.remPay=parseInt($scope.inwardPayment.finalAmt)-parseInt($scope.payAmt);
+			$("input#balPay").removeAttr('disabled');
+		}else{
+			$scope.remPay=0;
+			$("input#balPay").val('');
+			$("input#balPay").attr('disabled','disabled');
+		}
+	});
+	
+	$scope.makePayment = function(){
+		if($scope.payAmt==undefined || $scope.particulars==undefined || $scope.payAmt=="" || $scope.particulars==""){
+			alert('Fields cannot be Empty');
+			throw 'Please check Amount';
+		}
+		
+		if(parseFloat($scope.payAmt)>parseFloat($scope.inwardPayment.finalAmt)){
+			alert('Payment amount is more than Final amount');
+			$scope.payAmt=0;
+			throw 'Please check Amount';
+		}
+		
+		if(parseFloat($scope.payAmt)<parseFloat($scope.inwardPayment.finalAmt) && $("input#balPay").val()==""){
+			alert('Please select a next payment date.');
+			throw 'Please select next pay date';
+		}
+		
+		if(parseFloat($scope.payAmt)<parseFloat($scope.inwardPayment.finalAmt)){
+			$scope.inwardPayment.paymentRem=true;
+		}
+		else if($scope.remPay==0){
+			$scope.inwardPayment.paymentRem=false;
+		}
+		
+		
+		$scope.inwardPayment.payAmount=$scope.payAmt;
+		$scope.inwardPayment.pendingPayment=$scope.remPay;
+		$scope.inwardPayment.payParticulars=$scope.particulars;
+		var dt=new Date();
+		var day=dt.setDate(parseInt($("#balPay").val().split('/')[0]));
+		var mnt=dt.setMonth(parseInt($("#balPay").val().split('/')[1])-1);
+		var Yr=dt.setYear(parseInt($("#balPay").val().split('/')[2]));
+		$scope.inwardPayment.payDate=dt.getTime();
+		console.log($scope.inwardPayment);
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=makeInwardPayment',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:$scope.inwardPayment
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				console.log(result.data);
+			}
+			else{
+				
+			}
+		});
 	};
 });

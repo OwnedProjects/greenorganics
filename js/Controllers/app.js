@@ -63,6 +63,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/deactive_client_list', {
         templateUrl: 'views/deactive_client_list.html'
       }).
+      when('/inwardPayment', {
+        templateUrl: 'views/inwardPayment.html'
+      }).
       otherwise({
         redirectTo: '/dashboard'
       });
