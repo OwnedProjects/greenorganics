@@ -74,7 +74,7 @@ greenorganics.controller("AddProductionBatchController", function($scope, $http,
 	});
 	
 	$scope.addBatch = function(){
-		if($scope.fillerpowder>$scope.stkfillerpowder || $scope.organicmanure>$scope.stkorganicmanure || $scope.slaughterhouse>$scope.stkslaughterhouse || $scope.awf > $scope.stkawf  || parseInt($scope.bags) > parseInt($scope.stkbags)){
+		if(parseFloat($scope.fillerpowder)>parseFloat($scope.stkfillerpowder) || parseFloat($scope.organicmanure)>parseFloat($scope.stkorganicmanure) || parseFloat($scope.slaughterhouse)>parseFloat($scope.stkslaughterhouse) || parseFloat($scope.awf) > parseFloat($scope.stkawf) || parseFloat($scope.bags) > parseFloat($scope.stkbags)){
 			alert('Please check you entries, Production values cannot be more than stock available.');
 			throw 'Please check you entries, Production values cannot be more than stock available.';
 		}

@@ -698,20 +698,20 @@ greenorganics.controller("DeactiveSupplierListController", function($scope, $htt
 	};
 });
 
-greenorganics.controller("PurchasePaymentController", function($scope, $http, $route){
+greenorganics.controller("PurchasePaymentController", function($scope, $http, $route, $location){
+	if(!localStorage.inwardPayment){
+		$location.path('/purchase_inward_product');
+	}
 	$scope.inwardPayment=JSON.parse(localStorage.inwardPayment);
 	console.log($scope.inwardPayment);
 	$('.loadSpinner').hide();
-	$('#balPay').val('');
-	$scope.payAmt=0;
+	$scope.payAmt='';
 	$scope.$watch('payAmt', function() {
 		if(parseInt($scope.payAmt)<=parseInt($scope.inwardPayment.finalAmt)){
 			$scope.remPay=parseInt($scope.inwardPayment.finalAmt)-parseInt($scope.payAmt);
-			$("input#balPay").removeAttr('disabled');
-		}else{
+		}
+		else{
 			$scope.remPay=0;
-			$("input#balPay").val('');
-			$("input#balPay").attr('disabled','disabled');
 		}
 	});
 	
@@ -727,27 +727,17 @@ greenorganics.controller("PurchasePaymentController", function($scope, $http, $r
 			throw 'Please check Amount';
 		}
 		
-		if(parseFloat($scope.payAmt)<parseFloat($scope.inwardPayment.finalAmt) && $("input#balPay").val()==""){
-			alert('Please select a next payment date.');
-			throw 'Please select next pay date';
+		if($scope.payAmt==0){
+			$scope.inwardPayment.payFlag=true;
 		}
-		
-		if(parseFloat($scope.payAmt)<parseFloat($scope.inwardPayment.finalAmt)){
-			$scope.inwardPayment.paymentRem=true;
+		else{
+			$scope.inwardPayment.payFlag=false;
 		}
-		else if($scope.remPay==0){
-			$scope.inwardPayment.paymentRem=false;
-		}
-		
 		
 		$scope.inwardPayment.payAmount=$scope.payAmt;
 		$scope.inwardPayment.pendingPayment=$scope.remPay;
 		$scope.inwardPayment.payParticulars=$scope.particulars;
-		var dt=new Date();
-		var day=dt.setDate(parseInt($("#balPay").val().split('/')[0]));
-		var mnt=dt.setMonth(parseInt($("#balPay").val().split('/')[1])-1);
-		var Yr=dt.setYear(parseInt($("#balPay").val().split('/')[2]));
-		$scope.inwardPayment.payDate=dt.getTime();
+		
 		console.log($scope.inwardPayment);
 		$http({
 			method: 'POST',
@@ -760,10 +750,12 @@ greenorganics.controller("PurchasePaymentController", function($scope, $http, $r
 		}).
 		then(function(result){
 			if(result.data.status==true){
-				console.log(result.data);
+				localStorage.removeItem('inwardPayment');
+				$location.path('/purchase_inward_product');
 			}
 			else{
-				
+				alert('Service Error, Please contact your Administrator.');
+				throw 'fail';
 			}
 		});
 	};
