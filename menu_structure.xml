@@ -19,19 +19,9 @@
 				<link>#/add_inward_product</link>
 			</submenu>-->
 			<submenu>
-				<name>Add Supplier</name>
-				<icon>fa-user-plus</icon>
-				<link>#/add_supplier</link>
-			</submenu>
-			<submenu>
 				<name>Products List</name>
 				<icon>fa-tasks</icon>
 				<link>#/inward_product_list</link>
-			</submenu>
-			<submenu>
-				<name>Supplier List</name>
-				<icon>fa-users</icon>
-				<link>#/supplier_list</link>
 			</submenu>
 			<submenu>
 				<name>Purchase</name>
@@ -91,6 +81,24 @@
 				<name>All Clients</name>
 				<icon>fa-users</icon>
 				<link>#/client_list</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
+		<name>SUPPLIER DETAILS</name>
+		<icon></icon>
+		<mainlink>#/new_client</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>Add Supplier</name>
+				<icon>fa-user-plus</icon>
+				<link>#/add_supplier</link>
+			</submenu>
+			<submenu>
+				<name>Supplier List</name>
+				<icon>fa-users</icon>
+				<link>#/supplier_list</link>
 			</submenu>
 		</submenu_module>
 	</menu>

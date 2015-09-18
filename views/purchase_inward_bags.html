@@ -9,7 +9,7 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">
 		<label class="text-info">Enter Purchase Date: </label> 
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<div class="input-group date">
 			<input type="text" placeholder="Purchase Date" class="form-control" id="purchaseDt">
 			<span class="input-group-addon">
@@ -24,11 +24,11 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">
 		<label class="text-info">Enter Lorry Number: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="hidden" ng-model="lorryid" />
 		<input type="text" ng-model="lorrynumber" placeholder="Lorry Number" class="form-control" readonly />		
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">		
+	<div class="col-md-3 col-sm-2 col-xs-12">		
 		<button class="btn btn-sm btn-info" ng-click="searchLorryNumber()" data-toggle="modal" data-target="#lorrydetails">...</button><br/><br/>
 	</div>
 </div>
@@ -37,11 +37,11 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">	
 		<label class="text-info">Supplier: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="hidden" ng-model="supplierid"/>
 		<input type="text" ng-model="suppliernm" placeholder="Supplier" class="form-control" readonly />		
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">	
+	<div class="col-md-3 col-sm-2 col-xs-12">	
 		<button class="btn btn-sm btn-info" ng-click="searchSupplier()" data-toggle="modal" data-target="#supplierdetails">...</button><br/><br/>
 	</div>
 </div>
@@ -50,7 +50,7 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">	
 		<label class="text-info">Product: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="hidden" ng-model="prodid"/>
 		<input type="text" ng-model="prodnm" placeholder="Product" class="form-control" readonly />
 		<br/>
@@ -61,7 +61,7 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">
 		<label class="text-info">No. Of Bags: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="text" ng-model="totalbags" placeholder="Total No. Of Bags " class="form-control" />
 		<br/>
 	</div>
@@ -71,7 +71,7 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">	
 		<label class="text-info">Bill / Invoice No.: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="text" ng-model="billno" placeholder="Bill / Invoice No." class="form-control" />
 		<br/>
 	</div>
@@ -81,7 +81,7 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">	
 		<label class="text-info">Bill Amount: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="text" ng-model="billamt" placeholder="Bill Amount" class="form-control" />
 		<br/>
 	</div>
@@ -91,7 +91,7 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">	
 		<label class="text-info">Discount: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="text" ng-model="discount" placeholder="Discount" class="form-control" />
 		<br/>
 	</div>
@@ -101,14 +101,14 @@
 	<div class="col-md-3 col-sm-4 col-xs-12">	
 		<label class="text-info">Net Amount: </label>
 	</div>
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<input type="text" ng-model="netamt" placeholder="Net Amount" class="form-control" />
 		<br/>
 	</div>
 </div>
 
 <div class="row">
-	<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="col-md-6 col-sm-6 col-xs-12">
 		<button class="btn btn-sm btn-success" ng-click="addtodb()"><i class="fa fa-save"> SAVE</i></button>
 		<br/><br/>
 	</div>
@@ -125,7 +125,7 @@
         <h4 class="modal-title" id="myModalLabel">Lorry List</h4>
       </div>
       <div class="modal-body">
-		<div class="col-md-4 col-sm-4 col-xs-12">			
+		<div class="col-md-6 col-sm-6 col-xs-12">			
 			<div class="input-group date">
 				<input type="text" placeholder="Lorry Number" ng-model="searchLorry" class="form-control">
 				<span class="input-group-addon">
@@ -173,7 +173,7 @@
         <h4 class="modal-title" id="myModalLabel">Supplier List</h4>
       </div>
       <div class="modal-body">
-		<div class="col-md-4 col-sm-4 col-xs-12">			
+		<div class="col-md-6 col-sm-6 col-xs-12">			
 			<div class="input-group date">
 				<input type="text" placeholder="Supplier Details" ng-model="searchsupplier" class="form-control">
 				<span class="input-group-addon">
