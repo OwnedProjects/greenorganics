@@ -1,8 +1,8 @@
-<div class="col-md-11 col-sm-12" ng-controller="SupplierListController">
+<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="SupplierListController">
 
 <h3 class="text-warning">Supplier Details <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
 
-<div class="col-md-10 col-sm-12 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12">
 
 <br/>
 	<div class="input-group date">
@@ -21,10 +21,10 @@
 	<thead>
 	  <tr>
 		<th>Name</th>
-		<th>Contact No.</th>
-		<th>Contact Person</th>
 		<th>Address</th>
 		<th>City</th>
+		<th>Contact Person</th>
+		<th>Contact No.</th>
 		<th>Product Name</th>
 		<th>VAT No.</th>
 		<th>Edit / Delete</th>
@@ -33,10 +33,10 @@
 	<tbody>
 	  <tr ng-repeat="data in supplierData | filter:searchSupplier" class="fullData">		
 		<td>{{data.supplier_nm}}</td>
-		<td>{{data.supplier_contact}}</td>
-		<td>{{data.supplier_contact_person}}</td>
 		<td>{{data.supplier_address}}</td>
 		<td>{{data.supplier_city}}</td>
+		<td>{{data.supplier_contact_person}}</td>
+		<td>{{data.supplier_contact}}</td>
 		<td>{{data.prod_name}}</td>
 		<td>{{data.supplier_vatno}}</td>		
 		<td>

@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="NewOrderController">
 	<h3 class="text-primary">NEW ORDER</h3>
 	<hr/>
-	<div class="col-md-10 col-sm-12 col-xs-12">
+	<div class="col-md-12 col-sm-12 col-xs-12">
 		<form ng-submit="placeOrder();">
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
@@ -227,7 +227,8 @@
 			
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
-				<button type="submit" class="btn btn-success" ng-disabled="!confirmBatch"><i class="fa fa-save"></i> Save</button>				
+				<button type="submit" class="btn btn-success btn-sm" ng-disabled="!confirmBatch"><i class="fa fa-inr"></i> PAYMENT</button>				
+			<br/><br/><br/>
 			</div>
 		</form>
 	</div>

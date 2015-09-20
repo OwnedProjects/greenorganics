@@ -1,4 +1,4 @@
-greenorganics.controller("NewOrderController", function($scope, $http, $route){	
+greenorganics.controller("NewOrderController", function($scope, $http, $route, $location){	
 	$scope.showBatches=false;
 	$scope.confirmBatch=false;
 	$scope.setOrderBatches=new Array();
@@ -21,7 +21,8 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 				$scope.batchData=result.data.Production;
 			}
 			else{
-				alert('Error!!! Please contact system Administrator');
+				alert('Sorry, No Batches found. Please create a batch first.');
+				$location.path('add_production_batch');
 			}
 		});
 	};
@@ -137,7 +138,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 			$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Please fill all Batch Boxes first.</span></td></tr>");				
 			setTimeout(function(){
 					$('.batches .errorbox').remove();
-			},1500);
+			},2500);
 		}
 		else{
 			/* Check if Entered Batch Volume > Product Remained */
@@ -237,7 +238,9 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 				console.log(result.data.status);
 			if(result.data.status==true){
 				$('form').prepend('<strong class="text-success">Order Placed Successfully</strong>');
-				$route.reload();
+				//$route.reload();
+				localStorage.orderObj=JSON.stringify(orderObj);
+				$location.path('orderPayment');
 			}
 			else{
 				alert('Error!!! Please Contact your System Administrator.');
@@ -271,6 +274,69 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route){
 			}
 			else{
 				alert('Error!!! Please contact your system Administrator.');
+			}
+		});
+	};
+});
+
+greenorganics.controller("OrderPaymentController", function($scope, $http, $route, $location){
+	if(!localStorage.orderObj){
+		$location.path('/new_order');
+	}
+	$scope.orderObj=JSON.parse(localStorage.orderObj);
+	console.log($scope.orderObj);
+	$('.loadSpinner').hide();
+	$scope.payAmt='';
+	$scope.$watch('payAmt', function() {
+		if(parseInt($scope.payAmt)<=parseInt($scope.orderObj.net_amount)){
+			$scope.remPay=parseInt($scope.orderObj.net_amount)-parseInt($scope.payAmt);
+		}
+		else{
+			$scope.remPay=0;
+		}
+	});
+	
+	$scope.makePayment = function(){
+		if($scope.payAmt==undefined || $scope.particulars==undefined || $scope.payAmt=="" || $scope.particulars==""){
+			alert('Fields cannot be Empty');
+			throw 'Please check Amount';
+		}
+		
+		if(parseFloat($scope.payAmt)>parseFloat($scope.orderObj.net_amount)){
+			alert('Payment amount is more than Final amount');
+			$scope.payAmt=0;
+			throw 'Please check Amount';
+		}
+		
+		if($scope.payAmt==0){
+			$scope.orderObj.payFlag=true;
+		}
+		else{
+			$scope.orderObj.payFlag=false;
+		}
+		
+		$scope.orderObj.payAmount=$scope.payAmt;
+		$scope.orderObj.pendingPayment=$scope.remPay;
+		$scope.orderObj.payParticulars=$scope.particulars;
+		
+		console.log($scope.orderObj);
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=makeorderObj',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:$scope.orderObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				localStorage.removeItem('orderObj');
+				$location.path('/new_order');
+			}
+			else{
+				alert('Service Error, Please contact your Administrator.');
+				throw 'fail';
 			}
 		});
 	};

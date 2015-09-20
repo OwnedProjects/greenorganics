@@ -1,5 +1,5 @@
 <?php
-//ini_set('error_reporting', E_STRICT);
+ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -434,7 +434,7 @@ $action=$_GET['action'];
 	
 	if($action=='AddProductionBatch'){
 		$data = json_decode(file_get_contents("php://input"));
-		$addProd="INSERT INTO `production_batch_register`( `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`, `batch_status`) VALUES ('".$data->batchno."','10000','10000','".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->awf."','".$data->bags."','".$data->production_date."','".$data->production_mnt."','".$data->production_yr."','open')";
+		$addProd="INSERT INTO `production_batch_register`( `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`, `batch_status`) VALUES ('".$data->batchno."','10','10','".$data->fillerpowder."','".$data->organicmanure."','".$data->slaughterhouse."','".$data->awf."','".$data->bags."','".$data->production_date."','".$data->production_mnt."','".$data->production_yr."','open')";
 		$resProd=mysql_query($addProd);	
 			
 			/* Check Stock if ECHO-MEAL is present? */
@@ -765,7 +765,7 @@ $action=$_GET['action'];
 	if($action=='makeInwardPayment'){
 		$data = json_decode(file_get_contents("php://input"));
 			if($data->payFlag==true){
-				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->supplierid.",'credit','".$data->finalAmt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
+				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->supplierid.", 'inward', 'credit','".$data->finalAmt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
 				$insAcc1 = mysql_query($insAccounts1);
 				if($insAcc1){
 					$obj->status=true;			
@@ -775,10 +775,67 @@ $action=$_GET['action'];
 				}
 			}
 			else{
-				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->supplierid.",'credit','".$data->finalAmt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
+				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->supplierid.", 'inward', 'credit','".$data->finalAmt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
 				$insAcc1 = mysql_query($insAccounts1);
 				
-				$insAccounts2="INSERT INTO `account_register`(`acc_client_id`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->supplierid.",'debit','".$data->payAmount."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."','".$data->payParticulars."')";
+				$insAccounts2="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->supplierid.", 'inward', 'debit','".$data->payAmount."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."','".$data->payParticulars."')";
+				$insAcc2 = mysql_query($insAccounts2);
+				if($insAcc1 && $insAcc2){
+					$obj->status=true;			
+				}
+				else{
+					$obj->status=false;
+				}
+			}
+		echo json_encode($obj);
+	}
+	
+	
+	if($action=='makeinwardPayBags'){
+		$data = json_decode(file_get_contents("php://input"));
+			if($data->payFlag==true){
+				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->supplierid.", 'inward', 'credit','".$data->netamt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
+				$insAcc1 = mysql_query($insAccounts1);
+				if($insAcc1){
+					$obj->status=true;			
+				}
+				else{
+					$obj->status=false;
+				}
+			}
+			else{
+				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->supplierid.", 'inward', 'credit','".$data->netamt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
+				$insAcc1 = mysql_query($insAccounts1);
+				
+				$insAccounts2="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->supplierid.", 'inward', 'debit','".$data->payAmount."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."','".$data->payParticulars."')";
+				$insAcc2 = mysql_query($insAccounts2);
+				if($insAcc1 && $insAcc2){
+					$obj->status=true;			
+				}
+				else{
+					$obj->status=false;
+				}
+			}
+		echo json_encode($obj);
+	}
+	
+	if($action=='makeorderObj'){
+		$data = json_decode(file_get_contents("php://input"));
+			if($data->payFlag==true){
+				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->client_id.", 'outward', 'debit','".$data->net_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."')";
+				$insAcc1 = mysql_query($insAccounts1);
+				if($insAcc1){
+					$obj->status=true;			
+				}
+				else{
+					$obj->status=false;
+				}
+			}
+			else{
+				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->client_id.", 'outward', 'debit','".$data->net_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."')";
+				$insAcc1 = mysql_query($insAccounts1);
+				
+				$insAccounts2="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->client_id.", 'outward', 'credit','".$data->payAmount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."','".$data->payParticulars."')";
 				$insAcc2 = mysql_query($insAccounts2);
 				if($insAcc1 && $insAcc2){
 					$obj->status=true;			

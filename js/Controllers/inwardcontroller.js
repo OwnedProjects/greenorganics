@@ -289,7 +289,10 @@ greenorganics.controller("PurchaseProductController", function($scope, $http, $r
 	};
 });
 
-greenorganics.controller("PurchaseBagsListController", function($scope, $http, $route){
+greenorganics.controller("PurchaseBagsListController", function($scope, $http, $route, $location){
+	if(localStorage.inwardPayBags){
+		$location.path('/inwardPaymentBags');
+	}
 	$scope.discount=0;	
 	$(".loadSpinner").hide();	
 	$scope.searchLorryNumber = function(){
@@ -411,10 +414,12 @@ greenorganics.controller("PurchaseBagsListController", function($scope, $http, $
 			if(result.data.status==true){
 				$(".loadSpinner").hide();
 				$(".messageDisp").append('<strong class="text-success">Inward Purchase Confirmed to Data Base.<br/><br/></strong>');
-				$scope.purchaseData.length=0;
 				setTimeout(function(){
 					$(".messageDisp strong").remove();
-					$route.reload();
+					//$route.reload();
+					localStorage.inwardPayBags=JSON.stringify($scope.purchaseData);
+					$scope.purchaseData.length=0;
+					$location.path('inwardPaymentBags');
 				},2000);
 			}
 			else{
@@ -752,6 +757,69 @@ greenorganics.controller("PurchasePaymentController", function($scope, $http, $r
 			if(result.data.status==true){
 				localStorage.removeItem('inwardPayment');
 				$location.path('/purchase_inward_product');
+			}
+			else{
+				alert('Service Error, Please contact your Administrator.');
+				throw 'fail';
+			}
+		});
+	};
+});
+
+greenorganics.controller("PurchaseBagsPaymentController", function($scope, $http, $route, $location){
+	if(!localStorage.inwardPayBags){
+		$location.path('/purchase_inward_bags');
+	}
+	$scope.inwardPayBags=JSON.parse(localStorage.inwardPayBags);
+	console.log($scope.inwardPayBags);
+	$('.loadSpinner').hide();
+	$scope.payAmt='';
+	$scope.$watch('payAmt', function() {
+		if(parseInt($scope.payAmt)<=parseInt($scope.inwardPayBags.netamt)){
+			$scope.remPay=parseInt($scope.inwardPayBags.netamt)-parseInt($scope.payAmt);
+		}
+		else{
+			$scope.remPay=0;
+		}
+	});
+	
+	$scope.makePayment = function(){
+		if($scope.payAmt==undefined || $scope.particulars==undefined || $scope.payAmt=="" || $scope.particulars==""){
+			alert('Fields cannot be Empty');
+			throw 'Please check Amount';
+		}
+		
+		if(parseFloat($scope.payAmt)>parseFloat($scope.inwardPayBags.netamt)){
+			alert('Payment amount is more than Final amount');
+			$scope.payAmt=0;
+			throw 'Please check Amount';
+		}
+		
+		if($scope.payAmt==0){
+			$scope.inwardPayBags.payFlag=true;
+		}
+		else{
+			$scope.inwardPayBags.payFlag=false;
+		}
+		
+		$scope.inwardPayBags.payAmount=$scope.payAmt;
+		$scope.inwardPayBags.pendingPayment=$scope.remPay;
+		$scope.inwardPayBags.payParticulars=$scope.particulars;
+		
+		console.log($scope.inwardPayBags);
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=makeinwardPayBags',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:$scope.inwardPayBags
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				localStorage.removeItem('inwardPayBags');
+				$location.path('/purchase_inward_bags');
 			}
 			else{
 				alert('Service Error, Please contact your Administrator.');

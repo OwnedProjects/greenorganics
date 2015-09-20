@@ -1,6 +1,6 @@
-<div class="col-md-11 col-sm-12" ng-controller="PurchasePaymentController">
+<div class="col-md-11 col-sm-12" ng-controller="PurchaseBagsPaymentController">
 
-<h3 class="text-warning">Inward Payment Page</h3>
+<h3 class="text-warning">Inward Bags Payment Page</h3>
 
 <div class="col-md-12 col-sm-12 col-xs-12">
 <strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i></strong>
@@ -13,39 +13,31 @@
 			<table class="table table-striped">
 				<tr>
 					<td>Purchase Date</td>
-					<td><strong>{{inwardPayment.purchaseDt}}</strong></td>
+					<td><strong>{{inwardPayBags.purchaseDt}}</strong></td>
 				</tr>
 				<tr>
 					<td>Product Name</td>
-					<td><strong>{{inwardPayment.product}}</strong></td>
+					<td><strong>{{inwardPayBags.product}}</strong></td>
 				</tr>
 				<tr>
 					<td>Supplier Details</td>
-					<td><strong>{{inwardPayment.supplier_nm}}</strong></td>
+					<td><strong>{{inwardPayBags.supplier_nm}}</strong></td>
 				</tr>
 				<tr>
 					<td>Lorry Details</td>
-					<td><strong>{{inwardPayment.lorryno}}</strong></td>
+					<td><strong>{{inwardPayBags.lorryno}}</strong></td>
 				</tr>
 				<tr>
 					<td>Bill Number</td>
-					<td><strong>{{inwardPayment.billno}}</strong></td>
+					<td><strong>{{inwardPayBags.billno}}</strong></td>
 				</tr>
 				<tr>
-					<td>Weight Details</td>
-					<td><strong>{{inwardPayment.weight}} (tons)</strong></td>
-				</tr>
-				<tr>
-					<td>Rate</td>
-					<td><strong>{{inwardPayment.rate}}</strong></td>
-				</tr>
-				<tr>
-					<td>Lorry Freight</td>
-					<td><strong>{{inwardPayment.lorryfreight}}</strong></td>
+					<td>Total Bags</td>
+					<td><strong>{{inwardPayBags.totalbags}}</strong></td>
 				</tr>
 				<tr>
 					<td>Final Amount</td>
-					<td><strong>{{inwardPayment.finalAmt}}</strong></td>
+					<td><strong>{{inwardPayBags.netamt}}</strong></td>
 				</tr>
 			</table>
 		</div>
