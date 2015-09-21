@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 20, 2015 at 07:33 PM
--- Server version: 5.5.25a
--- PHP Version: 5.5.19
+-- Generation Time: Sep 21, 2015 at 12:42 PM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -77,17 +77,20 @@ CREATE TABLE IF NOT EXISTS `client_master` (
   `city` varchar(100) DEFAULT NULL,
   `district` varchar(20) DEFAULT NULL,
   `contact_no` varchar(15) DEFAULT NULL,
+  `contact_person` varchar(100) DEFAULT NULL,
+  `vat_no` varchar(50) DEFAULT NULL,
   `client_status` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `client_master`
 --
 
-INSERT INTO `client_master` (`client_id`, `client_name`, `address`, `city`, `district`, `contact_no`, `client_status`) VALUES
-(1, 'MAHARASHTRA AGRO AGENCIES', 'RAJAPUR', 'RAJAPUR', 'RAJAPUR', '12345678', 'active'),
-(2, 'SAMARTH TRADING CO.', 'ATPADI', 'ATPADI', 'ATPADI', '987654321', 'active');
+INSERT INTO `client_master` (`client_id`, `client_name`, `address`, `city`, `district`, `contact_no`, `contact_person`, `vat_no`, `client_status`) VALUES
+(1, 'MAHARASHTRA AGRO AGENCIES', 'RAJAPUR', 'RAJAPUR', 'RAJAPUR', '12345678', 'Maan Tomar', 'V121232', 'active'),
+(2, 'SAMARTH TRADING CO.', 'ATPADI', 'ATPADI', 'ATPADI', '987654321', 'Samarth', 'V65478', 'active'),
+(3, 'DELHI AGROS', 'Parihar Chowk 1212 Delhi', 'Delhi', 'Delhi', '2123212311', 'Mr. Singh', 'V123212321', 'active');
 
 -- --------------------------------------------------------
 

@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', E_STRICT);
+//ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -587,7 +587,7 @@ $action=$_GET['action'];
 /* Client Details */	
 	if($action=='insertclientdetails'){
 		$data = json_decode(file_get_contents("php://input"));
-		$insClients="INSERT INTO `client_master`(`client_name`, `address`, `city`, `district`, `contact_no`, `client_status`) VALUES ('".$data->clientnm."','".$data->address."','".$data->clientcity."','".$data->clientdist."','".$data->clientcontact."','active')";
+		$insClients="INSERT INTO `client_master`(`client_name`, `address`, `city`, `district`, `contact_no`, `contact_person`, `vat_no`, `client_status`) VALUES ('".$data->clientnm."','".$data->address."','".$data->clientcity."','".$data->clientdist."','".$data->clientcontact."','".$data->clientcPerson."','".$data->clientvatno."','active')";
 		$resClients=mysql_query($insClients);		
 		if($resClients){
 			$obj->status=true;			
@@ -600,7 +600,7 @@ $action=$_GET['action'];
 	
 	if($action=='updateClientDetails'){
 		$data = json_decode(file_get_contents("php://input"));
-		$insClients="UPDATE `client_master` SET `client_name`='".$data->clientnm."',`address`='".$data->address."',`city`='".$data->clientcity."',`district`='".$data->clientdist."',`contact_no`='".$data->clientcontact."' WHERE `client_id`=".$data->clientid;		
+		$insClients="UPDATE `client_master` SET `client_name`='".$data->clientnm."',`address`='".$data->address."',`city`='".$data->clientcity."',`district`='".$data->clientdist."',`contact_no`='".$data->clientcontact."',`contact_person`='".$data->clientcontactperson."',`vat_no`='".$data->clientvatno."' WHERE `client_id`=".$data->clientid;		
 		$resClients=mysql_query($insClients);		
 		if($resClients){
 			$obj->status=true;			
@@ -650,6 +650,8 @@ $action=$_GET['action'];
 				$tmpRes[$cnt]->client_address=$row['address'];				
 				$tmpRes[$cnt]->client_city=$row['city'];				
 				$tmpRes[$cnt]->client_dist=$row['district'];				
+				$tmpRes[$cnt]->client_cperson=$row['contact_person'];				
+				$tmpRes[$cnt]->client_vatno=$row['vat_no'];				
 				$cnt++;
 			}
 			$obj->status=true;
@@ -675,6 +677,8 @@ $action=$_GET['action'];
 				$tmpRes[$cnt]->client_address=$row['address'];				
 				$tmpRes[$cnt]->client_city=$row['city'];				
 				$tmpRes[$cnt]->client_dist=$row['district'];				
+				$tmpRes[$cnt]->client_cperson=$row['contact_person'];				
+				$tmpRes[$cnt]->client_vatno=$row['vat_no'];					
 				$cnt++;
 			}
 			$obj->status=true;
@@ -699,6 +703,8 @@ $action=$_GET['action'];
 				$tmpRes[$cnt]->client_address=$row['address'];				
 				$tmpRes[$cnt]->client_city=$row['city'];				
 				$tmpRes[$cnt]->client_dist=$row['district'];				
+				$tmpRes[$cnt]->client_cperson=$row['contact_person'];				
+				$tmpRes[$cnt]->client_vatno=$row['vat_no'];					
 				$cnt++;
 			}
 			$obj->status=true;
@@ -844,6 +850,85 @@ $action=$_GET['action'];
 					$obj->status=false;
 				}
 			}
+		echo json_encode($obj);
+	}
+
+/* Accounts */
+	if($action == 'fetchAllOutwardAccDetails'){
+		$selAccClients="SELECT distinct(`acc_client_id`),`client_name`, `acc_type` FROM `account_register`,`client_master` WHERE account_register.acc_client_id=client_master.client_id and account_register.acc_type='outward'";
+		$resAccClients=mysql_query($selAccClients);
+		$count = mysql_num_rows($resAccClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resAccClients )) {
+				$tmpRes[$cnt]->acc_client_id=$row['acc_client_id'];
+				$tmpRes[$cnt]->client_name=$row['client_name'];
+				$tmpRes[$cnt]->acc_type=$row['acc_type'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->outaccdetails=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action == 'fetchAllInwardAccDetails'){
+		$selAccClients="SELECT distinct(`acc_client_id`),`supplier_name`, `acc_type` FROM `account_register`,`supplier_master` WHERE  account_register.acc_client_id=supplier_master.supplier_id and account_register.acc_type='inward'";
+		$resAccClients=mysql_query($selAccClients);
+		$count = mysql_num_rows($resAccClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resAccClients )) {
+				$tmpRes[$cnt]->acc_client_id=$row['acc_client_id'];
+				$tmpRes[$cnt]->supplier_name=$row['supplier_name'];
+				$tmpRes[$cnt]->acc_type=$row['acc_type'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->inaccdetails=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action == 'fetchAccDetails'){
+		$data = json_decode(file_get_contents("php://input"));
+		$selAccClients="SELECT *  FROM `account_register` WHERE  acc_client_id=".$data->id." and acc_type='".$data->type."'";
+		$resAccClients=mysql_query($selAccClients);
+		$count = mysql_num_rows($resAccClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resAccClients )) {
+				$tmpRes[$cnt]->acc_client_id=$row['acc_client_id'];				
+				$tmpRes[$cnt]->creditdebit=$row['credit_debit'];				
+				$tmpRes[$cnt]->acc_amount=$row['acc_amount'];				
+				$tmpRes[$cnt]->acc_date=$row['acc_date'];				
+				$tmpRes[$cnt]->acc_particulars=$row['acc_particulars'];				
+				$tmpRes[$cnt]->acc_type=$row['acc_type'];
+				$cnt++;
+			}
+			
+			$selTotDebitAmt="SELECT SUM(`acc_amount`) FROM `account_register` WHERE acc_client_id=".$data->id." and acc_type='".$data->type."' and `credit_debit`='debit'";
+			$resTotDebitAmt=mysql_query($selTotDebitAmt);
+			$rowTotDebitAmt = mysql_fetch_array($resTotDebitAmt,MYSQL_BOTH);
+			
+			$selTotCreditAmt="SELECT SUM(`acc_amount`) FROM `account_register` WHERE acc_client_id=".$data->id." and acc_type='".$data->type."' and `credit_debit`='credit'";
+			$resTotCreditAmt=mysql_query($selTotCreditAmt);
+			$rowTotCreditAmt = mysql_fetch_array($resTotCreditAmt,MYSQL_BOTH);
+			
+			$obj->status=true;
+			$obj->accdetails=$tmpRes;
+			$obj->totDebitAmt=$rowTotDebitAmt['SUM(`acc_amount`)'];
+			$obj->totCreditAmt=$rowTotCreditAmt['SUM(`acc_amount`)'];
+		}
+		else{
+			$obj->status=false;
+		}
 		echo json_encode($obj);
 	}
 ?>

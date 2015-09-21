@@ -7,7 +7,7 @@
 
 <br/>
 	<div class="input-group date">
-		<input type="text" ng-model="searchClient" class="form-control" placeholder="Search Client"/>	
+		<input type="text" ng-model="searchClient" class="form-control" placeholder="Search Client"/>
 		<span class="input-group-addon">
 			<span class="fa fa-lg fa-search-plus"></span>
 		</span>	
@@ -22,20 +22,24 @@
 	<thead>
 	  <tr>
 		<th>Name</th>
-		<th>Contact No.</th>
 		<th>Address</th>
 		<th>City</th>
 		<th>District</th>
+		<th>Contact Person.</th>
+		<th>Contact No.</th>
+		<th>VAT No.</th>
 		<th>Edit / Delete</th>
 	  </tr>
 	</thead>
 	<tbody>
 	  <tr ng-repeat="data in ClientData | filter:searchClient" class="fullData">		
 		<td>{{data.client_nm}}</td>
-		<td>{{data.client_contact}}</td>		
 		<td>{{data.client_address}}</td>
 		<td>{{data.client_city}}</td>
 		<td>{{data.client_dist}}</td>		
+		<td>{{data.client_cperson}}</td>		
+		<td>{{data.client_contact}}</td>		
+		<td>{{data.client_vatno}}</td>		
 		<td>
 			<button type="button" class="btn btn-sm btn-success" ng-click="setEditClientDetails(data.client_id);" data-toggle="modal" data-target="#myModal">
 				<i class="fa fa-eraser"></i></button> 
@@ -75,6 +79,8 @@
 					<datalist id="clientdist">
 						<option ng-repeat="dt in ClientData" ng-value="dt.client_dist"></option>
 					</datalist>
+				<input type="text" ng-model="clientcontactperson" placeholder="Contact Person" class="form-control" ng-disabled="clnt" required/><br/>
+				<input type="text" ng-model="clientvatno" placeholder="VAT No." class="form-control" ng-disabled="clnt" required/><br/>
       </div>
       <div class="modal-footer">		
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-disabled="clnt"><i class="fa fa-times-circle"></i> Close</button>

@@ -24,7 +24,7 @@ greenorganics.controller("NewClientController", function($scope, $http, $route){
 			}			
 		});
 	};
-	$scope.fetchAllClients();
+	//$scope.fetchAllClients();
 	
 	$scope.addtodb = function(){
 		$scope.clnt=true;
@@ -33,7 +33,9 @@ greenorganics.controller("NewClientController", function($scope, $http, $route){
 			"address":$scope.address,
 			"clientcity":$scope.clientcity,
 			"clientdist":$scope.clientdist,
-			"clientcontact":$scope.clientcontact
+			"clientcontact":$scope.clientcontact,
+			"clientcPerson":$scope.clientcontactperson,
+			"clientvatno":$scope.clientvatno,
 		};
 		$(".loadSpinner").show();
 		$http({
@@ -119,6 +121,8 @@ greenorganics.controller("ClientListController", function($scope, $http, $route)
 				$scope.address=result.data.clients[0].client_address;
 				$scope.clientcity=result.data.clients[0].client_city;
 				$scope.clientdist=result.data.clients[0].client_dist;
+				$scope.clientcontactperson=result.data.clients[0].client_cperson;
+				$scope.clientvatno=result.data.clients[0].client_vatno;
 				
 				$scope.clnt=false;
 			}
@@ -135,7 +139,9 @@ greenorganics.controller("ClientListController", function($scope, $http, $route)
 			"address":$scope.address,
 			"clientcity":$scope.clientcity,
 			"clientdist":$scope.clientdist,
-			"clientcontact":$scope.clientcontact
+			"clientcontact":$scope.clientcontact,
+			"clientcontactperson":$scope.clientcontactperson,
+			"clientvatno":$scope.clientvatno
 		};		
 		$http({
 			method: 'POST',

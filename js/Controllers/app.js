@@ -72,6 +72,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/orderPayment', {
         templateUrl: 'views/orderPayment.html'
       }).
+      when('/acc_details', {
+        templateUrl: 'views/acc_details.html'
+      }).
       otherwise({
         redirectTo: '/dashboard'
       });

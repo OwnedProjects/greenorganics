@@ -21,20 +21,24 @@
 	<thead>
 	  <tr>
 		<th>Name</th>
-		<th>Contact No.</th>
 		<th>Address</th>
 		<th>City</th>
 		<th>District</th>		
+		<th>Contact Person</th>
+		<th>Contact No.</th>
+		<th>VAT No.</th>
 		<th>Activate</th>
 	  </tr>
 	</thead>
 	<tbody>
 	  <tr ng-repeat="data in ClientData | filter:searchClient" class="fullData">		
-		<td>{{data.client_nm}}</td>
-		<td>{{data.client_contact}}</td>		
+		<td>{{data.client_nm}}</td>		
 		<td>{{data.client_address}}</td>
 		<td>{{data.client_city}}</td>
 		<td>{{data.client_dist}}</td>		
+		<td>{{data.client_cperson}}</td>		
+		<td>{{data.client_contact}}</td>		
+		<td>{{data.client_vatno}}</td>		
 		<td>			
 			<button type="button" class="btn btn-sm btn-info" ng-click="activateClient(data.client_id);" title="Activate Clients">
 				<i class="fa fa-unlock"></i></button>

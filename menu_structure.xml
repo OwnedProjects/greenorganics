@@ -133,4 +133,17 @@
 			</submenu>
 		</submenu_module>
 	</menu>
+	<menu>
+		<name>ACCOUNTS</name>
+		<icon></icon>
+		<mainlink>#/check_acc</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>Account Details</name>
+				<icon>fa-inr</icon>
+				<link>#/acc_details</link>
+			</submenu>
+		</submenu_module>
+	</menu>
 </menu_structure>

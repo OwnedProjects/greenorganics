@@ -7,15 +7,13 @@
 			<thead>
 			  <tr>
 				<th>Product Name</th>				
-				<th>Stock Available</th>
-				<th>Stock Date (Last Updated)</th>
+				<th>Stock Available</th>				
 			  </tr>
 			</thead>
 			<tbody>
 			  <tr ng-repeat="data in stockdata | filter:searchStock" class="fullData">				
 				<td>{{data.prod_name}}</td>				
-				<td>{{data.prod_name=='HDPE Bags'? data.stock_avail+' Bags' : (data.stock_avail | number:3)}}</td>
-				<td>{{data.stock_date | date: 'dd-MM-yyyy'}}</td>
+				<td>{{data.prod_name=='HDPE Bags'? data.stock_avail+' Bags' : (data.stock_avail | number:3)}}</td>				
 			  </tr>
 			  <tr class="noData">
 				<td colspan="8"> No Data Found </td>
@@ -31,14 +29,12 @@
 			  <tr>
 				<th>Product Name</th>				
 				<th>Stock Available</th>
-				<th>Stock Date (Last Updated)</th>
 			  </tr>
 			</thead>
 			<tbody>
 			  <tr class="fullData">				
 				<td>{{outstockdata.prod_name | uppercase}}</td>				
 				<td>{{outstockdata.stock_avail | number:3}}</td>
-				<td>{{outstockdata.stock_date | date: 'dd-MM-yyyy'}}</td>
 			  </tr>
 			  <tr class="noData">
 				<td colspan="8"> No Data Found </td>
