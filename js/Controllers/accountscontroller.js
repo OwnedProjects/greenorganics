@@ -56,6 +56,7 @@ greenorganics.controller("FetchAccountDetails", function($scope, $http, $route){
 		$('.mainWrapper').hide();
 		$("#accDetailsTab").show();		
 		$(".dataloadSpinner").show();
+		$scope.accid=accid;
 		$scope.accname=accname;
 		$scope.acctype=acctype;
 		$scope.accdetails=null;
@@ -105,5 +106,56 @@ greenorganics.controller("FetchAccountDetails", function($scope, $http, $route){
 	$scope.backBtnClick = function(){
 		$('.mainWrapper').show();
 		$("#accDetailsTab").hide();
+	};
+	
+	$scope.makePayment = function(){
+		if($scope.payAmt==undefined || $scope.payAmt==null || $scope.particulars==undefined || $scope.particulars==null){
+			alert('Fields cannot be empty');
+			throw 'Fields cannot be empty';
+		}
+		
+		if($scope.payAmt<=0){
+			alert("Amount must be greater than 0");
+			throw "Amount must be greater than 0";
+		}
+		
+		if($scope.acctype=='inward'){
+			$scope.debCred='debit';
+		}
+		else{
+			$scope.debCred='credit';
+		}
+		var dt=new Date();
+		var tmpObj={
+			"id":$scope.accid,
+			"acctype":$scope.acctype,
+			"debCred":$scope.debCred,
+			"payAmt":$scope.payAmt,
+			"particulars":$scope.particulars,
+			"accdate":dt.getTime(),
+			"accmonth":dt.getMonth(),
+			"accyear":dt.getFullYear(),
+		};
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=remainingPay',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: tmpObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){	
+				$('button').removeAttr("disabled");
+				$("#balancePayModal").modal('hide');
+				$route.reload();
+				$(".loadSpinner").hide();				
+			}
+			else{
+				$(".loadSpinner").hide();
+				alert('Error!!! Please contact system Administrator.');
+			}			
+		});
 	};
 });

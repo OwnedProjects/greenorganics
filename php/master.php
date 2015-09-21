@@ -1,5 +1,5 @@
 <?php
-//ini_set('error_reporting', E_STRICT);
+ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -925,6 +925,20 @@ $action=$_GET['action'];
 			$obj->accdetails=$tmpRes;
 			$obj->totDebitAmt=$rowTotDebitAmt['SUM(`acc_amount`)'];
 			$obj->totCreditAmt=$rowTotCreditAmt['SUM(`acc_amount`)'];
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+		
+	if($action=='remainingPay'){
+		$data = json_decode(file_get_contents("php://input"));
+		$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->id.", '".$data->acctype."', '".$data->debCred."','".$data->payAmt."','".$data->accdate."','".$data->accmonth."','".$data->accyear."','".$data->particulars."')";
+		$insAcc1 = mysql_query($insAccounts1);
+		if($insAcc1){
+			$obj->status=true;			
 		}
 		else{
 			$obj->status=false;

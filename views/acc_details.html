@@ -52,10 +52,11 @@
 		</div>
 	</div>
 	<div id="accDetailsTab" class="col-md-12 col-sm-12 col-xs-12">
-			<br/><br/><br/>		
+			<br/>
 			<h5 class="text-primary">ACCOUNT DETAILS of: <strong>{{accname}}</strong><br/>
 			Type: <strong>{{acctype}}</strong></h5>
-			<button class="btn btn-sm btn-warning" ng-click="backBtnClick();"><i class="fa fa-hand-o-left"></i></button><br/><br/>
+			<button class="btn btn-sm btn-warning" ng-click="backBtnClick();"><i class="fa fa-hand-o-left"></i></button> 
+			<a href="javascript:vid(0)" class="link" data-toggle="modal" data-target="#balancePayModal" style="float:right;margin-right:50px">Balance Payment</a><br/><br/>
 			<strong class="text-info dataloadSpinner"> Loading Data, Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i><br/><br/></strong>
 		<div class="col-md-6 col-sm-6 col-xs-12">
 			<strong class="text-warning">Debit</strong>
@@ -113,4 +114,27 @@
 				</table>
 		</div>
 	</div>
+	
+
+<!-- Small modal -->
+<div class="modal fade" id="balancePayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Balance Payment of <span class="text-info">{{accname}} </span>.</h4>
+      </div>
+	  <div class="modal-body">
+			Payment Details<br/>
+			<input type="text" class="form-control" placeholder="Payment Amount" ng-model="payAmt" />
+			<span>Remaining Amount: <strong class="text-danger">{{totCreditAmt-totDebitAmt}}</strong></span><br/><br/>
+			<textarea class="form-control" placeholder="Particulars" ng-model="particulars"></textarea><br/>
+	  </div>
+      <div class="modal-footer">		
+        <button type="button" class="btn btn-info" ng-click="makePayment();"><i class="fa fa-inr"></i> Make Payment</button>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
 </div>
