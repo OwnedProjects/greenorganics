@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.5.2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 21, 2015 at 12:42 PM
--- Server version: 5.5.24-log
--- PHP Version: 5.3.13
+-- Generation Time: Sep 24, 2015 at 11:44 AM
+-- Server version: 5.5.25a
+-- PHP Version: 5.5.19
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -28,9 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `account_register` (
   `account_id` int(100) NOT NULL AUTO_INCREMENT,
-  `acc_client_id` int(10) NOT NULL,
-  `acc_nonclient` varchar(20) DEFAULT NULL,
-  `acc_nonclient_desc` varchar(1000) DEFAULT NULL,
+  `acc_client_id` int(10) DEFAULT NULL,
+  `acc_nonclientid` varchar(20) DEFAULT NULL,
   `acc_type` varchar(20) DEFAULT NULL,
   `credit_debit` varchar(20) NOT NULL,
   `acc_amount` varchar(100) NOT NULL,
@@ -39,30 +38,39 @@ CREATE TABLE IF NOT EXISTS `account_register` (
   `acc_year` varchar(10) DEFAULT NULL,
   `acc_particulars` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `account_register`
 --
 
-INSERT INTO `account_register` (`account_id`, `acc_client_id`, `acc_nonclient`, `acc_nonclient_desc`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES
-(19, 7, NULL, NULL, 'inward', 'credit', '5000', '1441208105569', '8', '2015', NULL),
-(20, 7, NULL, NULL, 'inward', 'debit', '2000', '1441208105569', '8', '2015', 'Bill XYZ: 12121'),
-(21, 7, NULL, NULL, 'inward', 'credit', '3300', '1441721741898', '8', '2015', NULL),
-(22, 7, NULL, NULL, 'inward', 'debit', '3200', '1441721741898', '8', '2015', 'New Test'),
-(23, 7, NULL, NULL, 'inward', 'credit', '1000', '1442499532552', '8', '2015', NULL),
-(24, 7, NULL, NULL, 'inward', 'debit', '200', '1442499532552', '8', '2015', 'Testa'),
-(25, 7, NULL, NULL, 'inward', 'credit', '3000', '1442413684071', '8', '2015', NULL),
-(26, 7, NULL, NULL, 'inward', 'debit', '200', '1442413684071', '8', '2015', 'dsvd'),
-(27, 8, NULL, NULL, 'inward', 'credit', '12500', '1441896155550', '8', '2015', NULL),
-(28, 4, NULL, NULL, 'inward', 'credit', '100000', '1441982585961', '8', '2015', NULL),
-(29, 5, NULL, NULL, 'inward', 'credit', '12500', '1441896214690', '8', '2015', NULL),
-(30, 6, NULL, NULL, 'inward', 'credit', '39000', '1442673847013', '8', '2015', NULL),
-(31, 1, NULL, NULL, 'outward', 'debit', '25000', '1442764609183', '8', '2015', NULL),
-(32, 1, NULL, NULL, 'outward', 'credit', '15000', '1442764609183', '8', '2015', 'Outwrd Pay'),
-(33, 2, NULL, NULL, 'outward', 'debit', '10000', '1442769093543', '8', '2015', NULL),
-(34, 2, NULL, NULL, 'outward', 'credit', '10000', '1442769093543', '8', '2015', 'Ordered Complete'),
-(35, 1, NULL, NULL, 'outward', 'debit', '5000', '1442769731589', '8', '2015', NULL);
+INSERT INTO `account_register` (`account_id`, `acc_client_id`, `acc_nonclientid`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES
+(19, 7, NULL, 'inward', 'credit', '5000', '1441208105569', '8', '2015', NULL),
+(20, 7, NULL, 'inward', 'debit', '2000', '1441208105569', '8', '2015', 'Bill XYZ: 12121'),
+(21, 7, NULL, 'inward', 'credit', '3300', '1441721741898', '8', '2015', NULL),
+(22, 7, NULL, 'inward', 'debit', '3200', '1441721741898', '8', '2015', 'New Test'),
+(23, 7, NULL, 'inward', 'credit', '1000', '1442499532552', '8', '2015', NULL),
+(24, 7, NULL, 'inward', 'debit', '200', '1442499532552', '8', '2015', 'Testa'),
+(25, 7, NULL, 'inward', 'credit', '3000', '1442413684071', '8', '2015', NULL),
+(26, 7, NULL, 'inward', 'debit', '200', '1442413684071', '8', '2015', 'dsvd'),
+(27, 8, NULL, 'inward', 'credit', '12500', '1441896155550', '8', '2015', NULL),
+(28, 4, NULL, 'inward', 'credit', '100000', '1441982585961', '8', '2015', NULL),
+(29, 5, NULL, 'inward', 'credit', '12500', '1441896214690', '8', '2015', NULL),
+(30, 6, NULL, 'inward', 'credit', '39000', '1442673847013', '8', '2015', NULL),
+(31, 1, NULL, 'outward', 'debit', '25000', '1442764609183', '8', '2015', NULL),
+(32, 1, NULL, 'outward', 'credit', '15000', '1442764609183', '8', '2015', 'Outwrd Pay'),
+(33, 2, NULL, 'outward', 'debit', '10000', '1442769093543', '8', '2015', NULL),
+(34, 2, NULL, 'outward', 'credit', '10000', '1442769093543', '8', '2015', 'Ordered Complete'),
+(35, 1, NULL, 'outward', 'debit', '5000', '1442769731589', '8', '2015', NULL),
+(36, 6, NULL, 'inward', 'credit', '175000', '1442845698486', '8', '2015', NULL),
+(37, 6, NULL, 'inward', 'debit', '50000', '1442845698486', '8', '2015', 'Paid through CC'),
+(38, 8, NULL, 'inward', 'debit', '2500', '1442848771793', '8', '2015', 'Check: 001212'),
+(39, 4, NULL, 'inward', 'debit', '50000', '1442848833775', '8', '2015', 'Naaz Cash'),
+(40, 7, NULL, 'inward', 'debit', '700', '1442849259467', '8', '2015', 'xddfgd'),
+(41, NULL, '1', NULL, 'debit', '52000', '1442739886156', '8', '2015', 'CC-12345'),
+(42, NULL, '2', NULL, 'debit', '1200', '1442308527932', '8', '2015', 'Cash Pay'),
+(43, NULL, '1', NULL, 'debit', '5000', '1441704928792', '8', '2015', 'abcbabc'),
+(44, NULL, '2', NULL, 'debit', '1111', '1441100490904', '8', '2015', 'aaaa');
 
 -- --------------------------------------------------------
 
@@ -136,6 +144,26 @@ INSERT INTO `lorry_register` (`lorry_id`, `lorry_number`) VALUES
 (2, 'MH 20/AA 8682\n'),
 (6, 'MH 12/LL 2803'),
 (7, 'KA 10/AA 1234');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `otherexpense_master`
+--
+
+CREATE TABLE IF NOT EXISTS `otherexpense_master` (
+  `expense_id` int(10) NOT NULL AUTO_INCREMENT,
+  `expense_name` varchar(500) NOT NULL,
+  PRIMARY KEY (`expense_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `otherexpense_master`
+--
+
+INSERT INTO `otherexpense_master` (`expense_id`, `expense_name`) VALUES
+(1, 'Travel to Bagdad'),
+(2, 'Rent');
 
 -- --------------------------------------------------------
 
@@ -268,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `purchase_register` (
   `purchase_month` varchar(10) DEFAULT NULL,
   `purchase_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `purchase_register`
@@ -278,7 +306,8 @@ INSERT INTO `purchase_register` (`purchase_id`, `lorry_id`, `supplier_id`, `prod
 (1, 2, 8, 12, '12', '25', '500', '0', '12500', '1441896155550', '8', '2015'),
 (2, 2, 4, 13, '122', '50', '2000', '0', '100000', '1441982585961', '8', '2015'),
 (3, 1, 5, 14, '32', '50', '250', '0', '12500', '1441896214690', '8', '2015'),
-(4, 6, 6, 15, '2123', '60', '650', '0', '39000', '1442673847013', '8', '2015');
+(4, 6, 6, 15, '2123', '60', '650', '0', '39000', '1442673847013', '8', '2015'),
+(5, 2, 6, 15, '12', '50', '3500', '0', '175000', '1442845698486', '8', '2015');
 
 -- --------------------------------------------------------
 
@@ -368,7 +397,7 @@ INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`
 (1, 'Inward', 12, '16.2', '1442501183151'),
 (2, 'Inward', 13, '43.8', '1442501183151'),
 (3, 'Inward', 14, '46.6', '1442501183151'),
-(4, 'Inward', 15, '58.4', '1442501183151'),
+(4, 'Inward', 15, '108.4', '1442845698486'),
 (5, 'Inward', 16, '0', ''),
 (6, 'Inward', 17, '1150', '1442501183151'),
 (8, 'Outward', 1, '0', '1442769731589');

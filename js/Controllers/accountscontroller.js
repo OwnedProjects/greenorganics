@@ -159,3 +159,68 @@ greenorganics.controller("FetchAccountDetails", function($scope, $http, $route){
 		});
 	};
 });
+
+greenorganics.controller("OtherExpensesController", function($scope, $http, $route){
+	$scope.tmpDisable=true;
+	$(".loadSpinner").show();
+	$http({
+			method: 'GET',
+			url: 'php/master.php?action=otherExpenseNames',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){	
+				$scope.expenseDetailObj=result.data.expenseObj;
+				$scope.tmpDisable=false;
+				$(".loadSpinner").hide();				
+			}
+			else{
+				$(".loadSpinner").hide();
+				alert('Error!!! Please contact system Administrator.');
+			}			
+		});
+		
+	$scope.makeExpensePayment = function(){
+		$(".loadSpinner").show();
+		if($scope.payAmt<=0){
+			alert("Amount cannot be zero/less than zero");
+			throw "Amount cannot be zero/less than zero"
+		}
+		var dt=new Date();
+		var day=dt.setDate(parseInt($("#enterdate").val().split('/')[0]));
+		var mnt=dt.setMonth(parseInt($("#enterdate").val().split('/')[1])-1);
+		var Yr=dt.setYear(parseInt($("#enterdate").val().split('/')[2]));
+		
+		var tmpObj={
+			"expTime":dt.getTime(),
+			"empMnt":(parseInt($("#enterdate").val().split('/')[1])-1),
+			"expYr":(parseInt($("#enterdate").val().split('/')[2])),
+			"expenseDetails":$scope.expenseDetails,
+			"payAmt":$scope.payAmt,
+			"particulars":$scope.particulars,
+		};
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=otherExpensePayment',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data:tmpObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){	
+				//$scope.payDetailObj=result.data.expenseObj;
+				$(".loadSpinner").hide();
+				$route.reload();				
+			}
+			else{
+				$(".loadSpinner").hide();
+				alert('Error!!! Please contact system Administrator.');
+			}			
+		});
+	};
+});

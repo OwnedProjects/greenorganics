@@ -1,5 +1,5 @@
 <?php
-//ini_set('error_reporting', E_STRICT);
+ini_set('error_reporting', E_STRICT);
 include ("conn.php");
 $action=$_GET['action'];
 
@@ -931,8 +931,7 @@ $action=$_GET['action'];
 		}
 		echo json_encode($obj);
 	}
-	
-		
+			
 	if($action=='remainingPay'){
 		$data = json_decode(file_get_contents("php://input"));
 		$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->id.", '".$data->acctype."', '".$data->debCred."','".$data->payAmt."','".$data->accdate."','".$data->accmonth."','".$data->accyear."','".$data->particulars."')";
@@ -943,6 +942,49 @@ $action=$_GET['action'];
 		else{
 			$obj->status=false;
 		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='otherExpenseNames'){
+		$selAccClients="SELECT distinct(`expense_name`) FROM `otherexpense_master`";
+		$resAccClients=mysql_query($selAccClients);
+		$count = mysql_num_rows($resAccClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resAccClients )) {
+				$tmpRes[$cnt]->acc_nonclient=$row['expense_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->expenseObj=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='otherExpensePayment'){
+		$data = json_decode(file_get_contents("php://input"));
+		
+		$insExpense="INSERT INTO `otherexpense_master`(`expense_name`) SELECT * FROM (SELECT '".$data->expenseDetails."') AS tmp WHERE NOT EXISTS (SELECT expense_name from `otherexpense_master` where `expense_name`='".$data->expenseDetails."')";
+		$resExpense=mysql_query($insExpense);		
+		
+		$selExpId="SELECT `expense_id` FROM `otherexpense_master` WHERE `expense_name`='".$data->expenseDetails."'";
+		$resExpId=mysql_query($selExpId);
+		$rowExpId = mysql_fetch_array($resExpId,MYSQL_BOTH);
+		$expid=$rowExpId['expense_id'];
+		
+		$insAccounts1="INSERT INTO `account_register`(`acc_nonclientid`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$expid.", 'debit','".$data->payAmt."','".$data->expTime."','".$data->empMnt."','".$data->expYr."','".$data->particulars."')";
+		$insAcc1 = mysql_query($insAccounts1);
+		
+		if($insAcc1){
+			$obj->status=true;			
+		}
+		else{
+			$obj->status=false;
+		}
+		
 		echo json_encode($obj);
 	}
 ?>
