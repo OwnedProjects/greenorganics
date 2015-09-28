@@ -6,16 +6,16 @@
 		<div class="col-md-6 col-sm-6 col-xs-12">
 			<form ng-submit="makeExpensePayment();">
 				<div class="input-group date">
-					<input type="text"  id="enterdate" class="form-control" placeholder="Enter Date"  ng-disabled="tmpDisable" required/>
+					<input type="text"  id="enterdate" class="form-control" placeholder="Date"  ng-disabled="tmpDisable" required/>
 					<span class="input-group-addon">
 						<span class="fa fa-calendar"></span>
 					</span>	
 				</div><br/>
-				<input type="text" ng-model="expenseDetails" list="expenseDetails" class="form-control" placeholder="Expense Details"  ng-disabled="tmpDisable" required/>
+				<input type="text" ng-model="expenseDetails" list="expenseDetails" class="form-control" placeholder="Account"  ng-disabled="tmpDisable" required/>
 					<datalist id="expenseDetails">
 						<option ng-repeat="dt in expenseDetailObj" ng-value="dt.acc_nonclient"></option>
 					</datalist><br/>
-				<input type="text" class="form-control" placeholder="Payment Amount" ng-model="payAmt" ng-disabled="tmpDisable" required /><br/>
+				<input type="text" class="form-control" placeholder="Amount" ng-model="payAmt" ng-disabled="tmpDisable" required /><br/>
 				<textarea class="form-control" placeholder="Particulars" ng-model="particulars"  ng-disabled="tmpDisable" required ></textarea><br/>
 				<button type="submit" class="btn btn-sm btn-primary">Make Payment</button>
 			</form>

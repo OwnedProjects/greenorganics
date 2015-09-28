@@ -179,6 +179,7 @@ greenorganics.controller("OtherExpensesController", function($scope, $http, $rou
 			}
 			else{
 				$(".loadSpinner").hide();
+				$scope.tmpDisable=false;
 				alert('Error!!! Please contact system Administrator.');
 			}			
 		});
