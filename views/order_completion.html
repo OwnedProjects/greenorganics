@@ -1,0 +1,324 @@
+<div class="col-md-12 col-sm-12" ng-controller="OrderCompletionController">
+
+<h3 class="text-primary">Order Completion</h3>
+<hr/>
+<div class="col-md-12 col-sm-12 col-xs-12">
+<strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i></strong>
+<span class="messageDisp"></span>
+<div class="row">
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="col-md-4 col-sm-6 col-xs-12">
+			<label class="text-info">Order No.: </label>
+		</div>
+		<div class="col-md-8 col-sm-6 col-xs-12">
+			<div class="input-group date">
+				<input type="text" class="form-control" ng-model="orderNo" placeholder="Order No" readonly required />
+				<span class="input-group-addon" ng-click="searchOrderDetails()" data-toggle="modal" data-target="#OrderModal">
+					<span class="fa fa-search" ></span>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="col-md-4 col-sm-6 col-xs-12">
+			<label class="text-info">Order Completion Date: </label>
+		</div>
+		<div class="col-md-8 col-sm-6 col-xs-12">
+			<div class="input-group date">
+				<input type="text" class="form-control" id="orderDate" placeholder="Date" ng-disabled="loadOrder" required />
+				<span class="input-group-addon">
+					<span class="fa fa-calendar" ></span>
+				</span>
+			</div>
+		</div>
+	</div><br/><br/><br/>
+</div>
+
+<div class="row">
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="col-md-4 col-sm-6 col-xs-12">
+			<label class="text-info">Lorry: </label>
+		</div>
+		<div class="col-md-8 col-sm-6 col-xs-12">
+			<div class="input-group date">
+				<input type="hidden" class="form-control" ng-model="lorryid"/>
+				<input type="text" class="form-control" ng-model="lorryno" placeholder="Lorry No" ng-disabled="loadOrder" readonly required />
+				<span class="input-group-addon" ng-click="searchLorryDetails()" data-toggle="modal" data-target="#setLorrymodal">
+					<span class="fa fa-truck" ></span>
+				</span>
+				<span class="input-group-addon" data-toggle="modal" data-target="#addLorrymodal">
+					<span class="fa fa-plus" ></span>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="col-md-4 col-sm-6 col-xs-12">
+			<label class="text-info">Select Batches: </label>
+		</div>
+		<div class="col-md-8 col-sm-6 col-xs-12">
+			<div class="input-group date">
+				<select class="form-control" ng-model="productionid" id="productionid" placeholder="Select Batch" ng-disabled="loadOrder" required>
+					<option ng-repeat="data in batchData" value="{{data.production_id}}">{{data.batch_no}}</option>
+				</select>
+				<span class="input-group-addon" title="Click to Add from Batch" ng-click="addBatchToOrder()">
+					<span class="fa fa-plus-square"></span>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<br/>
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<table class="table table-condensed" ng-show="showBatches">
+			<thead>
+			  <tr>
+				<th>Batch No.</th>
+				<th>Product Remained</th>
+				<th>Quantity</th>
+				<th></th>
+			  </tr>
+			</thead>
+			<tbody class="batches">
+			  <tr ng-repeat="batch in setOrderBatches">
+				<td>{{batch.batch_no}}</td>
+				<td>{{batch.prod_remained}}</td>
+				<td><input type="text" class="batchinput" data-batchno="{{batch.batch_no}}" data-prod_remained="{{batch.prod_remained}}" ng-disabled="confirmBatch">
+					<span class="text-danger"><span class="fa fa-close removeBatch" ng-click="removeBatches(batch.batch_no, batch.prod_produced, batch.prod_remained, batch.production_id);"></span></span>
+				</td>
+			  </tr>
+			  <tr>
+				<td colspan="3"><button type="button" class="btn btn-sm btn-info" ng-click="confirmBatches()" ng-disabled="confirmBatch">Confirm Batches</button></td>
+			  </tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<button class="btn btn-sm btn-success" ng-click="completeOrder()">Complete Order</button>
+	</div>
+</div>
+
+<div class="row" ng-show="orderDets">
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<h4 class="text-danger">Order Details</h4>
+		<table class="table table-responsive table-striped">
+			<tbody>
+				<tr>
+					<td>Order Number</td>
+					<td>{{orderDetails.order_no}}</td>
+				</tr>
+				<tr>
+					<td>Sales Id</td>
+					<td>{{orderDetails.sales_id}}</td>
+				</tr>
+				<tr>
+					<td>DC Number</td>
+					<td>{{orderDetails.dc_no}}</td>
+				</tr>
+				<tr>
+					<td>Order Date</td>
+					<td>{{orderDetails.order_date | date:'dd-MM-yyyy'}}</td>
+				</tr>
+				<tr>
+					<td>Dispatch Date</td>
+					<td>{{orderDetails.dispatch_date | date:'dd-MM-yyyy'}}</td>
+				</tr>
+				<tr>
+					<td>Quantity</td>
+					<td><strong class="text-primary">{{orderDetails.quantity}}<strong></td>
+				</tr>
+				<tr>
+					<td>Bill Number</td>
+					<td>{{orderDetails.billno}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<h4>&nbsp;</h4>
+		<table class="table table-responsive table-striped">
+			<tbody>
+				<tr>
+					<td>Bill Date</td>
+					<td>{{orderDetails.bill_date | date:'dd-MM-yyyy'}}</td>
+				</tr>
+				<tr>
+					<td>Bill Amount</td>
+					<td>{{orderDetails.bill_amount}}</td>
+				</tr>
+				<tr>
+					<td>Discount</td>
+					<td>{{orderDetails.discount}}</td>
+				</tr>
+				<tr>
+					<td>Net Amount</td>
+					<td>{{orderDetails.net_amount}}</td>
+				</tr>
+				<tr>
+					<td>VAT Amount</td>
+					<td>{{orderDetails.vat_amount}}</td>
+				</tr>
+				<tr>
+					<td>Sale Date</td>
+					<td>{{orderDetails.sale_date | date:'dd-MM-yyyy'}}</td>
+				</tr>
+				<tr>
+					<td>Client Name</td>
+					<td>{{orderDetails.client_name}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+</div>
+
+<!-- Set Order Details Modal -->
+<div class="modal fade" id="OrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">SET Order</h4>
+      </div>
+      <div class="modal-body">
+	  <div class="row col-md-6 col-sm-6 sol-xs-6">
+			<div class="input-group date">
+				<input type="text" class="form-control" placeholder="Search..." ng-model="searchOrder">
+				<span class="input-group-addon">
+					<span class="fa fa-search"></span>
+				</span>
+			</div>
+		</div>
+		<br/><br/>
+		<table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Sr. No.</th>
+				<th>Order Number</th>
+				<th>Set</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in orderData | filter:searchOrder" class="fullData">		
+				<td>{{$index+1}}</td>
+				<td>{{data.order_no}}</td>
+				<td>			
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setOrderDetails(data.order_no, data.sales_id, data.dc_no, data.order_date, data.dispatch_date, data.quantity, data.billno, data.bill_date, data.bill_amount, data.discount, data.net_amount, data.vat_amount, data.sale_date, data.client_name);">
+						<i class="fa fa-outdent"></i> SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	  </div>
+    </div>	
+  </div>
+</div>
+
+<!--Set Lorry Details Modal -->
+<div class="modal fade" id="setLorrymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">SET Lorry</h4>
+      </div>
+      <div class="modal-body">
+	  <div class="row col-md-6 col-sm-6 sol-xs-6">
+			<div class="input-group date">
+				<input type="text" class="form-control" placeholder="Search..." ng-model="searchLorry">
+				<span class="input-group-addon">
+					<span class="fa fa-search"></span>
+				</span>
+			</div>
+		</div>
+		<br/><br/>
+		<table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Sr. No.</th>
+				<th>Lorry Number</th>
+				<th>Set</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in lorryData | filter:searchLorry" class="fullData">		
+				<td>{{$index+1}}</td>
+				<td>{{data.lorry_no}}</td>
+				<td>			
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setLorryDetails(data.lorry_id, data.lorry_no);">
+						<i class="fa fa-outdent"></i> SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	  </div>
+    </div>	
+  </div>
+</div>
+
+<!-- Add New Lorry Modal -->
+<div class="modal fade" id="addLorrymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <form ng-submit="addlorry();">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Lorry</h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<span class="displayMsg"></span>
+		
+			<div class="col-md-2 col-sm-2 col-xs-4">
+				<input type="text" class="form-control" ng-model="lorrystate" placeholder="MH" maxlength='2' autofocus required />
+			</div>
+			<div class="col-md-3 col-sm-2 col-xs-4">
+				<input type="number" class="form-control" ng-model="lorrystatecode" id="lorrystatecode" placeholder="12" max="99" min="1" required />
+			</div>
+			<div class="col-md-2 col-sm-2 col-xs-4">
+				<input type="text" class="form-control" ng-model="lorrycode" placeholder="AA" maxlength='2' required />
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-4">
+				<input type="number" class="form-control" ng-model="popuplorryno" placeholder="0123" id="popuplorryno" max="9999" min="1" required />
+			</div>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<h4>Note: e.g  <span class="text-info">MH - 12 - AA - 0123</span></h4>			
+				<div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div>
+				<button type="submit" class="btn btn-success">Save Details</button>
+			</div>
+		</div>
+	  </div>    
+  </div>
+  </form>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+$(function() {  
+    $('#orderDate').datetimepicker({
+		format: 'D/M/YYYY'
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>

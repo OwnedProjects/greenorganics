@@ -64,6 +64,11 @@
 				<icon>fa-dropbox</icon>
 				<link>#/new_order</link>
 			</submenu>
+			<submenu>
+				<name>Order Completion</name>
+				<icon>fa-dropbox</icon>
+				<link>#/order_completion</link>
+			</submenu>
 		</submenu_module>
 	</menu>
 	<menu>
@@ -131,6 +136,11 @@
 				<icon>fa-database</icon>
 				<link>#/stock_list</link>
 			</submenu>
+			<submenu>
+				<name>Opening Stock</name>
+				<icon>fa-area-chart</icon>
+				<link>#/opening_stock</link>
+			</submenu>
 		</submenu_module>
 	</menu>
 	<menu>
@@ -148,6 +158,24 @@
 				<name>Other Expenses</name>
 				<icon>fa-inr</icon>
 				<link>#/other_expenses</link>
+			</submenu>
+		</submenu_module>
+	</menu>
+	<menu>
+		<name>REPORTS</name>
+		<icon></icon>
+		<mainlink>#/base_reports</mainlink>
+		<hasSubmenus>YES</hasSubmenus>
+		<submenu_module>
+			<submenu>
+				<name>Purchase Product Reports</name>
+				<icon>fa-line-chart</icon>
+				<link>#/reports_purchase</link>
+			</submenu>
+			<submenu>
+				<name>Purchase Bags Reports</name>
+				<icon>fa-pie-chart</icon>
+				<link>#/reports_bags_purchase</link>
 			</submenu>
 		</submenu_module>
 	</menu>

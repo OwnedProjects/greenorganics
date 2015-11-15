@@ -1,0 +1,380 @@
+<div class="col-md-12 col-sm-12" ng-controller="ReportsPurchaseController">
+
+<h3 class="text-primary">PURCHASE REPORTS <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+<hr/>
+<strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i><br/><br/></strong>
+<div class="col-md-12 col-sm-12 col-xs-12 buttonsWrapper">
+<h4><strong class="text-danger">REPORTS BY DATE</strong></h4>
+	<div class="row">
+		<div class="col-md-12">
+		<strong class="text-info">Reports by date</strong>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="purchaseDate" class="form-control" placeholder="Date"/>	
+				<span class="input-group-addon">
+					<span class="fa fa-lg fa-search-plus"></span>
+				</span>	
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<button type="button" class="btn btn-primary" ng-click="monthlyReports();">
+				<i class="fa fa-line-chart"></i> Monthly Reports
+			</button><br/><br/>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<button type="button" class="btn btn-primary" ng-click="yearlyReports();"><i class="fa fa-pie-chart"></i> Annual Reports</button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<strong class="text-info">Reports between dates</strong>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="fromDate" class="form-control" placeholder="From Date"/>	
+				<span class="input-group-addon">
+					<span class="fa fa-lg fa-search-plus"></span>
+				</span>	
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="toDate" class="form-control" placeholder="To Date"/>	
+				<span class="input-group-addon">
+					<span class="fa fa-lg fa-search-plus"></span>
+				</span>	
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<button type="button" class="btn btn-primary" ng-click="fromtoMonthlyReports();">
+				<i class="fa fa-line-chart"></i> Monthly Reports
+			</button>
+		</div>
+	</div>
+<hr/>
+<h4><strong class="text-danger">REPORTS BY SUPPLIER</strong></h4>
+	<div class="row">
+		<div class="col-md-12">
+		<strong class="text-info">Search Supplier</strong>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="input-group date">
+				<input type="hidden" ng-model="supplierid" class="form-control"/>	
+				<input type="text" ng-model="suppliernm" class="form-control" placeholder="Search Supplier" readonly />
+				<span class="input-group-addon" ng-click="searchSupplier();">
+					<span class="fa fa-user-plus"></span>
+				</span>	
+			</div><br/><br/>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<button type="button" class="btn btn-primary" ng-click="supplierReports();" ng-disabled="!suppliernm"><i class="fa fa-user"></i> Supplier Reports</button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+		<strong class="text-info">Search Supplier Monthly/Yearly</strong>
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12 row">
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="input-group date">
+					<input type="text" id="fromDateSupplier" class="form-control" placeholder="From Date"/>	
+					<span class="input-group-addon">
+						<span class="fa fa-lg fa-search-plus"></span>
+					</span>	
+				</div><br/>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<button type="button" class="btn btn-primary" ng-click="monthlySupplierReports();">
+					<i class="fa fa-line-chart"></i> Monthly Reports
+				</button><br/><br/>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<button type="button" class="btn btn-primary" ng-click="yearlySupplierReports();"><i class="fa fa-pie-chart"></i> Annual Reports</button>
+			</div>
+		</div>
+		
+		<div class="row col-md-12 col-sm-12 col-xs-12">
+			<div class="col-md-12">
+				<strong class="text-info">Search Supplier with Reports between dates</strong>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="input-group date">
+					<input type="text" id="fromSupplierDate" class="form-control" placeholder="From Date"/>	
+					<span class="input-group-addon">
+						<span class="fa fa-lg fa-search-plus"></span>
+					</span>	
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="input-group date">
+					<input type="text" id="toSupplierDate" class="form-control" placeholder="To Date"/>	
+					<span class="input-group-addon">
+						<span class="fa fa-lg fa-search-plus"></span>
+					</span>	
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<button type="button" class="btn btn-primary" ng-click="fromtoMonthlyReportsWithSuppliers();">
+					<i class="fa fa-line-chart"></i> Monthly Reports
+				</button>
+			</div>
+		</div>
+	</div>
+
+<hr/>
+<h4><strong class="text-danger">REPORTS BY PRODUCT</strong></h4>
+	<div class="row">
+		<div class="col-md-12">
+		<strong class="text-info">Search Product</strong>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="input-group date">
+				<input type="hidden" ng-model="productid" class="form-control"/>	
+				<input type="text" ng-model="productnm" class="form-control" placeholder="Search Product" readonly />
+				<span class="input-group-addon" ng-click="searchProduct();">
+					<span class="fa fa-eraser"></span>
+				</span>	
+			</div><br/><br/>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<button type="button" class="btn btn-primary" ng-click="productReports();" ng-disabled="!productnm"><i class="fa fa-user"></i> Product Reports</button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+		<strong class="text-info">Search Product Monthly/Yearly</strong>
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12 row">
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="input-group date">
+					<input type="text" id="fromDateProduct" class="form-control" placeholder="From Date"/>	
+					<span class="input-group-addon">
+						<span class="fa fa-lg fa-search-plus"></span>
+					</span>	
+				</div><br/>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<button type="button" class="btn btn-primary" ng-click="monthlyProductReports();">
+					<i class="fa fa-line-chart"></i> Monthly Reports
+				</button><br/><br/>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<button type="button" class="btn btn-primary" ng-click="yearlyProductReports();"><i class="fa fa-pie-chart"></i> Annual Reports</button>
+			</div>
+		</div>
+		
+		<div class="row col-md-12 col-sm-12 col-xs-12">
+			<div class="col-md-12">
+				<strong class="text-info">Search Product with Reports between dates</strong>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="input-group date">
+					<input type="text" id="fromProductDate" class="form-control" placeholder="From Date"/>	
+					<span class="input-group-addon">
+						<span class="fa fa-lg fa-search-plus"></span>
+					</span>	
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="input-group date">
+					<input type="text" id="toProductDate" class="form-control" placeholder="To Date"/>	
+					<span class="input-group-addon">
+						<span class="fa fa-lg fa-search-plus"></span>
+					</span>	
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				<button type="button" class="btn btn-primary" ng-click="fromtoMonthlyReportsWithProducts();">
+					<i class="fa fa-line-chart"></i> Monthly Reports
+				</button>
+			</div>
+		</div>
+	</div>
+<br/><br/><br/>
+</div>
+<div class="col-md-12 col-sm-12 col-xs-12 contentWrapper">
+	<button class="btn btn-warning btn-xs" ng-click="reload();">Back</button><br/><br/>
+	<div class="input-group date">
+		<input type="text" ng-model="searchData" class="form-control" placeholder="Search Data"/>
+		<span class="input-group-addon">
+			<span class="fa fa-lg fa-search-plus"></span>
+		</span>	
+	</div>
+	<br/>
+	<table class="table table-responsive table-striped">
+		<tr>
+			<th>Purchase Date</th>
+			<th>Supplier Name</th>
+			<th>Supplier Contact</th>
+			<th>Product</th>
+			<th>Bill No.</th>
+			<th>Weight</th>
+			<th>Rate</th>
+			<th>Lorry Freight</th>
+			<th>Final Amount</th>
+			<th>VAT No.</th>
+		</tr>
+		<tr ng-repeat="data in tableData | filter:searchData">
+			<td>{{data.purchase_date | date: 'dd-MM-yyyy'}}</td>
+			<td>{{data.supplier_name}}</td>
+			<td>{{data.supplier_contact}}</td>
+			<td>{{data.prod_name}}</td>
+			<td>{{data.billno}}</td>
+			<td>{{data.weight}}</td>
+			<td>{{data.rate}}</td>
+			<td>{{data.lorryfreight}}</td>
+			<td>{{data.finalAmt}}</td>
+			<td>{{data.vat_no}}</td>
+		</tr>
+	</table>
+</div>
+
+
+<!-- Small modal -->
+<div class="modal fade" id="supplierModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Search Supplier</h4>
+      </div>
+      <div class="modal-body">
+		<input type="text" ng-model="searchSupplierNm" class="form-control" placeholder="Search Supplier"/><br/>
+        <table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>Contact Person</th>
+				<th>Contact No.</th>
+				<th>Product Name</th>
+				<th>VAT No.</th>
+				<th>Set</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in supplierData | filter:searchSupplierNm" class="fullData">		
+				<td>{{data.supplier_nm}}</td>
+				<td>{{data.supplier_address}}</td>
+				<td>{{data.supplier_city}}</td>
+				<td>{{data.supplier_contact_person}}</td>
+				<td>{{data.supplier_contact}}</td>
+				<td>{{data.prod_name}}</td>
+				<td>{{data.supplier_vatno}}</td>		
+				<td>
+					<button type="button" class="btn btn-sm btn-info" ng-click="setSupplierDetails(data.supplier_id, data.supplier_nm);">SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+
+<!-- Small modal -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">	
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Search Product</h4>
+      </div>
+      <div class="modal-body">
+		<input type="text" ng-model="searchProductNm" class="form-control" placeholder="Search Product"/><br/>
+        <table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>Contact Person</th>
+				<th>Contact No.</th>
+				<th>Product Name</th>
+				<th>VAT No.</th>
+				<th>Set</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in productData | filter:searchProductNm" class="fullData">
+				<td>{{data.supplier_nm}}</td>
+				<td>{{data.supplier_address}}</td>
+				<td>{{data.supplier_city}}</td>
+				<td>{{data.supplier_contact_person}}</td>
+				<td>{{data.supplier_contact}}</td>
+				<td>{{data.prod_name}}</td>
+				<td>{{data.supplier_vatno}}</td>		
+				<td>
+					<button type="button" class="btn btn-sm btn-info" ng-click="setProductsDetails(data.prod_id, data.prod_name);">SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+      </div>
+    </div>
+	</form>
+  </div>
+</div>
+
+</div>
+<script type="text/javascript">
+$(function() {
+	var dt = new Date();
+	dt.setMonth(parseInt(dt.getMonth())-1);
+    $('#purchaseDate, #fromDateSupplier, #fromDateProduct').datetimepicker({
+		format: 'M/YYYY',
+		maxDate: new Date()
+	});
+	
+    $('#fromDate, #fromSupplierDate, #fromProductDate').datetimepicker({
+		format: 'M/YYYY',
+		maxDate: dt
+	});
+	
+    $('#toDate, #toSupplierDate, #toProductDate').datetimepicker({
+		format: 'M/YYYY',
+		maxDate: new Date() 
+	});
+	
+	$("#fromDate").on("dp.change", function (e) {
+		$('#toDate').data("DateTimePicker").minDate(e.date);
+	});
+	$("#toDate").on("dp.change", function (e) {
+		$('#fromDate').data("DateTimePicker").maxDate(e.date);
+	});
+	
+	$("#fromSupplierDate").on("dp.change", function (e) {
+		$('#toSupplierDate').data("DateTimePicker").minDate(e.date);
+	});
+	$("#toSupplierDate").on("dp.change", function (e) {
+		$('#fromSupplierDate').data("DateTimePicker").maxDate(e.date);
+	});
+	
+	$("#fromProductDate").on("dp.change", function (e) {
+		$('#toProductDate').data("DateTimePicker").minDate(e.date);
+	});
+	$("#toProductDate").on("dp.change", function (e) {
+		$('#fromProductDate').data("DateTimePicker").maxDate(e.date);
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>

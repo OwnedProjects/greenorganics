@@ -81,7 +81,7 @@
 			</div>
 			
 			<div class="row">				
-				<div class="col-md-6 col-sm-6 col-xs-12">
+				<!-- <div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Lorry: </label>
 					</div>
@@ -97,6 +97,14 @@
 							</span>
 						</div>
 					</div>
+				</div> -->
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Bill No: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="billno" placeholder="Bill No." ng-disabled="loadOrder" required/>
+					</div>
 				</div>
 				
 				<div class="col-md-6 col-sm-6 col-xs-12">
@@ -110,16 +118,15 @@
 				<br/><br/><br/>
 			</div>
 			
-			<div class="row">				
+			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Bill No: </label>
+						<label class="text-info">Bill Amount: </label>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="billno" placeholder="Bill No." ng-disabled="loadOrder" required/>
+						<input type="text" class="form-control" ng-model="billamt" placeholder="Bill Amount" ng-disabled="loadOrder" required/>
 					</div>
 				</div>
-				
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Bill Date: </label>
@@ -136,15 +143,7 @@
 				<br/><br/><br/>
 			</div>
 			
-			<div class="row">				
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Bill Amount: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="billamt" placeholder="Bill Amount" ng-disabled="loadOrder" required/>
-					</div>
-				</div>					
+			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Discount: </label>
@@ -152,7 +151,15 @@
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="text" class="form-control" ng-model="discount" placeholder="Discount" ng-disabled="loadOrder" required/>
 					</div>
-				</div>				
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">VAT Amount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="vatamt" placeholder="VAT Amount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>
 				<br/><br/><br/>
 			</div>
 			
@@ -164,21 +171,12 @@
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<input type="text" class="form-control" ng-model="netamt" placeholder="Net Amount" ng-disabled="loadOrder" required/>
 					</div>
-				</div>					
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">VAT Amount: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="vatamt" placeholder="VAT Amount" ng-disabled="loadOrder" required/>
-					</div>
-				</div>				
-				<br/><br/><br/>
+				</div>
 			</div>
 			
 			
 			
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="col-md-5 col-sm-6 col-xs-12">
 						<label class="text-info">Select Batches: </label>
@@ -212,7 +210,7 @@
 								<td>{{batch.prod_remained}}</td>
 								<td><input type="text" class="batchinput" data-batchno="{{batch.batch_no}}" data-prod_remained="{{batch.prod_remained}}" ng-disabled="confirmBatch">
 									<!-- <span class="text-danger"><span class="fa fa-close removeBatch"></span></span> -->
-								</td>
+								<!--</td>
 							  </tr>
 							  <tr>
 								<td colspan="3"><button type="button" class="btn btn-sm btn-info" ng-click="confirmBatches()" ng-disabled="confirmBatch">Confirm Batches</button></td>
@@ -221,13 +219,13 @@
 						</table>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			
 			
 			
 			<div class="col-md-12 col-sm-12 col-xs-12">
-				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div><br/>
-				<button type="submit" class="btn btn-success btn-sm" ng-disabled="!confirmBatch"><i class="fa fa-inr"></i> PAYMENT</button>				
+				<br/><div class="waitspinner"><label class="text-info">Please Wait...</label><i class="fa fa-spinner fa-pulse fa-lg text-info"></i></div>
+				<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-inr"></i> PAYMENT</button>				
 			<br/><br/><br/>
 			</div>
 		</form>

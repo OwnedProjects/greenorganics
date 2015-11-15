@@ -211,6 +211,33 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 	
+	if($action=='AllProductNonBags'){
+		$selSupplier="SELECT * FROM `supplier_master`,`inward_product_master` WHERE supplier_master.prod_id=inward_product_master.prod_id and supplier_master.supplier_status='active' and NOT inward_product_master.prod_name='HDPE Bags'";
+		$resSupplier=mysql_query($selSupplier);
+		$count = mysql_num_rows($resSupplier);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resSupplier )) {
+				$tmpRes[$cnt]->supplier_id=$row['supplier_id'];
+				$tmpRes[$cnt]->supplier_nm=$row['supplier_name'];
+				$tmpRes[$cnt]->supplier_contact=$row['supplier_contact'];
+				$tmpRes[$cnt]->supplier_contact_person=$row['supplier_contact_person'];
+				$tmpRes[$cnt]->supplier_address=$row['supplier_address'];
+				$tmpRes[$cnt]->supplier_vatno=$row['vat_no'];
+				$tmpRes[$cnt]->supplier_city=$row['supplier_city'];
+				$tmpRes[$cnt]->prod_id=$row['prod_id'];
+				$tmpRes[$cnt]->prod_name=$row['prod_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->Products=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
 	if($action=='AllSuppliersOnlyBags'){
 		$selSupplier="SELECT * FROM `supplier_master`,`inward_product_master` WHERE supplier_master.prod_id=inward_product_master.prod_id and supplier_master.supplier_status='active' and inward_product_master.prod_name='HDPE Bags'";
 		$resSupplier=mysql_query($selSupplier);
@@ -721,21 +748,23 @@ $action=$_GET['action'];
 		
 		/* UPDATE Stock ECHO-MEAL */
 			$data = json_decode(file_get_contents("php://input"));
-			$seloutward="SELECT `stock_avail` FROM `stock_master` where `product_type`='Outward' and `prod_id`=1";
+			/* $seloutward="SELECT `stock_avail` FROM `stock_master` where `product_type`='Outward' and `prod_id`=1";
 			$resoutward=mysql_query($seloutward);
+			$obj->resoutward=$resoutward;
 			$rowoutward = mysql_fetch_array($resoutward,MYSQL_BOTH);
 			$count = mysql_num_rows($resoutward);
-			if($count>0){
+			if($count>0){ */
 				/* Update Stock_master */
-				$newOstk=floatval($rowoutward['stock_avail'])-floatval($data->quantity);
+/* 				$newOstk=floatval($rowoutward['stock_avail'])-floatval($data->quantity);
 				$updOStock="UPDATE `stock_master` SET `stock_avail`=".$newOstk.",`stock_date`='".$data->sale_date."' where  `product_type`='Outward' and `prod_id`=1";
-				mysql_query($updOStock);
+				mysql_query($updOStock); */
 				
 				/* Insert New Order */
-				$insOrder="INSERT INTO `sales_register`(`order_no`, `dc_no`, `order_date`, `dispatch_date`, `client_id`, `lorry_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `discount`, `net_amount`, `vat_amount`, `sale_date`, `sale_month`, `sale_year`) VALUES ('".$data->order_no."','".$data->dc_no."','".$data->order_date."','".$data->disp_date."',".$data->client_id.",".$data->lorry_id.",'".$data->quantity."','".$data->billno."','".$data->bill_date."','".$data->bill_amount."','".$data->discount."','".$data->net_amount."','".$data->vat_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."')";
+				$insOrder="INSERT INTO `sales_register`(`order_no`, `dc_no`, `order_date`, `dispatch_date`, `client_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `discount`, `net_amount`, `vat_amount`, `sale_date`, `sale_month`, `sale_year`, `sale_status`) VALUES ('".$data->order_no."','".$data->dc_no."','".$data->order_date."','".$data->disp_date."',".$data->client_id.",'".$data->quantity."','".$data->billno."','".$data->bill_date."','".$data->bill_amount."','".$data->discount."','".$data->net_amount."','".$data->vat_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."','open')";
 				$resOrder=mysql_query($insOrder);
+				$obj->resOrder=$resOrder;
 				if($resOrder){
-					$selmaxorder="SELECT MAX(`sales_id`) FROM `sales_register`";
+					/* $selmaxorder="SELECT MAX(`sales_id`) FROM `sales_register`";
 					$resmaxorder=mysql_query($selmaxorder);
 					$rowmaxorder = mysql_fetch_array($resmaxorder,MYSQL_BOTH);
 					$maxOrder=$rowmaxorder['MAX(`sales_id`)'];
@@ -758,10 +787,10 @@ $action=$_GET['action'];
 							mysql_query($updBatchNew);
 						}
 						//INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES ([value-1],[value-2],[value-3])
-					}
+					} */
 					$obj->status=true;
 				}
-			}
+				//}
 			else{
 				$obj->status=false;
 			}
@@ -841,7 +870,7 @@ $action=$_GET['action'];
 				$insAccounts1="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`) VALUES (".$data->client_id.", 'outward', 'debit','".$data->net_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."')";
 				$insAcc1 = mysql_query($insAccounts1);
 				
-				$insAccounts2="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->client_id.", 'outward', 'credit','".$data->payAmount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."','".$data->payParticulars."')";
+				$insAccounts2="INSERT INTO `account_register`(`acc_client_id`, `acc_type`, `credit_debit`, `acc_amount`, `acc_date`, `acc_month`, `acc_year`, `acc_particulars`) VALUES (".$data->client_id.", 'outward', 'credit','".$data->net_amount."','".$data->sale_date."','".$data->sale_month."','".$data->sale_year."','".$data->payParticulars."')";
 				$insAcc2 = mysql_query($insAccounts2);
 				if($insAcc1 && $insAcc2){
 					$obj->status=true;			
@@ -987,4 +1016,5 @@ $action=$_GET['action'];
 		
 		echo json_encode($obj);
 	}
+
 ?>

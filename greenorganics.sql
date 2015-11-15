@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 24, 2015 at 11:44 AM
+-- Generation Time: Oct 22, 2015 at 03:08 PM
 -- Server version: 5.5.25a
 -- PHP Version: 5.5.19
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `account_register` (
   `acc_year` varchar(10) DEFAULT NULL,
   `acc_particulars` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
 
 --
 -- Dumping data for table `account_register`
@@ -70,7 +70,16 @@ INSERT INTO `account_register` (`account_id`, `acc_client_id`, `acc_nonclientid`
 (41, NULL, '1', NULL, 'debit', '52000', '1442739886156', '8', '2015', 'CC-12345'),
 (42, NULL, '2', NULL, 'debit', '1200', '1442308527932', '8', '2015', 'Cash Pay'),
 (43, NULL, '1', NULL, 'debit', '5000', '1441704928792', '8', '2015', 'abcbabc'),
-(44, NULL, '2', NULL, 'debit', '1111', '1441100490904', '8', '2015', 'aaaa');
+(44, NULL, '2', NULL, 'debit', '1111', '1441100490904', '8', '2015', 'aaaa'),
+(45, 8, NULL, 'inward', 'credit', '25000', '1441128786651', '8', '2015', NULL),
+(46, 8, NULL, 'inward', 'credit', '25000', '1441128893741', '8', '2015', NULL),
+(47, 8, NULL, 'inward', 'debit', '100000', '1443461746694', '8', '2015', 'lik'),
+(48, 7, NULL, 'inward', 'credit', '50000', '1441808018061', '8', '2015', NULL),
+(49, 7, NULL, 'inward', 'debit', '2500', '1443536252309', '8', '2015', 'sdfsdfsdfs'),
+(50, 1, NULL, 'outward', 'debit', '6500', '1443536468987', '8', '2015', NULL),
+(51, 1, NULL, 'outward', 'debit', '50000', '1443973935787', '9', '2015', NULL),
+(52, 1, NULL, 'outward', 'debit', '49000', '1445164635368', '9', '2015', NULL),
+(53, 1, NULL, 'outward', 'debit', '1500', '1445166148426', '9', '2015', NULL);
 
 -- --------------------------------------------------------
 
@@ -205,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `production_batch_register` (
   `production_year` varchar(10) DEFAULT NULL,
   `batch_status` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`production_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `production_batch_register`
@@ -213,7 +222,9 @@ CREATE TABLE IF NOT EXISTS `production_batch_register` (
 
 INSERT INTO `production_batch_register` (`production_id`, `batch_no`, `product_produced`, `product_remained`, `filler_powder`, `organic_manure`, `shw`, `awf`, `bags_used`, `production_date`, `production_month`, `production_year`, `batch_status`) VALUES
 (1, '2', '10', '0', '4.400', '3.100', '1.700', '0.800', '200', '1441464320493', '8', '2015', 'closed'),
-(2, '7', '10', '0', '4.400', '3.100', '1.700', '0.800', '150', '1442501183151', '8', '2015', 'closed');
+(2, '7', '10', '0', '4.400', '3.100', '1.700', '0.800', '150', '1442501183151', '8', '2015', 'closed'),
+(3, '20', '10', '2', '4.400', '3.100', '1.700', '0.800', '200', '1442499499593', '8', '2015', 'open'),
+(4, '19', '10', '6', '4.400', '3.100', '1.700', '0.800', '100', '1443104328062', '8', '2015', 'open');
 
 -- --------------------------------------------------------
 
@@ -259,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `purchase_bag_register` (
   `purchase_month` varchar(50) DEFAULT NULL,
   `purchase_year` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`purchasebag_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `purchase_bag_register`
@@ -274,7 +285,8 @@ INSERT INTO `purchase_bag_register` (`purchasebag_id`, `lorry_id`, `supplier_id`
 (8, 1, 7, 17, '200', '1213', '5000', '0', '5000', '1441208105569', '8', '2015'),
 (9, 2, 7, 17, '200', '1212', '3500', '200', '3300', '1441721741898', '8', '2015'),
 (10, 6, 7, 17, '100', '312', '1000', '0', '1000', '1442499532552', '8', '2015'),
-(11, 1, 7, 17, '500', '20', '3000', '0', '3000', '1442413684071', '8', '2015');
+(11, 1, 7, 17, '500', '20', '3000', '0', '3000', '1442413684071', '8', '2015'),
+(12, 2, 7, 17, '350', '2', '50000', '0', '50000', '1441808018061', '8', '2015');
 
 -- --------------------------------------------------------
 
@@ -296,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `purchase_register` (
   `purchase_month` varchar(10) DEFAULT NULL,
   `purchase_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `purchase_register`
@@ -307,7 +319,9 @@ INSERT INTO `purchase_register` (`purchase_id`, `lorry_id`, `supplier_id`, `prod
 (2, 2, 4, 13, '122', '50', '2000', '0', '100000', '1441982585961', '8', '2015'),
 (3, 1, 5, 14, '32', '50', '250', '0', '12500', '1441896214690', '8', '2015'),
 (4, 6, 6, 15, '2123', '60', '650', '0', '39000', '1442673847013', '8', '2015'),
-(5, 2, 6, 15, '12', '50', '3500', '0', '175000', '1442845698486', '8', '2015');
+(5, 2, 6, 15, '12', '50', '3500', '0', '175000', '1442845698486', '8', '2015'),
+(6, 1, 8, 12, '11', '50', '500', '0', '25000', '1441128786651', '8', '2015'),
+(7, 1, 8, 12, '3434', '50', '500', '0', '25000', '1441128893741', '8', '2015');
 
 -- --------------------------------------------------------
 
@@ -321,20 +335,7 @@ CREATE TABLE IF NOT EXISTS `sales_batch_register` (
   `batch_no` varchar(10) DEFAULT NULL,
   `volume` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`sales_batch_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
-
---
--- Dumping data for table `sales_batch_register`
---
-
-INSERT INTO `sales_batch_register` (`sales_batch_id`, `sales_id`, `batch_no`, `volume`) VALUES
-(1, 1, '2', '8'),
-(2, 1, '7', '7'),
-(3, 2, '2', '2'),
-(4, 2, '7', '0'),
-(5, 3, '7', '1'),
-(6, 4, '7', '1'),
-(7, 5, '7', '1');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -349,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `sales_register` (
   `order_date` varchar(20) DEFAULT NULL,
   `dispatch_date` varchar(20) DEFAULT NULL,
   `client_id` int(10) NOT NULL,
-  `lorry_id` int(10) NOT NULL,
+  `lorry_id` int(10) DEFAULT NULL,
   `quantity` varchar(10) DEFAULT NULL,
   `billno` varchar(10) DEFAULT NULL,
   `bill_date` varchar(20) DEFAULT NULL,
@@ -360,19 +361,19 @@ CREATE TABLE IF NOT EXISTS `sales_register` (
   `sale_date` varchar(20) DEFAULT NULL,
   `sale_month` varchar(10) DEFAULT NULL,
   `sale_year` varchar(10) DEFAULT NULL,
+  `order_completion_date` varchar(30) DEFAULT NULL,
+  `order_completion_month` varchar(10) DEFAULT NULL,
+  `order_completion_year` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`sales_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `sales_register`
 --
 
-INSERT INTO `sales_register` (`sales_id`, `order_no`, `dc_no`, `order_date`, `dispatch_date`, `client_id`, `lorry_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `discount`, `net_amount`, `vat_amount`, `sale_date`, `sale_month`, `sale_year`) VALUES
-(1, '1', '5', '1441724077941', '1442760877942', 1, 1, '15', '10', '1443624877942', '2500', '0', '2500', '0', '1442760877942', '8', '2015'),
-(2, '1', '2', '1441551348629', '1442760948629', 2, 2, '2', '2', '1443538548629', '500', '0', '500', '0', '1442760948630', '8', '2015'),
-(3, '11', '52', '1442332609182', '1442764609183', 1, 2, '1', '50', '1442851009183', '25000', '0', '25000', '0', '1442764609183', '8', '2015'),
-(4, '101', '20', '1442337093542', '1442941893543', 2, 7, '1', '22', '1443460293543', '10000', '0', '10000', '0', '1442769093543', '8', '2015'),
-(5, '1', '4', '1441732931588', '1442769731588', 1, 6, '1', '12', '1443633731589', '5000', '0', '5000', '0', '1442769731589', '8', '2015');
+INSERT INTO `sales_register` (`sales_id`, `order_no`, `dc_no`, `order_date`, `dispatch_date`, `client_id`, `lorry_id`, `quantity`, `billno`, `bill_date`, `bill_amount`, `discount`, `net_amount`, `vat_amount`, `sale_date`, `sale_month`, `sale_year`, `order_completion_date`, `order_completion_month`, `order_completion_year`) VALUES
+(1, 'MOMO12', 'DCMOMO12', '1444473435367', '1445164635367', 1, NULL, '10', 'BMOMO1212', '1445337435368', '50000', '1000', '49000', '0', '1445164635368', '9', '2015', NULL, NULL, NULL),
+(2, 'a', '22', '1444906948426', '1445166148426', 1, NULL, '10', '3222', '1445511748426', '2000', '500', '1500', '0', '1445166148426', '9', '2015', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -387,20 +388,19 @@ CREATE TABLE IF NOT EXISTS `stock_master` (
   `stock_avail` varchar(50) DEFAULT NULL,
   `stock_date` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`stock_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `stock_master`
 --
 
 INSERT INTO `stock_master` (`stock_id`, `product_type`, `prod_id`, `stock_avail`, `stock_date`) VALUES
-(1, 'Inward', 12, '16.2', '1442501183151'),
-(2, 'Inward', 13, '43.8', '1442501183151'),
-(3, 'Inward', 14, '46.6', '1442501183151'),
-(4, 'Inward', 15, '108.4', '1442845698486'),
-(5, 'Inward', 16, '0', ''),
-(6, 'Inward', 17, '1150', '1442501183151'),
-(8, 'Outward', 1, '0', '1442769731589');
+(1, 'Inward', 12, '30', '1443785867020'),
+(2, 'Inward', 13, '10', '1443785867020'),
+(3, 'Inward', 14, '20', '1443785867020'),
+(4, 'Inward', 15, '40', '1443785867020'),
+(5, 'Inward', 17, '500', '1443785867020'),
+(6, 'Outward', 1, '-40', '1444836626711');
 
 -- --------------------------------------------------------
 
@@ -432,7 +432,7 @@ INSERT INTO `supplier_master` (`supplier_id`, `prod_id`, `supplier_name`, `suppl
 (5, 14, 'KK', '123456', 'Wasim', 'NagarRoad', 'Pune', 'V123498765', 'active'),
 (6, 15, 'Animal Filler Firm', '123456789', 'Mr. Govind', 'Bombay', 'Bombay', 'V123456789', 'active'),
 (7, 17, 'AADI Plastic Ind. P. Ltd', '10741485', 'AADI', 'India', 'Pune', 'V187645', 'active'),
-(8, 12, 'KK Pvt Ltd', '1212121212', '1212121212', 'Kolhapur', 'Kolhapur', 'V212121212', 'active');
+(8, 12, 'KK Pvt Ltd', '1212121212', '878787878', 'Kolhapur', 'Kolhapur', 'V212121212', 'active');
 
 -- --------------------------------------------------------
 

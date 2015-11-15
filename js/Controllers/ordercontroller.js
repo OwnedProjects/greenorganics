@@ -1,33 +1,7 @@
 greenorganics.controller("NewOrderController", function($scope, $http, $route, $location){	
 	$scope.showBatches=false;
 	$scope.confirmBatch=false;
-	$scope.setOrderBatches=new Array();
-	$scope.discount=0;
-	$scope.loadProductionBatches = function(){
-		$('.waitspinner').show();
-		$scope.loadOrder=true;
-		$http({
-			method: 'POST',
-			url: 'php/master.php?action=AllProductionBatches',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).
-		error(function(data, status, headers, config) {
-			alert('Service Error');
-		}).
-		then(function(result){
-			if(result.data.status==true){
-				$scope.loadOrder=false;
-				$('.waitspinner').hide();
-				$scope.batchData=result.data.Production;
-			}
-			else{
-				alert('Sorry, No Batches found. Please create a batch first.');
-				$location.path('add_production_batch');
-			}
-		});
-	};
-	$scope.loadProductionBatches();
-	
+	$('.waitspinner').hide();
 	$scope.searchClientDetails = function(){
 		$('.fullData').hide();
 		$('.noData').hide();
@@ -62,132 +36,22 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 		$('#setClientmodal').modal('hide');
 	};
 	
-	$scope.setLorryDetails = function(lorryid, lorryno){
-		$scope.lorryid=lorryid;
-		$scope.lorryno=lorryno;
-		$('#setLorrymodal').modal('hide');
-	};
-	
-	$scope.searchLorryDetails = function(){
-		$('.fullData').hide();
-		$('.noData').hide();
-		$('.loadData').show();
-		$http({
-			method: 'POST',
-			url: 'php/master.php?action=AllLorries',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).
-		error(function(data, status, headers, config) {
-			alert('Service Error');
-		}).
-		then(function(result){
-			if(result.data.status==true){
-				$('.fullData').show();
-				$('.noData').hide();
-				$('.loadData').hide();
-				$scope.lorryData=result.data.lorries;
-			}
-			else{
-				$('.fullData').hide();
-				$('.noData').show();
-				$('.loadData').hide();
-			}
-		});
-	};
 	
 	$scope.addtoList = function(){
-		console.log('test');
+		//console.log('test');
 	};
-	
-	$scope.addBatchToOrder = function(){
-		if($scope.productionid == undefined){
-			alert('Select a Batch to Add');
-			throw 'Select a Batch to Add';
-		}		
-		$scope.showBatches=true;
-		var tmpIndex=null;
-		for(var i=0;i<$scope.batchData.length;i++){
-			//console.log($scope.productionid + " --*-- " + $scope.batchData[i].production_id)
-			if($scope.productionid==$scope.batchData[i].production_id){
-				tmpIndex=i;
-				break;
-			}
-		}
 		
-		if(tmpIndex!=null){
-			//setOrderBatches -- Order Batches Which create dynamically
-			var tmpObj=$scope.batchData[tmpIndex];
-			$scope.setOrderBatches.push(tmpObj);
-			$scope.batchData.splice(tmpIndex,1);
-			tmpObj=null;
-		}
-	};
-	
-	$scope.confirmBatches = function(){
-		var emptyFlag = false;
-		var exceedprodval = false;
-		$('.batches').find('input[type=text]').each(function(){
-			if(this.value == "") {
-				emptyFlag=true;
-			} 
-		});
-		
-		
-		if(emptyFlag==true){
-			/* Check if any Batch Textbox is empty */
-			$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Please fill all Batch Boxes first.</span></td></tr>");				
-			setTimeout(function(){
-					$('.batches .errorbox').remove();
-			},2500);
-		}
-		else{
-			/* Check if Entered Batch Volume > Product Remained */
-			for(var i=0;i<$scope.setOrderBatches.length;i++){
-				if(parseFloat($('.batchinput[data-batchno='+$scope.setOrderBatches[i].batch_no+']').val())>parseFloat($scope.setOrderBatches[i].prod_remained)){
-					exceedprodval=true;
-					break;
-				}
-			}
-			if(exceedprodval==true){
-				$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Quantity cannot exceed from production in Batch Available.</span></td></tr>");setTimeout(function(){
-					$('.batches .errorbox').remove();
-				},1500);
-			}
-			else{
-				/* Check for Total Selected Batches volume > Quantity mentioned  */
-				var tmpCalc=0;
-				for(var i=0;i<$scope.setOrderBatches.length;i++){
-					tmpCalc=tmpCalc+parseFloat($('.batchinput[data-batchno='+$scope.setOrderBatches[i].batch_no+']').val());
-				}
-				if(tmpCalc>parseFloat($scope.quantity) || tmpCalc<parseFloat($scope.quantity))
-				{
-					$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Batch Quantity is More/Less than Mentioned Quantity.</span></td></tr>");
-					setTimeout(function(){
-						$('.batches .errorbox').remove();
-					},1500);
-				}
-				else{
-					$scope.newEnteredBatchArray = new Array();
-					$('.batches').find('input[type=text]').each(function(){
-						var tmpArr={
-							"batchno":$(this).attr('data-batchno'),
-							"volume":parseFloat($(this).val()),
-							"volume_remained":parseFloat($(this).attr('data-prod_remained'))-(parseFloat($(this).val()))
-						};
-						$scope.newEnteredBatchArray.push(tmpArr); 
-					});
-					$scope.confirmBatch=true;
-					console.log($scope.newEnteredBatchArray);
-				}
-			}
-		}
-	};
-	
 	$scope.$watch('billamt-discount', function() {
 		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);		
 	});
 	
 	$scope.placeOrder = function(){
+		
+		if($scope.orderNo==null || $scope.orderNo==undefined || $scope.orderNo=="" || $('#orderDate').val()==null || $('#orderDate').val()==undefined || $('#orderDate').val()=="" || $scope.dcno==null || $scope.dcno==undefined || $scope.dcno=="" || $('#dispatchDate').val()==null || $('#dispatchDate').val()==undefined || $('#dispatchDate').val()=="" || $scope.clientnm==null || $scope.clientnm==undefined || $scope.clientnm=="" || $scope.destination==null || $scope.destination==undefined || $scope.destination=="" || $scope.billno==null || $scope.billno==undefined || $scope.billno=="" || $scope.quantity==null || $scope.quantity==undefined || $scope.quantity=="" || $scope.billamt==null || $scope.billamt==undefined || $scope.billamt=="" || $("#billDate").val()==null || $("#billDate").val()==undefined || $("#billDate").val()=="" || $scope.discount==null || $scope.discount==undefined || $scope.discount=="" || $scope.vatamt==null || $scope.vatamt==undefined || $scope.vatamt=="" || $scope.netamt==null || $scope.netamt==undefined || $scope.netamt==""){
+				debugger;
+				alert("Empty Fields!!! Please fill all the fields.");
+				throw "Empty Fields";
+		}
 		
 		var orderdt=new Date();
 		orderdt.setDate(parseInt($("#orderDate").val().split('/')[0]));
@@ -214,15 +78,14 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 			"order_date":orderdt.getTime(),					//Order Date and Sales Date can be different
 			"disp_date":dispdt.getTime(),
 			"client_id":$scope.clientid,
-			"lorry_id":$scope.lorryid,
 			"quantity":parseFloat($scope.quantity),
 			"billno":$scope.billno,
 			"bill_date":billdt.getTime(),
 			"bill_amount":$scope.billamt,
 			"discount":$scope.discount,
 			"net_amount":$scope.netamt,
-			"vat_amount":$scope.vatamt,
-			"batches_obj":$scope.newEnteredBatchArray
+			"vat_amount":$scope.vatamt
+			/* "batches_obj":$scope.newEnteredBatchArray */
 		};
 		
 		$http({
@@ -235,7 +98,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 			alert('Service Error');
 		}).
 		then(function(result){
-				console.log(result.data.status);
+				//console.log(result.data.status);
 			if(result.data.status==true){
 				$('form').prepend('<strong class="text-success">Order Placed Successfully</strong>');
 				//$route.reload();
@@ -248,35 +111,6 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 		});
 	};
 	
-	$scope.addlorry = function(){
-		$('.waitspinner').show();
-		var tmpString=$scope.lorrystate+ " "+$("#lorrystatecode").val()+"/"+ $scope.lorrycode+" "+$('#popuplorryno').val();		
-		var lorryObj={
-			"lorry":tmpString.toUpperCase()
-		};
-		$http({
-			method: 'POST',
-			url: 'php/master.php?action=addlorry',
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-			data: lorryObj
-		}).
-		error(function(data, status, headers, config) {
-			alert('Service Error');
-		}).
-		then(function(result){
-			if(result.data.status==true){
-				$(".waitspinner").parent().append('<strong class="text-success">Lorry Added Successfully</strong>');
-				setTimeout(function(){
-					$(".waitspinner").parent().children("strong").remove();
-					$('.waitspinner').hide();
-					$route.reload();
-				},2000);
-			}
-			else{
-				alert('Error!!! Please contact your system Administrator.');
-			}
-		});
-	};
 });
 
 greenorganics.controller("OrderPaymentController", function($scope, $http, $route, $location){
@@ -284,7 +118,7 @@ greenorganics.controller("OrderPaymentController", function($scope, $http, $rout
 		$location.path('/new_order');
 	}
 	$scope.orderObj=JSON.parse(localStorage.orderObj);
-	console.log($scope.orderObj);
+	//console.log($scope.orderObj);
 	$('.loadSpinner').hide();
 	$scope.payAmt='';
 	$scope.$watch('payAmt', function() {
@@ -319,7 +153,7 @@ greenorganics.controller("OrderPaymentController", function($scope, $http, $rout
 		$scope.orderObj.pendingPayment=$scope.remPay;
 		$scope.orderObj.payParticulars=$scope.particulars;
 		
-		console.log($scope.orderObj);
+		//console.log($scope.orderObj);
 		$http({
 			method: 'POST',
 			url: 'php/master.php?action=makeorderObj',
@@ -337,6 +171,310 @@ greenorganics.controller("OrderPaymentController", function($scope, $http, $rout
 			else{
 				alert('Service Error, Please contact your Administrator.');
 				throw 'fail';
+			}
+		});
+	};
+});
+
+greenorganics.controller("OrderCompletionController", function($scope, $http, $route, $location){
+	$scope.orderDets=false;
+	$('.waitspinner').hide();
+	$scope.setOrderBatches=new Array();
+	$scope.loadProductionBatches = function(){
+		$('.loadSpinner').show();
+		$scope.loadOrder=true;
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=AllProductionBatches',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$scope.loadOrder=false;
+				$('.loadSpinner').hide();
+				$scope.batchData=result.data.Production;
+			}
+			else{
+				alert('Sorry, No Batches found. Please create a batch first.');
+				$location.path('add_production_batch');
+			}
+		});
+	};
+	$scope.loadProductionBatches();
+	
+	$scope.searchOrderDetails = function(){
+		$(".loadData").show();
+		$(".noData").hide();
+		$(".fullData").hide();
+		$http({
+				method: 'POST',
+				url: 'php/master.php?action=allOrderNumbers',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).
+			error(function(data, status, headers, config) {
+				alert('Service Error');
+			}).
+			then(function(result){
+				if(result.data.status==true){
+					$(".loadData").hide();
+					$(".noData").hide();
+					$(".fullData").show();
+					$scope.orderData = result.data.orderObj;
+				}
+				else{
+					$(".loadData").hide();
+					$(".noData").show();
+					$(".fullData").hide();
+				}
+		});
+	};
+	
+	$scope.setOrderDetails = function(order_no, sales_id, dc_no, order_date, dispatch_date, quantity, billno, bill_date, bill_amount, discount, net_amount, vat_amount, sale_date, client_name){
+		$scope.orderDetails={
+			"order_no": order_no,
+			"sales_id": sales_id, 
+			"dc_no": dc_no, 
+			"order_date": order_date, 
+			"dispatch_date": dispatch_date, 
+			"quantity": quantity, 
+			"billno": billno, 
+			"bill_date": bill_date, 
+			"bill_amount": bill_amount, 
+			"discount": discount,
+			"net_amount": net_amount, 
+			"vat_amount": vat_amount, 
+			"sale_date": sale_date, 
+			"client_name": client_name
+		};
+		$scope.orderDets=true;
+		$scope.orderNo=order_no;
+		$('#OrderModal').modal('hide');
+	};
+	
+	
+	$scope.addlorry = function(){
+		$('.waitspinner').show();
+		var tmpString=$scope.lorrystate+ " "+$("#lorrystatecode").val()+"/"+ $scope.lorrycode+" "+$('#popuplorryno').val();		
+		var lorryObj={
+			"lorry":tmpString.toUpperCase()
+		};
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=addlorry',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: lorryObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$(".waitspinner").parent().append('<strong class="text-success">Lorry Added Successfully</strong>');
+				setTimeout(function(){
+					$(".waitspinner").parent().children("strong").remove();
+					$('.waitspinner').hide();
+					$route.reload();
+				},2000);
+			}
+			else{
+				alert('Error!!! Please contact your system Administrator.');
+			}
+		});
+	};
+	
+	
+	$scope.setLorryDetails = function(lorryid, lorryno){
+		$scope.lorryid=lorryid;
+		$scope.lorryno=lorryno;
+		$('#setLorrymodal').modal('hide');
+	};
+	
+	$scope.searchLorryDetails = function(){
+		$('.fullData').hide();
+		$('.noData').hide();
+		$('.loadData').show();
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=AllLorries',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				$('.fullData').show();
+				$('.noData').hide();
+				$('.loadData').hide();
+				$scope.lorryData=result.data.lorries;
+			}
+			else{
+				$('.fullData').hide();
+				$('.noData').show();
+				$('.loadData').hide();
+			}
+		});
+	};
+	
+	$scope.addBatchToOrder = function(){
+		if($scope.productionid == undefined){
+			alert('Select a Batch to Add');
+			throw 'Select a Batch to Add';
+		}		
+		$scope.showBatches=true;
+		var tmpIndex=null;
+		for(var i=0;i<$scope.batchData.length;i++){
+			//console.log($scope.productionid + " --*-- " + $scope.batchData[i].production_id)
+			if($('#productionid').val()==$scope.batchData[i].production_id){
+				tmpIndex=i;
+				break;
+			}
+		}
+		
+		if(tmpIndex!=null){
+			//setOrderBatches -- Order Batches Which create dynamically
+			var tmpObj=$scope.batchData[tmpIndex];
+			$scope.setOrderBatches.push(tmpObj);
+			$scope.batchData.splice(tmpIndex,1);
+			tmpObj=null;
+		}
+	};
+	
+	$scope.confirmBatches = function(){
+		$scope.confirmBatch=true;
+		var emptyFlag = false;
+		var exceedprodval = false;
+		$('.batches').find('input[type=text]').each(function(){
+			if(this.value == "") {
+				emptyFlag=true;
+			} 
+		});
+		
+		
+		if(emptyFlag==true){
+			// Check if any Batch Textbox is empty 
+			$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Please fill all Batch Boxes first.</span></td></tr>");				
+			setTimeout(function(){
+					$('.batches .errorbox').remove();
+					$scope.confirmBatch=false;
+			},2500);
+		}
+		else{
+			// Check if Entered Batch Volume > Product Remained 
+			for(var i=0;i<$scope.setOrderBatches.length;i++){
+				if(parseFloat($('.batchinput[data-batchno='+$scope.setOrderBatches[i].batch_no+']').val())>parseFloat($scope.setOrderBatches[i].prod_remained)){
+					exceedprodval=true;
+					break;
+				}
+			}
+			if(exceedprodval==true){
+				$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Quantity cannot exceed from production in Batch Available.</span></td></tr>");setTimeout(function(){
+					$('.batches .errorbox').remove();
+					$scope.confirmBatch=false;
+				},2500);
+			}
+			else{
+				// Check for Total Selected Batches volume > Quantity mentioned
+				if($scope.orderDetails==undefined || $scope.orderDetails==null){
+					$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Order is not Selected.</span></td></tr>");
+					setTimeout(function(){
+						$('.batches .errorbox').remove();
+						$scope.confirmBatch=false;
+					},2500);
+				}
+				else{
+					var tmpCalc=0;
+					for(var i=0;i<$scope.setOrderBatches.length;i++){
+						tmpCalc=tmpCalc+parseFloat($('.batchinput[data-batchno='+$scope.setOrderBatches[i].batch_no+']').val());
+					}
+					if(tmpCalc>parseFloat($scope.orderDetails.quantity) || tmpCalc<parseFloat($scope.orderDetails.quantity))
+					{
+						$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Batch Quantity is More/Less than Mentioned Quantity.</span></td></tr>");
+						setTimeout(function(){
+							$('.batches .errorbox').remove();
+							$scope.confirmBatch=false;
+						},2500);
+					}
+					else{
+						$scope.newEnteredBatchArray = new Array();
+						$('.batches').find('input[type=text]').each(function(){
+							var tmpArr={
+								"batchno":$(this).attr('data-batchno'),
+								"volume":parseFloat($(this).val()),
+								"volume_remained":parseFloat($(this).attr('data-prod_remained'))-(parseFloat($(this).val()))
+							};
+							$scope.newEnteredBatchArray.push(tmpArr); 
+						});
+						$scope.confirmBatch=true;
+						//console.log($scope.newEnteredBatchArray);
+					}
+				}
+			}
+		}
+	};
+	
+	$scope.removeBatches = function(batch_no, prod_produced, prod_remained, production_id){
+		//console.log(batch_no + " -*- " + prod_produced + " -*- " + prod_remained + " -*- " + production_id);
+		var tmpIndex;
+		for(var i=0;i<$scope.setOrderBatches.length; i++){
+			if($scope.setOrderBatches[i].batch_no==batch_no){
+				tmpIndex=i;
+				break;
+			}
+		}
+		
+		$scope.setOrderBatches.splice(tmpIndex,1);
+		tmpIndex=null;
+		var tmpObj={
+			"production_id": production_id,
+			"batch_no":batch_no,
+			"prod_produced": prod_produced,
+			"prod_remained": prod_remained 
+		};
+		$scope.batchData.push(tmpObj);
+		tmpObj=null;
+	};
+	
+	$scope.completeOrder = function(){
+		if($scope.orderNo==undefined || $scope.orderNo==null || $scope.orderNo=='' || $scope.lorryno==undefined || $scope.lorryno==null || $scope.lorryno=='' || $('#orderDate').val()==undefined || $('#orderDate').val()==null || $('#orderDate').val()=="")
+		{
+			alert('All fields are compulsary...');
+			throw 'All fields are compulsary...';
+		}
+		
+		var orderdt=new Date();
+		orderdt.setDate(parseInt($("#orderDate").val().split('/')[0]));
+		orderdt.setMonth(parseInt($("#orderDate").val().split('/')[1])-1);
+		orderdt.setYear(parseInt($("#orderDate").val().split('/')[2]));
+		
+		var tmpObj={
+			"sales_id":$scope.orderDetails.sales_id,
+			"lorry_id":$scope.lorryid,
+			"order_comp_time": orderdt.getTime(),
+			"order_comp_month": parseInt(orderdt.getMonth())+1,
+			"order_comp_year": orderdt.getFullYear(),
+			"batches_obj":$scope.newEnteredBatchArray
+		};
+		
+		$http({
+			method: 'POST',
+			url: 'php/master.php?action=completeOrder',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: tmpObj
+		}).
+		error(function(data, status, headers, config) {
+			alert('Service Error');
+		}).
+		then(function(result){
+			if(result.data.status==true){
+				alert('Order completed Successfully');
+				$route.reload();
+			}
+			else{
+				alert('Order completion failed');
 			}
 		});
 	};
