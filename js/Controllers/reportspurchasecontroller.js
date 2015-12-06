@@ -738,4 +738,52 @@ greenorganics.controller("ReportsPurchaseController", function($scope, $http, $r
 			});
 		}
 	};
+	
+	
+	
+	$scope.fromToMonthlyPurchasesBagsSuppliers = function(){
+		if($scope.suppliernm=="" || $scope.suppliernm==null || $scope.suppliernm==undefined){
+			alert('Select a Supplier');
+			throw 'Supplier Absent';
+		}
+		$('.contentWrapper').hide();
+		if($("#fromSupplierDate").val()=="" || $("#fromSupplierDate").val()==null || $("#fromSupplierDate").val()==undefined || $("#toSupplierDate").val()=="" || $("#toSupplierDate").val()==null || $("#toSupplierDate").val()==undefined){
+			alert('Select a Date');
+			$("#fromSupplierDate").focus();
+		}
+		else{
+			$('.buttonsWrapper').hide();
+			$('.loadSpinner').show();
+			var dateObj={
+				"frmMnt":parseInt($("#fromSupplierDate").val().split('/')[0])-1,
+				"frmYr":$("#fromSupplierDate").val().split('/')[1],
+				"toMnt":parseInt($("#toSupplierDate").val().split('/')[0])-1,
+				"toYr":$("#toSupplierDate").val().split('/')[1],
+				"supplierid": $scope.supplierid
+			}
+			$http({
+				method: 'POST',
+				url: 'php/reports.php?action=fromToMonthlyPurchasesBagsSuppliers',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data: dateObj
+			}).
+			error(function(data, status, headers, config) {
+				alert('Service Error');
+			}).
+			then(function(result){
+				if(result.data.status==true){
+					$scope.tableData=result.data.fromtoMonthlyReport;
+					$('.contentWrapper').show();
+					$(".loadSpinner").hide();
+				}
+				else{
+					$(".loadSpinner").hide();
+					$('.contentWrapper').hide();
+					$('.buttonsWrapper').show();
+					alert('No Data Found...');
+				}
+			});
+		}
+	};
+	
 });

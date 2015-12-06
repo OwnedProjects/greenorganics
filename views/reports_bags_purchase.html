@@ -66,38 +66,14 @@
 				<span class="input-group-addon" ng-click="searchBagSupplier();">
 					<span class="fa fa-user-plus"></span>
 				</span>	
-			</div><br/><br/>
+			</div><br/>
 		</div>
 		<div class="col-md-3 col-sm-3 col-xs-12">
 			<button type="button" class="btn btn-primary" ng-click="supplierBagsReports();" ng-disabled="!suppliernm"><i class="fa fa-user"></i> Supplier Reports</button>
 		</div>
 	</div>
 	
-	<div class="row">
-		<div class="col-md-12">
-		<strong class="text-info">Search Supplier Monthly/Yearly</strong>
-		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 row">
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<div class="input-group date">
-					<input type="text" id="fromDateSupplier" class="form-control" placeholder="From Date"/>	
-					<span class="input-group-addon">
-						<span class="fa fa-lg fa-search-plus"></span>
-					</span>	
-				</div><br/>
-			</div>
-			<!-- Pending from HERE -->
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<button type="button" class="btn btn-primary" ng-click="monthlySupplierReports();">
-					<i class="fa fa-line-chart"></i> Monthly Reports
-				</button><br/><br/>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<button type="button" class="btn btn-primary" ng-click="yearlySupplierReports();"><i class="fa fa-pie-chart"></i> Annual Reports</button>
-			</div>
-		</div>
-		
-		<div class="row col-md-12 col-sm-12 col-xs-12">
+		<div class="row">
 			<div class="col-md-12">
 				<strong class="text-info">Search Supplier with Reports between dates</strong>
 			</div>
@@ -118,83 +94,13 @@
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-12">
-				<button type="button" class="btn btn-primary" ng-click="fromtoMonthlyReportsWithSuppliers();">
+				<button type="button" class="btn btn-primary" ng-click="fromToMonthlyPurchasesBagsSuppliers();">
 					<i class="fa fa-line-chart"></i> Monthly Reports
 				</button>
 			</div>
 		</div>
-	</div>
-
-<hr/>
-<h4><strong class="text-danger">REPORTS BY PRODUCT</strong></h4>
-	<div class="row">
-		<div class="col-md-12">
-		<strong class="text-info">Search Product</strong>
-		</div>
-		<div class="col-md-6 col-sm-6 col-xs-12">
-			<div class="input-group date">
-				<input type="hidden" ng-model="productid" class="form-control"/>	
-				<input type="text" ng-model="productnm" class="form-control" placeholder="Search Product" readonly />
-				<span class="input-group-addon" ng-click="searchProduct();">
-					<span class="fa fa-eraser"></span>
-				</span>	
-			</div><br/><br/>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12">
-			<button type="button" class="btn btn-primary" ng-click="productReports();" ng-disabled="!productnm"><i class="fa fa-user"></i> Product Reports</button>
-		</div>
-	</div>
 	
-	<div class="row">
-		<div class="col-md-12">
-		<strong class="text-info">Search Product Monthly/Yearly</strong>
-		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 row">
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<div class="input-group date">
-					<input type="text" id="fromDateProduct" class="form-control" placeholder="From Date"/>	
-					<span class="input-group-addon">
-						<span class="fa fa-lg fa-search-plus"></span>
-					</span>	
-				</div><br/>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<button type="button" class="btn btn-primary" ng-click="monthlyProductReports();">
-					<i class="fa fa-line-chart"></i> Monthly Reports
-				</button><br/><br/>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<button type="button" class="btn btn-primary" ng-click="yearlyProductReports();"><i class="fa fa-pie-chart"></i> Annual Reports</button>
-			</div>
-		</div>
-		
-		<div class="row col-md-12 col-sm-12 col-xs-12">
-			<div class="col-md-12">
-				<strong class="text-info">Search Product with Reports between dates</strong>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<div class="input-group date">
-					<input type="text" id="fromProductDate" class="form-control" placeholder="From Date"/>	
-					<span class="input-group-addon">
-						<span class="fa fa-lg fa-search-plus"></span>
-					</span>	
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<div class="input-group date">
-					<input type="text" id="toProductDate" class="form-control" placeholder="To Date"/>	
-					<span class="input-group-addon">
-						<span class="fa fa-lg fa-search-plus"></span>
-					</span>	
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-12">
-				<button type="button" class="btn btn-primary" ng-click="fromtoMonthlyReportsWithProducts();">
-					<i class="fa fa-line-chart"></i> Monthly Reports
-				</button>
-			</div>
-		</div>
-	</div>
+<hr/>
 <br/><br/><br/>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12 contentWrapper">

@@ -90,6 +90,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/reports_bags_purchase', {
         templateUrl: 'views/reports_bags_purchase.html'
       }).
+      when('/reports_production', {
+        templateUrl: 'views/reports_production.html'
+      }).
       otherwise({
         redirectTo: '/dashboard'
       });

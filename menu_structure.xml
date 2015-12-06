@@ -177,6 +177,11 @@
 				<icon>fa-pie-chart</icon>
 				<link>#/reports_bags_purchase</link>
 			</submenu>
+			<submenu>
+				<name>Production Reports</name>
+				<icon>fa-pie-chart</icon>
+				<link>#/reports_production</link>
+			</submenu>
 		</submenu_module>
 	</menu>
 </menu_structure>

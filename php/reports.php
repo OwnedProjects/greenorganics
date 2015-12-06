@@ -549,4 +549,36 @@ $action=$_GET['action'];
 		}
 		echo json_encode($obj);
 	}
+	
+	
+	if($action=='fromToMonthlyPurchasesBagsSuppliers'){
+		$data = json_decode(file_get_contents("php://input"));
+		//$selAccClients="SELECT * FROM `purchase_bag_register`, `supplier_master`, `inward_product_master` WHERE (purchase_bag_register.purchase_month>='".$data->frmMnt."' and purchase_bag_register.purchase_month<='".$data->toMnt."') and  (purchase_bag_register.purchase_year>='".$data->frmYr."' and purchase_bag_register.purchase_year<='".$data->toYr."') and  purchase_bag_register.supplier_id=supplier_master.supplier_id and inward_product_master.prod_id=purchase_bag_register.prod_id and  purchase_register.supplier_id=".$data->supplierid." order by purchase_bag_register.purchase_date desc";
+		$selAccClients="SELECT * FROM `purchase_bag_register`, `supplier_master`, `inward_product_master` WHERE (purchase_bag_register.purchase_month>=".$data->frmMnt." and purchase_bag_register.purchase_month<=".$data->toMnt.") and  (purchase_bag_register.purchase_year>=".$data->frmYr." and purchase_bag_register.purchase_year<=".$data->toYr.") and  purchase_bag_register.supplier_id=supplier_master.supplier_id and inward_product_master.prod_id=purchase_bag_register.prod_id and  purchase_bag_register.supplier_id=".$data->supplierid." order by purchase_bag_register.purchase_date desc";
+		$resAccClients=mysql_query($selAccClients);
+		$count = mysql_num_rows($resAccClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resAccClients )) {
+				$tmpRes[$cnt]->supplier_id=$row['supplier_id'];
+				$tmpRes[$cnt]->supplier_name=$row['supplier_name'];
+				$tmpRes[$cnt]->supplier_contact=$row['supplier_contact'];
+				$tmpRes[$cnt]->vat_no=$row['vat_no'];
+				$tmpRes[$cnt]->billno=$row['billno'];
+				$tmpRes[$cnt]->rate=$row['rate'];
+				$tmpRes[$cnt]->lorryfreight=$row['lorryfreight'];
+				$tmpRes[$cnt]->finalAmt=$row['finalAmt'];
+				$tmpRes[$cnt]->weight=$row['weight'];
+				$tmpRes[$cnt]->purchase_date=$row['purchase_date'];
+				$tmpRes[$cnt]->prod_name=$row['prod_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->fromtoMonthlyReport=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
 ?>

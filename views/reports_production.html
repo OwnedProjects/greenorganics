@@ -1,0 +1,93 @@
+<div class="col-md-12 col-sm-12" ng-controller="ReportsProductionController">
+
+<h3 class="text-primary">PRODUCTION REPORTS <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+<hr/>
+<strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i><br/><br/></strong>
+<div class="col-md-12 col-sm-12 col-xs-12 buttonsWrapper">
+<h4><strong class="text-danger">REPORTS BY DATE</strong></h4>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<strong class="text-info">Reports between dates</strong>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="fromDate" class="form-control" placeholder="From Date"/>	
+				<span class="input-group-addon">
+					<span class="fa fa-lg fa-search-plus"></span>
+				</span>	
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="toDate" class="form-control" placeholder="To Date"/>	
+				<span class="input-group-addon">
+					<span class="fa fa-lg fa-search-plus"></span>
+				</span>	
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<button type="button" class="btn btn-primary" ng-click="fromtoProdMonthlyReports();">
+				<i class="fa fa-line-chart"></i> Monthly Reports
+			</button>
+		</div>
+	</div>
+<hr/>
+</div>
+
+
+<div class="col-md-12 col-sm-12 col-xs-12 contentWrapper">
+	<button class="btn btn-warning btn-xs" ng-click="reload();">Back</button><br/><br/>
+	<br/>
+	<table class="table table-responsive table-striped">
+		<tr>
+			<th>Production Date</th>
+			<th>Batch No</th>
+			<th>Product Produced</th>
+			<th>Product Remained</th>
+			<th>Filler Powder</th>
+			<th>Organic Manure</th>
+			<th>Slaughter House Waste</th>
+			<th>Animal Waste Filler</th>
+			<th>Bags Used</th>
+			<th>Batch Status</th>
+		</tr>
+		<tr ng-repeat="data in tableData">
+			<td>{{data.production_date | date: 'dd-MM-yyyy'}}</td>
+			<td>{{data.batch_no}}</td>
+			<td>{{data.product_produced}}</td>
+			<td>{{data.product_remained}}</td>
+			<td>{{data.filler_powder}}</td>
+			<td>{{data.organic_manure}}</td>
+			<td>{{data.shw}}</td>
+			<td>{{data.awf}}</td>
+			<td>{{data.bags_used}}</td>
+			<td>{{data.batch_status}}</td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+$(function() {
+	var dt = new Date();
+	dt.setMonth(parseInt(dt.getMonth())-1);
+	
+    $('#fromDate').datetimepicker({
+		format: 'M/YYYY',
+		maxDate: dt
+	});
+	
+    $('#toDate').datetimepicker({
+		format: 'M/YYYY',
+		maxDate: new Date() 
+	});
+	
+	$("#fromDate").on("dp.change", function (e) {
+		$('#toDate').data("DateTimePicker").minDate(e.date);
+	});
+	$("#toDate").on("dp.change", function (e) {
+		$('#fromDate').data("DateTimePicker").maxDate(e.date);
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>
