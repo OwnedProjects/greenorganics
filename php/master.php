@@ -1017,4 +1017,83 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 
+	if($action=='allOrderNumbers'){
+		$selAccClients="SELECT * FROM `sales_register`, `client_master` where sales_register.sale_status='open' and sales_register.client_id=client_master.client_id";
+		$resAccClients=mysql_query($selAccClients);
+		$count = mysql_num_rows($resAccClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resAccClients )) {
+				$tmpRes[$cnt]->sales_id=$row['sales_id'];
+				$tmpRes[$cnt]->order_no=$row['order_no'];
+				$tmpRes[$cnt]->order_date=$row['order_date'];
+				$tmpRes[$cnt]->quantity=$row['quantity'];
+				$tmpRes[$cnt]->client_name=$row['client_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->orderObj=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+
+	if($action=='completeOrder'){
+		/* $selmaxorder="SELECT MAX(`sales_id`) FROM `sales_register`";
+					$resmaxorder=mysql_query($selmaxorder);
+					$rowmaxorder = mysql_fetch_array($resmaxorder,MYSQL_BOTH);
+					$maxOrder=$rowmaxorder['MAX(`sales_id`)'];
+					
+					$batchObj=$data->batches_obj;
+					for($i=0;$i<count($batchObj);$i++) {
+						$selbatch="SELECT `product_remained` FROM `production_batch_register` WHERE `batch_no`=".$batchObj[$i]->batchno;
+						$resbatch=mysql_query($selbatch);
+						$rowbatch = mysql_fetch_array($resbatch,MYSQL_BOTH);
+						$newprodRem=floatval($rowbatch['product_remained'])-floatval($batchObj[$i]->volume);
+						
+						$updBatch="UPDATE `production_batch_register` SET `product_remained`='".$newprodRem."' WHERE `batch_no`=".$batchObj[$i]->batchno;
+						mysql_query($updBatch);
+						
+						$insbatchOrder="INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES (".$maxOrder.",'".$batchObj[$i]->batchno."','".$batchObj[$i]->volume."')";
+						$resBatchOrder=mysql_query($insbatchOrder);
+						
+						if($batchObj[$i]->volume_remained==0){
+							$updBatchNew="UPDATE `production_batch_register` SET `batch_status`='closed' WHERE `batch_no`=".$batchObj[$i]->batchno;
+							mysql_query($updBatchNew);
+						}
+						//INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES ([value-1],[value-2],[value-3])
+					} */
+					
+		$data = json_decode(file_get_contents("php://input"));
+		$selAccClients="UPDATE `sales_register` SET `dc_no`='".$data->dcno."',`dispatch_date`='".$data->dispatch_date."',`lorry_id`=".$data->lorry_id.", `order_completion_date`='".$data->order_comp_time."',`order_completion_month`='".$data->order_comp_month."',`order_completion_year`='".$data->order_comp_year."',`sale_status`='closed' WHERE `sales_id`=".$data->sales_id;
+		$resAccClients=mysql_query($selAccClients);
+		if(resAccClients){
+			$batchObj=$data->batches_obj;
+			$maxOrder=$data->sales_id;
+			for($i=0;$i<count($batchObj);$i++) {
+				$selbatch="SELECT `product_remained` FROM `production_batch_register` WHERE `batch_no`=".$batchObj[$i]->batchno;
+				$resbatch=mysql_query($selbatch);
+				$rowbatch = mysql_fetch_array($resbatch,MYSQL_BOTH);
+				$newprodRem=floatval($rowbatch['product_remained'])-floatval($batchObj[$i]->volume);
+				
+				$updBatch="UPDATE `production_batch_register` SET `product_remained`='".$newprodRem."' WHERE `batch_no`=".$batchObj[$i]->batchno;
+				mysql_query($updBatch);
+				
+				$insbatchOrder="INSERT INTO `sales_batch_register`(`sales_id`, `batch_no`, `volume`) VALUES (".$maxOrder.",'".$batchObj[$i]->batchno."','".$batchObj[$i]->volume."')";
+				$resBatchOrder=mysql_query($insbatchOrder);
+				
+				if($batchObj[$i]->volume_remained==0){
+					$updBatchNew="UPDATE `production_batch_register` SET `batch_status`='closed' WHERE `batch_no`=".$batchObj[$i]->batchno;
+					mysql_query($updBatchNew);
+				}
+			}
+			$obj->status=true;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
 ?>

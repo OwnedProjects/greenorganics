@@ -5,6 +5,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
 <strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i></strong>
 <span class="messageDisp"></span>
+
 <div class="row">
 	<div class="col-md-6 col-sm-6 col-xs-12">
 		<div class="col-md-4 col-sm-6 col-xs-12">
@@ -20,10 +21,10 @@
 		</div>
 	</div>
 	<div class="col-md-6 col-sm-6 col-xs-12">
-		<div class="col-md-4 col-sm-6 col-xs-12">
+		<div class="col-md-5 col-sm-6 col-xs-12">
 			<label class="text-info">Order Completion Date: </label>
 		</div>
-		<div class="col-md-8 col-sm-6 col-xs-12">
+		<div class="col-md-7 col-sm-6 col-xs-12">
 			<div class="input-group date">
 				<input type="text" class="form-control" id="orderDate" placeholder="Date" ng-disabled="loadOrder" required />
 				<span class="input-group-addon">
@@ -32,6 +33,32 @@
 			</div>
 		</div>
 	</div><br/><br/><br/>
+</div>
+	
+<div class="row">
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="col-md-4 col-sm-6 col-xs-12">
+			<label class="text-info">D.C Number: </label>
+		</div>
+		<div class="col-md-8 col-sm-6 col-xs-12">
+			<input type="text" class="form-control" ng-model="dcno" placeholder="Dispatch Chalan" ng-disabled="loadOrder" required/>
+		</div>
+	</div>
+	
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="col-md-5 col-sm-6 col-xs-12">
+			<label class="text-info">Date of Dispatch: </label>
+		</div>
+		<div class="col-md-7 col-sm-6 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="dispatchDate" class="form-control" placeholder="Date" required />
+				<span class="input-group-addon">
+					<span class="fa fa-calendar"></span>
+				</span>
+			</div>
+		</div>
+	</div>
+		<br/><br/><br/>
 </div>
 
 <div class="row">
@@ -53,10 +80,10 @@
 		</div>
 	</div>
 	<div class="col-md-6 col-sm-6 col-xs-12">
-		<div class="col-md-4 col-sm-6 col-xs-12">
+		<div class="col-md-5 col-sm-6 col-xs-12">
 			<label class="text-info">Select Batches: </label>
 		</div>
-		<div class="col-md-8 col-sm-6 col-xs-12">
+		<div class="col-md-7 col-sm-6 col-xs-12">
 			<div class="input-group date">
 				<select class="form-control" ng-model="productionid" id="productionid" placeholder="Select Batch" ng-disabled="loadOrder" required>
 					<option ng-repeat="data in batchData" value="{{data.production_id}}">{{data.batch_no}}</option>
@@ -99,12 +126,12 @@
 
 <div class="row">
 	<div class="col-md-12 col-sm-12 col-xs-12">
-		<button class="btn btn-sm btn-success" ng-click="completeOrder()">Complete Order</button>
+		<button class="btn btn-sm btn-success" ng-click="completeOrder()" ng-disabled="!confirmBatch">Complete Order</button>
 	</div>
 </div>
 
 <div class="row" ng-show="orderDets">
-	<div class="col-md-6 col-sm-6 col-xs-12">
+	<div class="col-md-12 col-sm-12 col-xs-12">
 		<h4 class="text-danger">Order Details</h4>
 		<table class="table table-responsive table-striped">
 			<tbody>
@@ -114,59 +141,16 @@
 				</tr>
 				<tr>
 					<td>Sales Id</td>
-					<td>{{orderDetails.sales_id}}</td>
-				</tr>
-				<tr>
-					<td>DC Number</td>
-					<td>{{orderDetails.dc_no}}</td>
+					<td>
+						{{orderDetails.sales_id}}</td>
 				</tr>
 				<tr>
 					<td>Order Date</td>
 					<td>{{orderDetails.order_date | date:'dd-MM-yyyy'}}</td>
 				</tr>
 				<tr>
-					<td>Dispatch Date</td>
-					<td>{{orderDetails.dispatch_date | date:'dd-MM-yyyy'}}</td>
-				</tr>
-				<tr>
 					<td>Quantity</td>
 					<td><strong class="text-primary">{{orderDetails.quantity}}<strong></td>
-				</tr>
-				<tr>
-					<td>Bill Number</td>
-					<td>{{orderDetails.billno}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<div class="col-md-6 col-sm-6 col-xs-12">
-		<h4>&nbsp;</h4>
-		<table class="table table-responsive table-striped">
-			<tbody>
-				<tr>
-					<td>Bill Date</td>
-					<td>{{orderDetails.bill_date | date:'dd-MM-yyyy'}}</td>
-				</tr>
-				<tr>
-					<td>Bill Amount</td>
-					<td>{{orderDetails.bill_amount}}</td>
-				</tr>
-				<tr>
-					<td>Discount</td>
-					<td>{{orderDetails.discount}}</td>
-				</tr>
-				<tr>
-					<td>Net Amount</td>
-					<td>{{orderDetails.net_amount}}</td>
-				</tr>
-				<tr>
-					<td>VAT Amount</td>
-					<td>{{orderDetails.vat_amount}}</td>
-				</tr>
-				<tr>
-					<td>Sale Date</td>
-					<td>{{orderDetails.sale_date | date:'dd-MM-yyyy'}}</td>
 				</tr>
 				<tr>
 					<td>Client Name</td>
@@ -210,7 +194,7 @@
 				<td>{{$index+1}}</td>
 				<td>{{data.order_no}}</td>
 				<td>			
-					<button type="button" class="btn btn-sm btn-primary" ng-click="setOrderDetails(data.order_no, data.sales_id, data.dc_no, data.order_date, data.dispatch_date, data.quantity, data.billno, data.bill_date, data.bill_amount, data.discount, data.net_amount, data.vat_amount, data.sale_date, data.client_name);">
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setOrderDetails(data.order_no, data.sales_id, data.order_date,data.quantity, data.client_name);">
 						<i class="fa fa-outdent"></i> SET</button>
 				</td>
 			  </tr>
@@ -317,6 +301,9 @@
 <script type="text/javascript">
 $(function() {  
     $('#orderDate').datetimepicker({
+		format: 'D/M/YYYY'
+	});  
+    $('#dispatchDate').datetimepicker({
 		format: 'D/M/YYYY'
 	});
 });

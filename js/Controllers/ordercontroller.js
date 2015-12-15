@@ -47,8 +47,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 	
 	$scope.placeOrder = function(){
 		
-		if($scope.orderNo==null || $scope.orderNo==undefined || $scope.orderNo=="" || $('#orderDate').val()==null || $('#orderDate').val()==undefined || $('#orderDate').val()=="" || $scope.dcno==null || $scope.dcno==undefined || $scope.dcno=="" || $('#dispatchDate').val()==null || $('#dispatchDate').val()==undefined || $('#dispatchDate').val()=="" || $scope.clientnm==null || $scope.clientnm==undefined || $scope.clientnm=="" || $scope.destination==null || $scope.destination==undefined || $scope.destination=="" || $scope.billno==null || $scope.billno==undefined || $scope.billno=="" || $scope.quantity==null || $scope.quantity==undefined || $scope.quantity=="" || $scope.billamt==null || $scope.billamt==undefined || $scope.billamt=="" || $("#billDate").val()==null || $("#billDate").val()==undefined || $("#billDate").val()=="" || $scope.discount==null || $scope.discount==undefined || $scope.discount=="" || $scope.vatamt==null || $scope.vatamt==undefined || $scope.vatamt=="" || $scope.netamt==null || $scope.netamt==undefined || $scope.netamt==""){
-				debugger;
+		if($scope.orderNo==null || $scope.orderNo==undefined || $scope.orderNo=="" || $('#orderDate').val()==null || $('#orderDate').val()==undefined || $('#orderDate').val()=="" || $scope.clientnm==null || $scope.clientnm==undefined || $scope.clientnm=="" || $scope.destination==null || $scope.destination==undefined || $scope.destination=="" || $scope.quantity==null || $scope.quantity==undefined || $scope.quantity==""){
 				alert("Empty Fields!!! Please fill all the fields.");
 				throw "Empty Fields";
 		}
@@ -58,34 +57,15 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 		orderdt.setMonth(parseInt($("#orderDate").val().split('/')[1])-1);
 		orderdt.setYear(parseInt($("#orderDate").val().split('/')[2]));
 		
-		var dispdt=new Date();
-		dispdt.setDate(parseInt($("#dispatchDate").val().split('/')[0]));
-		dispdt.setMonth(parseInt($("#dispatchDate").val().split('/')[1])-1);
-		dispdt.setYear(parseInt($("#dispatchDate").val().split('/')[2]));
-		
-		var billdt=new Date();
-		billdt.setDate(parseInt($("#billDate").val().split('/')[0]));
-		billdt.setMonth(parseInt($("#billDate").val().split('/')[1])-1);
-		billdt.setYear(parseInt($("#billDate").val().split('/')[2]));
-		
 		var dt= new Date();
 		var orderObj = {
-			"sale_date":dt.getTime(),
-			"sale_month":dt.getMonth(),
-			"sale_year":dt.getFullYear(),
+			"sale_date":orderdt.getTime(),
+			"sale_month":orderdt.getMonth(),
+			"sale_year":orderdt.getFullYear(),
 			"order_no":$scope.orderNo,
-			"dc_no":$scope.dcno,
 			"order_date":orderdt.getTime(),					//Order Date and Sales Date can be different
-			"disp_date":dispdt.getTime(),
 			"client_id":$scope.clientid,
-			"quantity":parseFloat($scope.quantity),
-			"billno":$scope.billno,
-			"bill_date":billdt.getTime(),
-			"bill_amount":$scope.billamt,
-			"discount":$scope.discount,
-			"net_amount":$scope.netamt,
-			"vat_amount":$scope.vatamt
-			/* "batches_obj":$scope.newEnteredBatchArray */
+			"quantity":parseFloat($scope.quantity)
 		};
 		
 		$http({
@@ -101,9 +81,9 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 				//console.log(result.data.status);
 			if(result.data.status==true){
 				$('form').prepend('<strong class="text-success">Order Placed Successfully</strong>');
-				//$route.reload();
-				localStorage.orderObj=JSON.stringify(orderObj);
-				$location.path('orderPayment');
+				setTimeout(function(){
+					$route.reload();
+				},1000);
 			}
 			else{
 				alert('Error!!! Please Contact your System Administrator.');
@@ -232,21 +212,12 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 		});
 	};
 	
-	$scope.setOrderDetails = function(order_no, sales_id, dc_no, order_date, dispatch_date, quantity, billno, bill_date, bill_amount, discount, net_amount, vat_amount, sale_date, client_name){
+	$scope.setOrderDetails = function(order_no, sales_id, order_date, quantity, client_name){
 		$scope.orderDetails={
 			"order_no": order_no,
-			"sales_id": sales_id, 
-			"dc_no": dc_no, 
+			"sales_id": sales_id,
 			"order_date": order_date, 
-			"dispatch_date": dispatch_date, 
-			"quantity": quantity, 
-			"billno": billno, 
-			"bill_date": bill_date, 
-			"bill_amount": bill_amount, 
-			"discount": discount,
-			"net_amount": net_amount, 
-			"vat_amount": vat_amount, 
-			"sale_date": sale_date, 
+			"quantity": quantity,
 			"client_name": client_name
 		};
 		$scope.orderDets=true;
@@ -435,11 +406,12 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 			"prod_remained": prod_remained 
 		};
 		$scope.batchData.push(tmpObj);
+		$scope.confirmBatch=false;
 		tmpObj=null;
 	};
 	
 	$scope.completeOrder = function(){
-		if($scope.orderNo==undefined || $scope.orderNo==null || $scope.orderNo=='' || $scope.lorryno==undefined || $scope.lorryno==null || $scope.lorryno=='' || $('#orderDate').val()==undefined || $('#orderDate').val()==null || $('#orderDate').val()=="")
+		if($scope.orderNo==undefined || $scope.orderNo==null || $scope.orderNo=='' || $scope.lorryno==undefined || $scope.lorryno==null || $scope.lorryno=='' || $('#orderDate').val()==undefined || $('#orderDate').val()==null || $('#orderDate').val()=="" || $scope.dcno==undefined || $scope.dcno==null || $scope.dcno=='' || $('#dispatchDate').val()==undefined || $('#dispatchDate').val()==null || $('#dispatchDate').val()=="")
 		{
 			alert('All fields are compulsary...');
 			throw 'All fields are compulsary...';
@@ -450,9 +422,16 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 		orderdt.setMonth(parseInt($("#orderDate").val().split('/')[1])-1);
 		orderdt.setYear(parseInt($("#orderDate").val().split('/')[2]));
 		
+		var dispatchdt=new Date();
+		dispatchdt.setDate(parseInt($("#dispatchDate").val().split('/')[0]));
+		dispatchdt.setMonth(parseInt($("#dispatchDate").val().split('/')[1])-1);
+		dispatchdt.setYear(parseInt($("#dispatchDate").val().split('/')[2]));
+		
 		var tmpObj={
 			"sales_id":$scope.orderDetails.sales_id,
 			"lorry_id":$scope.lorryid,
+			"dcno":$scope.dcno,
+			"dispatch_date": dispatchdt.getTime(),
 			"order_comp_time": orderdt.getTime(),
 			"order_comp_month": parseInt(orderdt.getMonth())+1,
 			"order_comp_year": orderdt.getFullYear(),
@@ -470,11 +449,16 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 		}).
 		then(function(result){
 			if(result.data.status==true){
-				alert('Order completed Successfully');
-				$route.reload();
+				$('.messageDisp').prepend('<strong class="text-success">Order completed Successfully</strong>');
+				setTimeout(function(){
+					$route.reload();
+				},1000);
 			}
 			else{
-				alert('Order completion failed');
+				$('.messageDisp').prepend('<strong class="text-danger">Order completion Failed</strong>');
+				setTimeout(function(){
+					$route.reload();
+				},1000);
 			}
 		});
 	};

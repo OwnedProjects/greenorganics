@@ -125,7 +125,12 @@ greenorganics.controller("FetchAccountDetails", function($scope, $http, $route){
 		else{
 			$scope.debCred='credit';
 		}
+		
 		var dt=new Date();
+		var day=dt.setDate(parseInt($("#fromDate").val().split('/')[0]));
+		var mnt=dt.setMonth(parseInt($("#fromDate").val().split('/')[1])-1);
+		var Yr=dt.setYear(parseInt($("#fromDate").val().split('/')[2]));
+		
 		var tmpObj={
 			"id":$scope.accid,
 			"acctype":$scope.acctype,

@@ -125,6 +125,14 @@
         <h4 class="modal-title" id="myModalLabel">Balance Payment of <span class="text-info">{{accname}} </span>.</h4>
       </div>
 	  <div class="modal-body">
+			Pay Date<br/>			
+			<div class="input-group date">
+				<input type="text" class="form-control" id="fromDate" placeholder="Pay Date" ng-model="payDate" />
+				<span class="input-group-addon">
+					<span class="fa fa-calendar"></span>
+				</span>	
+			</div>
+			<br/>
 			Payment Details<br/>
 			<input type="text" class="form-control" placeholder="Payment Amount" ng-model="payAmt" />
 			<span>Remaining Amount: <strong class="text-danger">{{totCreditAmt-totDebitAmt}}</strong></span><br/><br/>
@@ -138,3 +146,17 @@
   </div>
 </div>
 </div>
+
+
+<script type="text/javascript">
+$(function() {
+	var dt = new Date();
+	dt.setMonth(parseInt(dt.getMonth())-1);
+	
+    $('#fromDate').datetimepicker({
+		format: 'DD/MM/YYYY',
+		maxDate: dt
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>

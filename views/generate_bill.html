@@ -1,0 +1,83 @@
+<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="NewOrderController">
+	<h3 class="text-primary">GENERATE BILL</h3>
+	<hr/>
+	<div class="col-md-12 col-sm-12 col-xs-12">		
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">Bill No: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" class="form-control" ng-model="billno" placeholder="Bill No." ng-disabled="loadOrder" required/>
+				</div>
+			</div>
+			
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">Quantity: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" class="form-control" ng-model="quantity" placeholder="Quantity" ng-disabled="loadOrder" required/>
+				</div>
+			</div>
+			<br/><br/><br/>
+		</div>
+		
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Bill Amount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="billamt" placeholder="Bill Amount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Bill Date: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="input-group date">
+							<input type="text" id="billDate" class="form-control" ng-model="billdate" placeholder="Bill Date" ng-disabled="loadOrder" required />
+							<span class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<br/><br/><br/>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Discount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="discount" placeholder="Discount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">VAT Amount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="vatamt" placeholder="VAT Amount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>
+				<br/><br/><br/>
+			</div>
+			
+			<div class="row">				
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-5 col-sm-6 col-xs-12">
+						<label class="text-info">Net Amount: </label>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<input type="text" class="form-control" ng-model="netamt" placeholder="Net Amount" ng-disabled="loadOrder" required/>
+					</div>
+				</div>
+			</div>
+			
+	</div>
+</div>

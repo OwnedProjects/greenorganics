@@ -65,9 +65,14 @@
 				<link>#/new_order</link>
 			</submenu>
 			<submenu>
-				<name>Order Completion</name>
-				<icon>fa-dropbox</icon>
+				<name>Despatches</name>
+				<icon>fa-shopping-basket</icon>
 				<link>#/order_completion</link>
+			</submenu>
+			<submenu>
+				<name>Generate Bill</name>
+				<icon>fa-print</icon>
+				<link>#/generate_bill</link>
 			</submenu>
 		</submenu_module>
 	</menu>
