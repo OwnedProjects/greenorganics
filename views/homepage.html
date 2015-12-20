@@ -1,5 +1,5 @@
 <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardController">
-	<h3 class="text-primary">MY DASHBOARD</h3>
+		<h3 class="text-primary">MY DASHBOARD<span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<h4 class="text-info">Stock Master</h4>
 		<table class="table table-bordered">
@@ -41,6 +41,37 @@
 			  </tr>
 			  <tr class="loadData">
 				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-6 col-sm-12 col-xs-12">
+		<h4 class="text-primary">New Orders</h4>
+		<table class="table table-bordered">
+			<caption><h5><strong>Order's in pending status</strong></h5></caption>
+			<thead>
+			  <tr>
+				<th>Order Number</th>				
+				<th>Client Name</th>				
+				<th>Quantity</th>
+				<th>Date of Order</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr class="fullDataOrder" ng-repeat="sales in salesData | limitTo : 10">
+				<td>{{sales.order_no}}</td>			
+				<td>{{sales.client_name}}</td>			
+				<td>{{sales.quantity | number:3}}</td>
+				<td>{{sales.order_date | date: 'dd-MM-yyyy'}}</td>			
+			  </tr>
+			  <tr class="fullDataOrder">
+				<td colspan="4"><a href="#" style="float:right;">--More--</a></td>
+			  </tr>
+			  <tr class="noDataOrder">
+				<td colspan="4"> No Data Found </td>
+			  </tr>
+			  <tr class="loadDataOrder">
+				<td colspan="4"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
 			  </tr>
 			</tbody>
 		</table>
