@@ -1,7 +1,8 @@
-greenorganics.controller("NewOrderController", function($scope, $http, $route, $location){	
+greenorganics.controller("NewOrderController", function($scope, $http, $route, $location){
 	$scope.showBatches=false;
 	$scope.confirmBatch=false;
 	$('.waitspinner').hide();
+	
 	$scope.searchClientDetails = function(){
 		$('.fullData').hide();
 		$('.noData').hide();
@@ -28,35 +29,35 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 			}
 		});
 	};
-	
+
 	$scope.setclientDetails = function(clntid, clntnm, clntcity){
 		$scope.clientid=clntid;
 		$scope.clientnm=clntnm;
 		$scope.destination=clntcity;
 		$('#setClientmodal').modal('hide');
 	};
-	
-	
+
+
 	$scope.addtoList = function(){
 		//console.log('test');
 	};
-		
+
 	$scope.$watch('billamt-discount', function() {
-		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);		
+		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);
 	});
-	
+
 	$scope.placeOrder = function(){
-		
+
 		if($scope.orderNo==null || $scope.orderNo==undefined || $scope.orderNo=="" || $('#orderDate').val()==null || $('#orderDate').val()==undefined || $('#orderDate').val()=="" || $scope.clientnm==null || $scope.clientnm==undefined || $scope.clientnm=="" || $scope.destination==null || $scope.destination==undefined || $scope.destination=="" || $scope.quantity==null || $scope.quantity==undefined || $scope.quantity==""){
 				alert("Empty Fields!!! Please fill all the fields.");
 				throw "Empty Fields";
 		}
-		
+
 		var orderdt=new Date();
 		orderdt.setDate(parseInt($("#orderDate").val().split('/')[0]));
 		orderdt.setMonth(parseInt($("#orderDate").val().split('/')[1])-1);
 		orderdt.setYear(parseInt($("#orderDate").val().split('/')[2]));
-		
+
 		var dt= new Date();
 		var orderObj = {
 			"sale_date":orderdt.getTime(),
@@ -67,7 +68,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 			"client_id":$scope.clientid,
 			"quantity":parseFloat($scope.quantity)
 		};
-		
+
 		$http({
 			method: 'POST',
 			url: 'php/master.php?action=NewOrder',
@@ -90,7 +91,7 @@ greenorganics.controller("NewOrderController", function($scope, $http, $route, $
 			}
 		});
 	};
-	
+
 });
 
 greenorganics.controller("OrderPaymentController", function($scope, $http, $route, $location){
@@ -109,30 +110,30 @@ greenorganics.controller("OrderPaymentController", function($scope, $http, $rout
 			$scope.remPay=0;
 		}
 	});
-	
+
 	$scope.makePayment = function(){
 		if($scope.payAmt==undefined || $scope.particulars==undefined || $scope.payAmt=="" || $scope.particulars==""){
 			alert('Fields cannot be Empty');
 			throw 'Please check Amount';
 		}
-		
+
 		if(parseFloat($scope.payAmt)>parseFloat($scope.orderObj.net_amount)){
 			alert('Payment amount is more than Final amount');
 			$scope.payAmt=0;
 			throw 'Please check Amount';
 		}
-		
+
 		if($scope.payAmt==0){
 			$scope.orderObj.payFlag=true;
 		}
 		else{
 			$scope.orderObj.payFlag=false;
 		}
-		
+
 		$scope.orderObj.payAmount=$scope.payAmt;
 		$scope.orderObj.pendingPayment=$scope.remPay;
 		$scope.orderObj.payParticulars=$scope.particulars;
-		
+
 		//console.log($scope.orderObj);
 		$http({
 			method: 'POST',
@@ -184,7 +185,7 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 		});
 	};
 	$scope.loadProductionBatches();
-	
+
 	$scope.searchOrderDetails = function(){
 		$(".loadData").show();
 		$(".noData").hide();
@@ -211,12 +212,12 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 				}
 		});
 	};
-	
+
 	$scope.setOrderDetails = function(order_no, sales_id, order_date, quantity, client_name){
 		$scope.orderDetails={
 			"order_no": order_no,
 			"sales_id": sales_id,
-			"order_date": order_date, 
+			"order_date": order_date,
 			"quantity": quantity,
 			"client_name": client_name
 		};
@@ -224,11 +225,11 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 		$scope.orderNo=order_no;
 		$('#OrderModal').modal('hide');
 	};
-	
-	
+
+
 	$scope.addlorry = function(){
 		$('.waitspinner').show();
-		var tmpString=$scope.lorrystate+ " "+$("#lorrystatecode").val()+"/"+ $scope.lorrycode+" "+$('#popuplorryno').val();		
+		var tmpString=$scope.lorrystate+ " "+$("#lorrystatecode").val()+"/"+ $scope.lorrycode+" "+$('#popuplorryno').val();
 		var lorryObj={
 			"lorry":tmpString.toUpperCase()
 		};
@@ -255,14 +256,14 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 			}
 		});
 	};
-	
-	
+
+
 	$scope.setLorryDetails = function(lorryid, lorryno){
 		$scope.lorryid=lorryid;
 		$scope.lorryno=lorryno;
 		$('#setLorrymodal').modal('hide');
 	};
-	
+
 	$scope.searchLorryDetails = function(){
 		$('.fullData').hide();
 		$('.noData').hide();
@@ -289,12 +290,12 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 			}
 		});
 	};
-	
+
 	$scope.addBatchToOrder = function(){
 		if($scope.productionid == undefined){
 			alert('Select a Batch to Add');
 			throw 'Select a Batch to Add';
-		}		
+		}
 		$scope.showBatches=true;
 		var tmpIndex=null;
 		for(var i=0;i<$scope.batchData.length;i++){
@@ -304,7 +305,7 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 				break;
 			}
 		}
-		
+
 		if(tmpIndex!=null){
 			//setOrderBatches -- Order Batches Which create dynamically
 			var tmpObj=$scope.batchData[tmpIndex];
@@ -313,7 +314,7 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 			tmpObj=null;
 		}
 	};
-	
+
 	$scope.confirmBatches = function(){
 		$scope.confirmBatch=true;
 		var emptyFlag = false;
@@ -321,20 +322,20 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 		$('.batches').find('input[type=text]').each(function(){
 			if(this.value == "") {
 				emptyFlag=true;
-			} 
+			}
 		});
-		
-		
+
+
 		if(emptyFlag==true){
-			// Check if any Batch Textbox is empty 
-			$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Please fill all Batch Boxes first.</span></td></tr>");				
+			// Check if any Batch Textbox is empty
+			$('.batches').append("<tr class='errorbox'><td colspan='3'><span class='text-danger'>Please fill all Batch Boxes first.</span></td></tr>");
 			setTimeout(function(){
 					$('.batches .errorbox').remove();
 					$scope.confirmBatch=false;
 			},2500);
 		}
 		else{
-			// Check if Entered Batch Volume > Product Remained 
+			// Check if Entered Batch Volume > Product Remained
 			for(var i=0;i<$scope.setOrderBatches.length;i++){
 				if(parseFloat($('.batchinput[data-batchno='+$scope.setOrderBatches[i].batch_no+']').val())>parseFloat($scope.setOrderBatches[i].prod_remained)){
 					exceedprodval=true;
@@ -377,7 +378,7 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 								"volume":parseFloat($(this).val()),
 								"volume_remained":parseFloat($(this).attr('data-prod_remained'))-(parseFloat($(this).val()))
 							};
-							$scope.newEnteredBatchArray.push(tmpArr); 
+							$scope.newEnteredBatchArray.push(tmpArr);
 						});
 						$scope.confirmBatch=true;
 						//console.log($scope.newEnteredBatchArray);
@@ -386,7 +387,7 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 			}
 		}
 	};
-	
+
 	$scope.removeBatches = function(batch_no, prod_produced, prod_remained, production_id){
 		//console.log(batch_no + " -*- " + prod_produced + " -*- " + prod_remained + " -*- " + production_id);
 		var tmpIndex;
@@ -396,37 +397,37 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 				break;
 			}
 		}
-		
+
 		$scope.setOrderBatches.splice(tmpIndex,1);
 		tmpIndex=null;
 		var tmpObj={
 			"production_id": production_id,
 			"batch_no":batch_no,
 			"prod_produced": prod_produced,
-			"prod_remained": prod_remained 
+			"prod_remained": prod_remained
 		};
 		$scope.batchData.push(tmpObj);
 		$scope.confirmBatch=false;
 		tmpObj=null;
 	};
-	
+
 	$scope.completeOrder = function(){
 		if($scope.orderNo==undefined || $scope.orderNo==null || $scope.orderNo=='' || $scope.lorryno==undefined || $scope.lorryno==null || $scope.lorryno=='' || $('#orderDate').val()==undefined || $('#orderDate').val()==null || $('#orderDate').val()=="" || $scope.dcno==undefined || $scope.dcno==null || $scope.dcno=='' || $('#dispatchDate').val()==undefined || $('#dispatchDate').val()==null || $('#dispatchDate').val()=="")
 		{
 			alert('All fields are compulsary...');
 			throw 'All fields are compulsary...';
 		}
-		
+
 		var orderdt=new Date();
 		orderdt.setDate(parseInt($("#orderDate").val().split('/')[0]));
 		orderdt.setMonth(parseInt($("#orderDate").val().split('/')[1])-1);
 		orderdt.setYear(parseInt($("#orderDate").val().split('/')[2]));
-		
+
 		var dispatchdt=new Date();
 		dispatchdt.setDate(parseInt($("#dispatchDate").val().split('/')[0]));
 		dispatchdt.setMonth(parseInt($("#dispatchDate").val().split('/')[1])-1);
 		dispatchdt.setYear(parseInt($("#dispatchDate").val().split('/')[2]));
-		
+
 		var tmpObj={
 			"sales_id":$scope.orderDetails.sales_id,
 			"lorry_id":$scope.lorryid,
@@ -437,7 +438,7 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 			"order_comp_year": orderdt.getFullYear(),
 			"batches_obj":$scope.newEnteredBatchArray
 		};
-		
+
 		$http({
 			method: 'POST',
 			url: 'php/master.php?action=completeOrder',
@@ -460,6 +461,107 @@ greenorganics.controller("OrderCompletionController", function($scope, $http, $r
 					$route.reload();
 				},1000);
 			}
+		});
+	};
+});
+
+greenorganics.controller("GenerateBillController", function($scope, $http, $route, $location){
+	$('.showbillsuccess').hide();
+	$scope.setOrderDetails = function(order_no, sales_id, quantity){
+		$scope.orderDetails={
+			"order_no": order_no,
+			"sales_id": sales_id,
+			"quantity": quantity
+		};
+		$scope.orderNo=order_no;
+		$scope.quantity=quantity;
+		console.log($scope.orderDetails)
+		$('#OrderModal').modal('hide');
+	};
+
+	$scope.$watch('billamt-discount', function() {
+		$scope.netamt = parseFloat($scope.billamt) - parseFloat($scope.discount);
+	});
+
+	$scope.generateNewBill = function(){
+		if($scope.orderNo==null || $scope.orderNo=="" || $scope.orderNo==undefined || $scope.billno==null || $scope.billno=="" || $scope.billno==undefined || $scope.quantity==null || $scope.quantity=="" || $scope.quantity==undefined || $scope.billamt==null || $scope.billamt=="" || $scope.billamt==undefined || $scope.discount==null || $scope.discount=="" || $scope.discount==undefined || $scope.vatamt==null || $scope.vatamt=="" || $scope.vatamt==undefined || $scope.netamt==null || $scope.netamt=="" || $scope.netamt==undefined || $("#billDate").val()==null || $("#billDate").val()=="" || $("#billDate").val()==undefined){
+			alert('All fields are mandatory.');
+			throw 'All fields are mandatory.';
+		}
+		else{
+			//console.log('Success');
+			var billdt=new Date();
+			billdt.setDate(parseInt($("#billDate").val().split('/')[0]));
+			billdt.setMonth(parseInt($("#billDate").val().split('/')[1])-1);
+			billdt.setYear(parseInt($("#billDate").val().split('/')[2]));
+
+			var tmpObj={
+				"sales_id":$scope.orderDetails.sales_id,
+				"billno":$scope.billno,
+				"billDate": billdt.getTime(),
+				"quantity": $scope.quantity,
+				"billamt": $scope.billamt,
+				"discount":$scope.discount,
+				"vatamt":$scope.vatamt,
+				"netamt":$scope.netamt
+			};
+			$http({
+				method: 'POST',
+				url: 'php/master.php?action=generateBill',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data:tmpObj
+			}).
+			error(function(data, status, headers, config) {
+				alert('Service Error');
+			}).
+			then(function(result){
+				if(result.data.status==true){
+					$('.showbillsuccess').show();
+					setTimeout(function(){
+						$('.showbillsuccess').fadeOut();
+						$route.reload();
+					},1000);
+				}
+				else{
+					$('.showbillsuccess strong').removeClass('text-success');
+					$('.showbillsuccess strong').addClass('text-danger');
+					$('.showbillsuccess strong').text('Data cannot be added, Please contact your administrator !!!');
+					$('.showbillsuccess').show();
+					setTimeout(function(){
+						$('.showbillsuccess').fadeOut();
+						$('.showbillsuccess strong').removeClass('text-success');
+						$('.showbillsuccess strong').addClass('text-danger');
+						$('.showbillsuccess strong').text('Bill Generated Successfully');
+					},1000);
+				}
+			});
+		};
+	};
+
+	$scope.searchOrdersWithoutBill = function(){
+		$(".loadData").show();
+		$(".noData").hide();
+		$(".fullData").hide();
+		$http({
+				method: 'POST',
+				url: 'php/master.php?action=searchOrdersWithoutBill',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).
+			error(function(data, status, headers, config) {
+				alert('Service Error');
+			}).
+			then(function(result){
+				if(result.data.status==true){
+					$(".loadData").hide();
+					$(".noData").hide();
+					$(".fullData").show();
+					$scope.orderData = result.data.orderData;
+				}
+				else{
+					$(".loadData").hide();
+					$(".noData").show();
+					$(".fullData").hide();
+				}
 		});
 	};
 });

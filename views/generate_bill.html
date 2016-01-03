@@ -1,83 +1,170 @@
-<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="NewOrderController">
+<div class="col-md-12 col-sm-12 col-xs-12" ng-controller="GenerateBillController">
 	<h3 class="text-primary">GENERATE BILL</h3>
 	<hr/>
-	<div class="col-md-12 col-sm-12 col-xs-12">		
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="row showbillsuccess">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<strong class="text-success">Bill Generated Successfully</strong><br/><br/>
+				</div>
+			</div>
+		</div>
 		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">Order No: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="input-group date">
+						<input type="text" required="" readonly="" placeholder="Order No"  ng-model="orderNo" class="form-control ng-pristine ng-invalid ng-invalid-required" />
+						<span data-target="#OrderModal" data-toggle="modal" ng-click="searchOrdersWithoutBill()" class="input-group-addon">
+							<span class="fa fa-search"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<div class="col-md-5 col-sm-6 col-xs-12">
 					<label class="text-info">Bill No: </label>
 				</div>
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<input type="text" class="form-control" ng-model="billno" placeholder="Bill No." ng-disabled="loadOrder" required/>
+					<input type="text" class="form-control" ng-model="billno" placeholder="Bill No." required/>
 				</div>
 			</div>
-			
+			<br/><br/><br/>
+		</div>
+
+		<div class="row">
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<div class="col-md-5 col-sm-6 col-xs-12">
 					<label class="text-info">Quantity: </label>
 				</div>
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<input type="text" class="form-control" ng-model="quantity" placeholder="Quantity" ng-disabled="loadOrder" required/>
+					<input type="text" class="form-control" ng-model="quantity" placeholder="Quantity" readonly required/>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">Bill Amount: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" class="form-control" ng-model="billamt" placeholder="Bill Amount" required/>
+				</div>
+			</div>
+			<br/><br/><br/>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">Bill Date: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="input-group date">
+						<input type="text" id="billDate" class="form-control" ng-model="billdate" placeholder="Bill Date" required />
+						<span class="input-group-addon">
+							<span class="fa fa-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">Discount: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" class="form-control" ng-model="discount" placeholder="Discount" required/>
+				</div>
+			</div>
+			<br/><br/><br/>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">VAT Amount: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" class="form-control" ng-model="vatamt" placeholder="VAT Amount" required/>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<label class="text-info">Net Amount: </label>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" class="form-control" ng-model="netamt" placeholder="Net Amount" required/>
 				</div>
 			</div>
 			<br/><br/><br/>
 		</div>
 		
-			<div class="row">
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Bill Amount: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="billamt" placeholder="Bill Amount" ng-disabled="loadOrder" required/>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Bill Date: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<div class="input-group date">
-							<input type="text" id="billDate" class="form-control" ng-model="billdate" placeholder="Bill Date" ng-disabled="loadOrder" required />
-							<span class="input-group-addon">
-								<span class="fa fa-calendar"></span>
-							</span>
-						</div>
-					</div>
-				</div>
-				<br/><br/><br/>
-			</div>
-			
-			<div class="row">
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Discount: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="discount" placeholder="Discount" ng-disabled="loadOrder" required/>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">VAT Amount: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="vatamt" placeholder="VAT Amount" ng-disabled="loadOrder" required/>
-					</div>
-				</div>
-				<br/><br/><br/>
-			</div>
-			
-			<div class="row">				
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="col-md-5 col-sm-6 col-xs-12">
-						<label class="text-info">Net Amount: </label>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
-						<input type="text" class="form-control" ng-model="netamt" placeholder="Net Amount" ng-disabled="loadOrder" required/>
-					</div>
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="col-md-5 col-sm-6 col-xs-12">
+					<button class="btn btn-info" ng-click="generateNewBill()"><i class="fa fa-calculator"></i> Add Bill</button>
 				</div>
 			</div>
-			
+		</div>
 	</div>
+
+
+<!-- Set Order Details Modal -->
+<div class="modal fade" id="OrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">SET Order</h4>
+      </div>
+      <div class="modal-body">
+	  <div class="row col-md-6 col-sm-6 sol-xs-6">
+			<div class="input-group date">
+				<input type="text" class="form-control" placeholder="Search..." ng-model="searchOrder">
+				<span class="input-group-addon">
+					<span class="fa fa-search"></span>
+				</span>
+			</div>
+		</div>
+		<br/><br/>
+		<table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Sr. No.</th>
+				<th>Order Number</th>
+				<th>Set</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="data in orderData | filter:searchOrder" class="fullData">		
+				<td>{{$index+1}}</td>
+				<td>{{data.order_no}}</td>
+				<td>			
+					<button type="button" class="btn btn-sm btn-primary" ng-click="setOrderDetails(data.order_no, data.sales_id, data.quantity);">
+						<i class="fa fa-outdent"></i> SET</button>
+				</td>
+			  </tr>
+			  <tr class="noData">
+				<td colspan="8"> No Data Found </td>
+			  </tr>
+			  <tr class="loadData">
+				<td colspan="8"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg text-info"></i></td>
+			  </tr>
+			</tbody>
+		</table>
+	  </div>
+    </div>	
+  </div>
 </div>
+</div>
+
+<script type="text/javascript">
+$(function() {  
+    $('#billDate').datetimepicker({
+		format: 'D/M/YYYY'
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>

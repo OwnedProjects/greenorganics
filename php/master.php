@@ -1120,4 +1120,41 @@ $action=$_GET['action'];
 		}
 		echo json_encode($obj);
 	}
+	
+	if($action=='searchOrdersWithoutBill'){
+		$selAccClients="SELECT * FROM `sales_register`,`client_master` WHERE sales_register.client_id=client_master.client_id and sales_register.billno='' order by `order_date`";
+		$resAccClients=mysql_query($selAccClients);
+		$count = mysql_num_rows($resAccClients);
+		if($count>0){
+			$cnt=0;
+			while($row = mysql_fetch_array( $resAccClients )) {
+				$tmpRes[$cnt]->sales_id=$row['sales_id'];
+				$tmpRes[$cnt]->order_no=$row['order_no'];
+				$tmpRes[$cnt]->order_date=$row['order_date'];
+				$tmpRes[$cnt]->sale_status=$row['sale_status'];
+				$tmpRes[$cnt]->quantity=$row['quantity'];
+				$tmpRes[$cnt]->client_name=$row['client_name'];
+				$cnt++;
+			}
+			$obj->status=true;
+			$obj->orderData=$tmpRes;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
+	
+	if($action=='generateBill'){
+		$data = json_decode(file_get_contents("php://input"));
+		$updtUser="UPDATE `sales_register` SET `billno`=".$data->billno.",`bill_date`='".$data->billDate."',`bill_amount`='".$data->billamt."',`discount`='".$data->discount."',`net_amount`='".$data->netamt."',`vat_amount`='".$data->vatamt."' WHERE `sales_id`=".$data->sales_id;
+		$resupdtUser=mysql_query($updtUser);
+		if($resupdtUser){
+			$obj->status=true;
+		}
+		else{
+			$obj->status=false;
+		}
+		echo json_encode($obj);
+	}
 ?>
