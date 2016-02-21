@@ -186,7 +186,7 @@ $action=$_GET['action'];
 	
 	if($action=='fromToMonthlyPurchases'){
 		$data = json_decode(file_get_contents("php://input"));
-		$selAccClients="SELECT * FROM `purchase_register`, `supplier_master`, `inward_product_master` WHERE (purchase_register.purchase_month>='".$data->frmMnt."' and purchase_register.purchase_month<='".$data->toMnt."') and  (purchase_register.purchase_year>='".$data->frmYr."' and purchase_register.purchase_year<='".$data->toYr."') and  purchase_register.supplier_id=supplier_master.supplier_id and inward_product_master.prod_id=purchase_register.prod_id order by purchase_register.purchase_date desc";
+		$selAccClients="SELECT * FROM `purchase_register`, `supplier_master`, `inward_product_master` WHERE (purchase_register.purchase_month>=".$data->frmMnt." and purchase_register.purchase_month<=".$data->toMnt.") and  (purchase_register.purchase_year>=".$data->frmYr." and purchase_register.purchase_year<=".$data->toYr.") and  purchase_register.supplier_id=supplier_master.supplier_id and inward_product_master.prod_id=purchase_register.prod_id order by purchase_register.purchase_date desc";
 		$resAccClients=mysql_query($selAccClients);
 		$count = mysql_num_rows($resAccClients);
 		if($count>0){

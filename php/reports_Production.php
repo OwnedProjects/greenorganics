@@ -6,7 +6,8 @@ $action=$_GET['action'];
 /* Reports Purchases */
 	if($action=='fromtoProdMonthlyReports'){
 		$data = json_decode(file_get_contents("php://input"));
-		$selAccClients="SELECT * FROM `production_batch_register` where (production_month>=".$data->frmMnt." and production_month<=".$data->toMnt.") and  (production_year>=".$data->frmYr." and production_year<=".$data->toYr.") order by `production_date` desc";
+		//$selAccClients="SELECT * FROM `production_batch_register` where (production_month>=".$data->frmMnt." and production_month<=".$data->toMnt.") and  (production_year>=".$data->frmYr." and production_year<=".$data->toYr.") order by `production_date` desc";
+		$selAccClients="SELECT * FROM `production_batch_register` where (production_date>=".$data->frmDt." and production_date<=".$data->toDt.") order by `production_date` desc";
 		
 		$resAccClients=mysql_query($selAccClients);
 		$count = mysql_num_rows($resAccClients);

@@ -1147,7 +1147,7 @@ $action=$_GET['action'];
 	
 	if($action=='generateBill'){
 		$data = json_decode(file_get_contents("php://input"));
-		$updtUser="UPDATE `sales_register` SET `billno`=".$data->billno.",`bill_date`='".$data->billDate."',`bill_amount`='".$data->billamt."',`discount`='".$data->discount."',`net_amount`='".$data->netamt."',`vat_amount`='".$data->vatamt."' WHERE `sales_id`=".$data->sales_id;
+		$updtUser="UPDATE `sales_register` SET `billno`='".$data->billno."',`bill_date`='".$data->billDate."',`bill_amount`='".$data->billamt."',`discount`='".$data->discount."',`net_amount`='".$data->netamt."',`vat_amount`='".$data->vatamt."' WHERE `sales_id`=".$data->sales_id;
 		$resupdtUser=mysql_query($updtUser);
 		if($resupdtUser){
 			$obj->status=true;

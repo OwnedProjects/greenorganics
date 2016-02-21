@@ -1,7 +1,8 @@
-greenorganics.controller("ReportsProductionController", function($scope, $http, $route){
+greenorganics.controller("ReportsSalesController", function($scope, $http, $route){
 	$('.loadSpinner').hide();
 	$('.contentWrapper').hide();
-	$scope.fromtoProdMonthlyReports = function(){
+	
+	$scope.fromtoSaleOrdersMonthlyReports = function(){
 		if($("#fromDate").val()!="" && $("#fromDate").val()!=null && $("#fromDate").val()!=undefined && $("#toDate").val()!="" && $("#toDate").val()!=null && $("#toDate").val()!=undefined){
 			$('.buttonsWrapper').hide();
 			$('.loadSpinner').show();
@@ -33,7 +34,7 @@ greenorganics.controller("ReportsProductionController", function($scope, $http, 
 			}
 			$http({
 				method: 'POST',
-				url: 'php/reports_Production.php?action=fromtoProdMonthlyReports',
+				url: 'php/reports_Sales.php?action=fromtoSaleOrdersMonthlyReports',
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				data: dateObj
 			}).

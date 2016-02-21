@@ -187,6 +187,11 @@
 				<icon>fa-pie-chart</icon>
 				<link>#/reports_production</link>
 			</submenu>
+			<submenu>
+				<name>Sales Reports</name>
+				<icon>fa-pie-chart</icon>
+				<link>#/reports_sales</link>
+			</submenu>
 		</submenu_module>
 	</menu>
 </menu_structure>

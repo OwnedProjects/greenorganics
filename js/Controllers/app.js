@@ -93,6 +93,9 @@ greenorganics.config(['$routeProvider','$resourceProvider',
       when('/reports_production', {
         templateUrl: 'views/reports_production.html'
       }).
+      when('/reports_sales', {
+        templateUrl: 'views/reports_sales.html'
+      }).
       when('/generate_bill', {
         templateUrl: 'views/generate_bill.html'
       }).

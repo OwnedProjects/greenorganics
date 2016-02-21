@@ -1,0 +1,189 @@
+<div class="col-md-12 col-sm-12" ng-controller="ReportsSalesController">
+
+<h3 class="text-primary">SALES REPORTS <span style="float:right" class="refreshIcon"><i class="fa fa-refresh text-info" title="Refresh Data" ng-click="reload();"></i></span></h3>
+<hr/>
+<strong class="text-info loadSpinner"> Please Wait... <i class="fa fa-spinner fa-pulse fa-lg"></i><br/><br/></strong>
+<div class="col-md-12 col-sm-12 col-xs-12 buttonsWrapper">
+<h4><strong class="text-danger">ORDER REPORTS</strong></h4>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<strong class="text-info">Reports between dates</strong>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="fromDate" class="form-control" placeholder="From Date"/>	
+				<span class="input-group-addon">
+					<span class="fa fa-lg fa-search-plus"></span>
+				</span>
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="input-group date">
+				<input type="text" id="toDate" class="form-control" placeholder="To Date"/>	
+				<span class="input-group-addon">
+					<span class="fa fa-lg fa-search-plus"></span>
+				</span>	
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<button type="button" class="btn btn-primary" ng-click="fromtoSaleOrdersMonthlyReports();">
+				<i class="fa fa-line-chart"></i> Monthly Reports
+			</button>
+		</div>
+	</div>
+<hr/>
+</div>
+
+
+<div class="col-md-12 col-sm-12 col-xs-12 contentWrapper">
+	<button class="btn btn-warning btn-xs" ng-click="reload();">Back</button><br/><br/>
+	<ul role="tablist" class="nav nav-tabs" ng-init="tab1=true;tab2=false;tab3=false;tab4=false;tab5=false;">
+		<li ng-class="{'active':tab1==true}" role="presentation"><a href="javascript:void(0)" ng-click="tab1=true;tab2=false;tab3=false;tab4=false;tab5=false;">All Orders</a></li>
+		<li ng-class="{'active':tab2==true}" role="presentation"><a href="javascript:void(0);"  ng-click="tab1=false;tab2=true;tab3=false;tab4=false;tab5=false;">Non Dispatched</a></li>
+		<li ng-class="{'active':tab3==true}" role="presentation"><a href="javascript:void(0);"  ng-click="tab1=false;tab2=false;tab3=true;tab4=false;tab5=false;">Dispatched</a></li>
+		<li ng-class="{'active':tab4==true}" role="presentation"><a href="javascript:void(0);"  ng-click="tab1=false;tab2=false;tab3=false;tab4=true;tab5=false;">Non Billed</a></li>
+		<li ng-class="{'active':tab5==true}" role="presentation"><a href="javascript:void(0);"  ng-click="tab1=false;tab2=false;tab3=false;tab4=false;tab5=true;">Billed</a></li>
+	</ul>
+	<br/>  
+	<!-- All Orders -->
+	<table class="table table-responsive table-striped" ng-show="tab1">
+		<tr>
+			<th>Order Date</th>
+			<th>Order No.</th>
+			<th>Client Name</th>
+			<th>Destination</th>
+			<th>Quantity</th>
+			<th>Bill No.</th>
+			<th>Status</th>
+		</tr>
+		<tr ng-repeat="data in tableData">
+			<td>{{data.order_date | date: 'dd-MM-yyyy'}}</td>
+			<td>{{data.order_no}}</td>
+			<td>{{data.client_name}}</td>
+			<td>{{data.client_city}}</td>
+			<td>{{data.quantity}}</td>
+			<td ng-if="data.billno==''">Un-Billed</td>
+			<td ng-if="data.billno!=''">Billed</td>
+			<td ng-if="data.sale_status=='open'">Not Dispatched</td>
+			<td ng-if="data.sale_status=='closed'">Dispatched</td>
+		</tr>
+	</table>  
+	<!-- Non Dispatched -->
+	<table class="table table-responsive table-striped" ng-show="tab2">
+		<tr>
+			<th>Order Date</th>
+			<th>Order No.</th>
+			<th>Client Name</th>
+			<th>Destination</th>
+			<th>Quantity</th>
+			<th>Bill No.</th>
+			<th>Status</th>
+		</tr>
+		<tr ng-repeat="data in tableData | filter: data.sale_status='open'">
+			<td>{{data.order_date | date: 'dd-MM-yyyy'}}</td>
+			<td>{{data.order_no}}</td>
+			<td>{{data.client_name}}</td>
+			<td>{{data.client_city}}</td>
+			<td>{{data.quantity}}</td>
+			<td ng-if="data.billno==''">Un-Billed</td>
+			<td ng-if="data.billno!=''">Billed</td>
+			<td ng-if="data.sale_status=='open'">Not Dispatched</td>
+			<td ng-if="data.sale_status=='closed'">Dispatched</td>
+		</tr>
+	</table>  
+	<!-- Dispatched -->
+	<table class="table table-responsive table-striped" ng-show="tab3">
+		<tr>
+			<th>Order Date</th>
+			<th>Order No.</th>
+			<th>Client Name</th>
+			<th>Destination</th>
+			<th>Quantity</th>
+			<th>Bill No.</th>
+			<th>Status</th>
+		</tr>
+		<tr ng-repeat="data in tableData | filter: data.sale_status='closed'">
+			<td>{{data.order_date | date: 'dd-MM-yyyy'}}</td>
+			<td>{{data.order_no}}</td>
+			<td>{{data.client_name}}</td>
+			<td>{{data.client_city}}</td>
+			<td>{{data.quantity}}</td>
+			<td ng-if="data.billno==''">Un-Billed</td>
+			<td ng-if="data.billno!=''">Billed</td>
+			<td ng-if="data.sale_status=='open'">Not Dispatched</td>
+			<td ng-if="data.sale_status=='closed'">Dispatched</td>
+		</tr>
+	</table>
+	<!-- Non Billed -->
+	<table class="table table-responsive table-striped" ng-show="tab4">
+		<tr>
+			<th>Order Date</th>
+			<th>Order No.</th>
+			<th>Client Name</th>
+			<th>Destination</th>
+			<th>Quantity</th>
+			<th>Bill No.</th>
+			<th>Status</th>
+		</tr>
+		<tr ng-repeat="data in tableData" ng-if="data.billno==''">
+			<td>{{data.order_date | date: 'dd-MM-yyyy'}}</td>
+			<td>{{data.order_no}}</td>
+			<td>{{data.client_name}}</td>
+			<td>{{data.client_city}}</td>
+			<td>{{data.quantity}}</td>
+			<td ng-if="data.billno==''">Un-Billed</td>
+			<td ng-if="data.billno!=''">Billed</td>
+			<td ng-if="data.sale_status=='open'">Not Dispatched</td>
+			<td ng-if="data.sale_status=='closed'">Dispatched</td>
+		</tr>
+	</table>
+	<!-- Billed -->
+	<table class="table table-responsive table-striped" ng-show="tab5">
+		<tr>
+			<th>Order Date</th>
+			<th>Order No.</th>
+			<th>Client Name</th>
+			<th>Destination</th>
+			<th>Quantity</th>
+			<th>Bill No.</th>
+			<th>Status</th>
+		</tr>
+		<tr ng-repeat="data in tableData" ng-if="data.billno!=''">
+			<td>{{data.order_date | date: 'dd-MM-yyyy'}}</td>
+			<td>{{data.order_no}}</td>
+			<td>{{data.client_name}}</td>
+			<td>{{data.client_city}}</td>
+			<td>{{data.quantity}}</td>
+			<td ng-if="data.billno==''">Un-Billed</td>
+			<td ng-if="data.billno!=''">Billed</td>
+			<td ng-if="data.sale_status=='open'">Not Dispatched</td>
+			<td ng-if="data.sale_status=='closed'">Dispatched</td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+$(function() {
+	var dt = new Date();
+	dt.setMonth(parseInt(dt.getMonth())-1);
+	
+    $('#fromDate').datetimepicker({
+		format: 'M/YYYY',
+		maxDate: dt
+	});
+	
+    $('#toDate').datetimepicker({
+		format: 'M/YYYY',
+		maxDate: new Date() 
+	});
+	
+	$("#fromDate").on("dp.change", function (e) {
+		$('#toDate').data("DateTimePicker").minDate(e.date);
+	});
+	$("#toDate").on("dp.change", function (e) {
+		$('#fromDate').data("DateTimePicker").maxDate(e.date);
+	});
+});
+  //DTP from: http://eonasdan.github.io/bootstrap-datetimepicker/
+</script>
