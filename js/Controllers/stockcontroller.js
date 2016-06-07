@@ -46,7 +46,15 @@ greenorganics.controller("OpeningStockController", function($scope, $http, $rout
 			alert('Service Error');
 		}).
 		then(function(result){
-			if(result.data.status==true){
+			//console.log(result.data.Stocks)
+			var flag=false;
+			for(var i=0;i<result.data.Stocks.length;i++)
+			{
+				if(result.data.Stocks[i].stock_avail != "0"){
+					flag=true;
+				}
+			}
+			if(flag==true){
 				$('.loadSpinner').hide();
 				$scope.prodpresent=true;
 			}

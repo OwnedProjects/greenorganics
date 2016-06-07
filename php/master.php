@@ -423,6 +423,25 @@ $action=$_GET['action'];
 		echo json_encode($obj);
 	}
 
+	if($action=='openNewStock'){
+		$data = json_decode(file_get_contents("php://input"));
+		$updRom="UPDATE `stock_master` SET `stock_avail`='".$data->prod_rom."',`stock_date`='".$data->stkDt."' WHERE `prod_id`=13";
+		$updAwf="UPDATE `stock_master` SET `stock_avail`='".$data->prod_awf."',`stock_date`='".$data->stkDt."' WHERE `prod_id`=15";
+		$updfp="UPDATE `stock_master` SET `stock_avail`='".$data->prod_fp."',`stock_date`='".$data->stkDt."' WHERE `prod_id`=12";
+		$updshw="UPDATE `stock_master` SET `stock_avail`='".$data->prod_shw."',`stock_date`='".$data->stkDt."' WHERE `prod_id`=14";
+		$updBags="UPDATE `stock_master` SET `stock_avail`='".$data->prod_bags."',`stock_date`='".$data->stkDt."' WHERE `prod_id`=17";
+		$updechomeal="UPDATE `stock_master` SET `stock_avail`='".$data->prod_echomeal."',`stock_date`='".$data->stkDt."' WHERE `prod_id`=1";
+		mysql_query($updRom);
+		mysql_query($updAwf);
+		mysql_query($updfp);
+		mysql_query($updshw);
+		mysql_query($updBags);
+		mysql_query($updechomeal);
+		
+		$obj->status=true;	
+		echo json_encode($obj);
+	}
+
 /* PRODUCTION MASTER */
 	if($action=='AddProductionProfile'){
 		$data = json_decode(file_get_contents("php://input"));
