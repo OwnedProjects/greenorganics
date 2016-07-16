@@ -104,7 +104,7 @@ $action=$_GET['action'];
 		$data = json_decode(file_get_contents("php://input"));
 		$flag=false;
 		
-			$insProd="INSERT INTO `purchase_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data->lorryid.",".$data->supplierid.",".$data->productid.",'".$data->billno."',".$data->weight.",'".$data->rate."','".$data->lorryfreight."','".$data->finalAmt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
+			$insProd="INSERT INTO `purchase_register`(`lorry_id`, `supplier_id`, `prod_id`, `billno`, `billdt`, `weight`, `rate`, `lorryfreight`, `finalAmt`, `purchase_date`, `purchase_month`, `purchase_year`) VALUES (".$data->lorryid.",".$data->supplierid.",".$data->productid.",'".$data->billno."','".$data->billdt."',".$data->weight.",'".$data->rate."','".$data->lorryfreight."','".$data->finalAmt."','".$data->purchaseTm."','".$data->purchaseMnt."','".$data->purchaseYr."')";
 			$resinsProd=mysql_query($insProd);
 			
 			#$milliseconds = round(microtime(true) * 1000); - Returns System get time in PHP

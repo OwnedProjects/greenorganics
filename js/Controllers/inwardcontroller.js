@@ -236,7 +236,7 @@ greenorganics.controller("PurchaseProductController", function($scope, $http, $r
 	};
 	
 	$scope.addtodb = function(){
-		if($("#purchaseDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.lorryfreight==undefined || $scope.finalAmt==undefined){
+		if($("#purchaseDt").val()=='' || $("#billDt").val()=='' || $scope.lorrynumber==undefined || $scope.suppliernm==undefined || $scope.billno==undefined || $scope.weight==undefined || $scope.rate==undefined || $scope.lorryfreight==undefined || $scope.finalAmt==undefined){
 			alert('All field are compulsary.');
 			throw 'All field are compulsary.';
 		}
@@ -245,6 +245,11 @@ greenorganics.controller("PurchaseProductController", function($scope, $http, $r
 		var day=dt.setDate(parseInt($("#purchaseDt").val().split('/')[0]));
 		var mnt=dt.setMonth(parseInt($("#purchaseDt").val().split('/')[1])-1);
 		var Yr=dt.setYear(parseInt($("#purchaseDt").val().split('/')[2]));
+		
+		var billdt=new Date();
+		var day=billdt.setDate(parseInt($("#billDt").val().split('/')[0]));
+		var mnt=billdt.setMonth(parseInt($("#billDt").val().split('/')[1])-1);
+		var Yr=billdt.setYear(parseInt($("#billDt").val().split('/')[2]));
 		$(".loadSpinner").show();
 		$scope.purchaseData = {
 			"purchaseTm":dt.getTime(),
@@ -257,6 +262,7 @@ greenorganics.controller("PurchaseProductController", function($scope, $http, $r
 			"supplier_nm":$scope.suppliernm,
 			"weight":parseFloat($scope.weight),
 			"billno":$scope.billno,
+			"billdt":billdt.getTime(),
 			"productid":$scope.prodid,
 			"product":$scope.prodnm,
 			"rate":$scope.rate,
