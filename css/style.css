@@ -75,6 +75,12 @@ textarea{
 	margin:0 10px;
 }
 
+.hideMenu{
+	position:absolute;
+	z-index:1111;
+	left:23%;
+}
+
 /* CSS for Desktop */
 @media (min-width: 1024px) {
 	.menuWrapper, #navbar{

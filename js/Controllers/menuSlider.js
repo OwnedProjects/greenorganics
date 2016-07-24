@@ -35,6 +35,40 @@ menuSlider.init = function(){
 		}
 	});
 	
+	$("#hideMenu").click(function(){
+		if($(this).hasClass("open")){
+			$(this).removeClass("open");
+			$(this).addClass("closed");
+			$(this).children().removeClass("fa-angle-double-left");
+			$(this).children().addClass("fa-angle-double-right");
+			$('.menuWrapper').animate({
+				width:'8%'
+			},800, function(){
+				$('.menuWrapper').fadeOut();
+				$(".menuWrapper").next().removeClass("col-md-9");
+				$(".menuWrapper").next().addClass("col-md-12");
+			});
+			$(this).animate({
+				left:'0%'
+			},1000);
+		}
+		else{
+			$('.menuWrapper').fadeIn();
+			$(this).addClass("open");
+			$(this).removeClass("closed");
+			$(this).children().addClass("fa-angle-double-left");
+			$(this).children().removeClass("fa-angle-double-right");
+			$(".menuWrapper").next().addClass("col-md-9");
+			$(".menuWrapper").next().removeClass("col-md-12");
+			$('.menuWrapper').animate({
+				width:'25%'
+			},800);
+			$(this).animate({
+				left:'23%'
+			},1500);
+		}
+	});
+	
 	$(".singleMenu").click(function(){
 		$(".list-group .list-group").slideUp();
 		$(".carets").removeClass('fa-caret-down');

@@ -71,7 +71,9 @@
 					<tbody>
 						<tr ng-repeat="acc in accdetails | filter:acc.creditdebit='debit'"> <!-- | filter:acc.creditdebit='debit' -->
 							<td>{{acc.acc_date | date: "dd-MM-yyyy"}}</td>
-							<td>{{acc.acc_particulars}}</td>
+							<td>
+								{{acc.acc_particulars}}
+							</td>
 							<td>{{acc.acc_amount}}</td>
 						</tr>
 					</tbody>
@@ -97,7 +99,12 @@
 					<tbody>
 						<tr ng-repeat="acc in accdetails | filter:acc.creditdebit='credit'"> <!-- | filter:acc.creditdebit='debit' -->
 							<td>{{acc.acc_date | date: "dd-MM-yyyy"}}</td>
-							<td>{{acc.acc_particulars}}</td>
+							<td>
+								{{acc.acc_particulars}}								
+								{{acc.prodDets.billno}}
+								{{acc.prodDets.billno ? '/' : ''}}
+								{{acc.prodDets.billdt | date: 'dd-MM-yyyy'}}
+							</td>
 							<td>{{acc.acc_amount}}</td>
 						</tr>
 					</tbody>

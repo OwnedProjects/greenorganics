@@ -281,6 +281,7 @@ greenorganics.controller("PurchaseProductController", function($scope, $http, $r
 		then(function(result){
 			if(result.data.status==true){
 				$(".loadSpinner").hide();
+				$scope.purchaseData.purchaseId = result.data.purchaseId;
 				localStorage.inwardPayment=JSON.stringify($scope.purchaseData);				
 				$location.path('/inwardPayment');
 			}
